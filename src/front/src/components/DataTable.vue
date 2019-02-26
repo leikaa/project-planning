@@ -75,7 +75,7 @@ export default {
     },
 
     emit(emit, item) {
-      // console.log('emit', emit, item);
+      console.log('emit', emit, item);
       this.$emit(emit, item);
     },
 

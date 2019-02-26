@@ -12,7 +12,7 @@ class AddUser {
   async execute(filter, update) {
     console.log('AddUser', filter, update);
     await this.projectModel.findOneAndUpdateUserInProject(filter, update);
-    update.user;
+    
     return true;
   }
 }

@@ -98,11 +98,6 @@ class Routes {
       res.send({ status: 'ok' });
     });
 
-
-
-
-
-
     this.httpServer.get('/tasks', async (_, res) => {
       const data = await this.taskController.getList();
       res.send({ 
@@ -129,12 +124,6 @@ class Routes {
       const _ = await this.taskController.create(req.body);
       res.send({ status: 'ok' });
     });
-
-
-
-
-    
-
 
     this.httpServer.all('*', function (req, res) {
       self.logger.error('Bad request', req.params);

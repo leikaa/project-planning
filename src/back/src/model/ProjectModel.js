@@ -7,8 +7,8 @@ class ProjectModel extends Model {
     super({ db, collectionName: 'ProjectsMenu' })
   }
 
-  async findOneAndUpdateUserInProject(id, userId) {
-    //console.log('findOneAndUpdateUserInProject', id, userId);
+  async findOneAndUpdateUserInProject(id, userId, taskId) {
+    console.log('findOneAndUpdateUserInProject', id, userId , taskId);
     const result = await this.db.get()
       .collection(this.collectionName)
       .findOneAndUpdate(
@@ -16,7 +16,9 @@ class ProjectModel extends Model {
           _id: this.db.objectId(id)
         },
         {
-         $addToSet: {users: { userId: this.db.objectId(userId) , task: []} }
+         $addToSet: {users: { userId: this.db.objectId(userId), taskId: []} ,
+         userId: this.db.objectId(userId) 
+        }
         },
        /*{
           $addToSet: { userId: this.db.objectId(userId) } // $addToSet

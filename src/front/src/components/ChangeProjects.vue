@@ -44,13 +44,15 @@
       </v-layout>
     </v-card>
     <user
-      :items="items"
+      :items="currentProjectUsers"
+      :controls="controls"
+      @deleteItem="deleteItem"
     />
   </v-app>
 </template>
 
 <script>
-import user from "./User";
+import User from "./User";
 export default {
   name: "ChangeProjects",
   data() {
@@ -64,7 +66,7 @@ export default {
     };
   },
   components: {
-    user
+    User
   },
   watch: {
     selectedElement(val) {
@@ -76,12 +78,25 @@ export default {
       this.$store.dispatch("loadProjects");
     },
     editItem() {
+      this.modalTitle = 'Добавить участника в проект';
+      this.modalSubmitButton = 'Добавить';
       this.modalAction = "Edit";
       this.disableInput = false;
       this.showDialog = true;
       this.userId = this.selectedElement;
       this.id = this.currentProjectId;
     },
+
+    deleteItem(item) {
+      this.modalTitle = 'Удалить участника';
+      this.modalSubmitButton = 'Удалить';
+      this.modalAction = 'Delete';
+      this.id = item._id;
+      this.name = item.name;
+      this.disableInput = true;
+      this.showDialog = true;
+    },
+
 
     confirmModalAction() {
       const action = this.modalAction;
@@ -90,6 +105,9 @@ export default {
           break;
         case "Edit":
           this.saveProject();
+          break;
+        case "Delete":
+          this.deleteProject();
           break;
       }
     },
@@ -101,18 +119,40 @@ export default {
       });
       this.showDialog = false;
       this.sendRequest();
-    }
+    },
+    deleteProject() {
+      console.log('Проект удалён', this.name, this.id);
+      this.$store.dispatch('deleteProject', this.id);
+      this.showDialog = false;
+      this.sendRequest();
+    },
   },
   computed: {
     elements() {
       return this.$store.getters.users;
     },
+
     items() {
       return this.$store.getters.projects;
     },
+
     currentProjectId() {
       return this.$route.params.id;
     },
+
+    currentProject() {
+      return this.items.find(item => {
+        return item._id === this.currentProjectId;
+      });
+    },
+
+    controls() {
+    return this.$store.state.ui.DelUserControls;
+    },
+
+    currentProjectUsers() {
+      return (this.currentProject && this.currentProject.users) || [];
+    }, 
   },
   created() {
     this.sendRequest();

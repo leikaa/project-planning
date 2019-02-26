@@ -83,6 +83,13 @@ const saveUser = ({ commit }, data) => {
 
 
 
+const addTaskToProject = ({ commit }, data) => {
+  console.log('save', data);
+  api.request('post', `projects/${data.id}/add_task/${data.taskId}`)
+    .then(
+      commit('SAVED_PROJECT', data)
+    );
+};
 
 const loadTasks = ({ commit }) => {
   api.getData('get', 'tasks/')
@@ -125,6 +132,7 @@ export default {
   deleteUser,
   saveUser,
 
+  addTaskToProject,
   loadTasks,
   addTask,
   deleteTask,

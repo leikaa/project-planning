@@ -1,58 +1,99 @@
 <template>
-
-  <div class="task-list"> 
-    <div
-      v-for="(item, index) in currentProjectUsers"
-      :key="index"
-      :data-id="index"
-      ref="currentProject"
-      class=" pole user-task task-list__item"
-      @click="addItem"
-    >
-      <vue-draggable-resizable
-        v-for="item in items"
-        :key="item.id"
-        :w="item.w"
-        :h="item.h"
-        :x="item.x"
-        :y="item.y"
-        :item="item"
-        :handles="['ml', 'mr']"
-        :grid="[21, 46]"
-        @dragstop="onDrag"
-        maximize
+  <div>
+    <div class="task-list">
+      <div
+        v-for="(item, index) in currentProjectUsers"
+        :key="index"
+        :data-id="index"
+        ref="currentProject"
+        class="pole user-task task-list__item"
+        @click="editItem"
       >
-        <div class="user-task__item" :style="`background: ${item.bgc}`">{{item.text}}</div>
-      </vue-draggable-resizable>
-    </div>
-
-
-<v-card>
-      <v-layout row align-end>
-        <v-dialog v-model="showDialog" width="500">
-          <v-card>
-            <v-card-title class="headline grey lighten-2" primary-title>{{ modalTitle }}</v-card-title>
-            <v-card-text>
-              <v-form v-model="formValid">
-                <v-text-field
+        <vue-draggable-resizable
+          v-for="item in items"
+          :key="item.id"
+          :w="item.w"
+          :h="item.h"
+          :x="item.x"
+          :y="item.y"
+          :item="item"
+          :handles="['ml', 'mr']"
+          :grid="[21, 46]"
+          @dragstop="onDrag"
+          maximize
+        >
+          <div class="user-task__item" :style="`background: ${item.bgc}`">{{item.text}}</div>
+        </vue-draggable-resizable>
+      </div>
+<!-- Добавление задач  -->
+      <v-card>
+        <v-layout row align-end>
+          <v-dialog v-model="showDialog" width="500">
+            <v-card>
+              <v-card-title class="headline grey lighten-2" primary-title>{{ modalTitle }}</v-card-title>
+              <v-card-text>
+                <v-form v-model="formValid">
+                  <v-text-field
                     v-model="name"
                     label="Название новой задачи"
                     :disabled="disableInput"
                     required
-                ></v-text-field>
-                <v-text-field
+                  ></v-text-field>
+                  <v-text-field
                     v-model="description"
                     label="Описание задачи"
                     :rules="nameRules"
                     :disabled="disableInput"
                     required
-                ></v-text-field>
+                  ></v-text-field>
+                  <v-select
+                    v-model="selectedElement"
+                    :items="userOnProject"
+                    label="Выберите участника"
+                    solo
+                    item-text="name"
+                    item-value="_id"
+                  ></v-select>
+                </v-form>
+              </v-card-text>
+              <v-divider></v-divider>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="red" flat @click="showDialog = false">Отмена</v-btn>
+                <v-btn
+                  color="green"
+                  flat
+                  @click="confirmModalAction"
+                  :disabled="!formValid"
+                >{{ modalSubmitButton }}</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+        </v-layout>
+      </v-card>
+ <!-- -->
+<!-- Сохранение задачи 
+ <v-card>
+      <v-layout row align-end>
+        <v-dialog v-model="editShowDialog" width="500">
+          <v-card>
+            <v-card-title class="headline grey lighten-2" primary-title>{{ modalTitle }}</v-card-title>
+            <v-card-text>
+              <v-form v-model="formValid">
+                <v-select
+                  v-model="selectedTask"
+                  :items="tasks"
+                  label="Выберите задачу"
+                  solo
+                  item-text="name"
+                  item-value="_id"
+                ></v-select>
               </v-form>
             </v-card-text>
             <v-divider></v-divider>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="red" flat @click="showDialog = false">Отмена</v-btn>
+              <v-btn color="red" flat @click="editShowDialog = false">Отмена</v-btn>
               <v-btn
                 color="green"
                 flat
@@ -64,34 +105,44 @@
         </v-dialog>
       </v-layout>
     </v-card>
-
-    
-
+ -->
+    </div>
+    <div class="button_create_task">
+      <v-btn slot="activator" 
+      color="green  accent-3" 
+      @click="addItem" 
+      dark>
+      Добавить задачу в проект
+      </v-btn>
+    </div>
   </div>
 </template>
 
 <script>
-import VueDraggableResizable from './vue-drag/index.js';
+import VueDraggableResizable from "./vue-drag/index.js";
 let step = 21;
 export default {
-  name: 'UserTask',
+  name: "UserTask",
   components: {
-    VueDraggableResizable,
+    VueDraggableResizable
   },
-   data() {
+  data() {
     return {
       showDialog: false,
       formValid: false,
       nameRules: [v => !!v || "Описание обязательно"],
       disableInput: false,
       modalSubmitButton: "Добавить",
-      modalTitle: "Добавить новый проект",
+      modalTitle: "",
       modalAction: "",
       name: "",
       description: "",
+      selectedElement: "",
+      editShowDialog: false,
+      selectedTask: "",
     };
   },
-  methods: { 
+  methods: {
     sendRequestProject() {
       this.$store.dispatch("loadProjects");
     },
@@ -102,13 +153,26 @@ export default {
       this.$store.dispatch("loadTasks");
     },
     addItem() {
-      this.modalTitle = 'Добавить новую задачу';
-      this.modalSubmitButton = 'Добавить';
-      this.modalAction = 'Add';
-      this.name = '';
-      this.description= '';
+      this.modalTitle = "Добавить новую задачу";
+      this.modalSubmitButton = "Добавить";
+      this.modalAction = "Add";
+      this.name = "";
+      this.description = "";
+      this.projectId = "currentProjectId";
+      this.userId = this.selectedElement;
       this.disableInput = false;
       this.showDialog = true;
+    },
+
+
+    editItem(item) {
+      this.modalTitle = 'Сохранить информацию о задаче';
+      this.modalSubmitButton = 'Сохранить';
+      this.modalAction = 'Edit';
+      this.taskId = this.selectedTask;
+      this.id = this.currentProjectId;
+      this.disableInput = false;
+      this.editShowDialog = true;
     },
     confirmModalAction() {
       const action = this.modalAction;
@@ -118,32 +182,41 @@ export default {
         case "Add":
           this.addTask();
           break;
+        case 'Edit':
+          this.saveProject();
+          break;
       }
     },
     addTask() {
-      console.log("задача добавлена", this.name, this.description );
-      this.$store.dispatch("addTask", { name: this.name , description:this.description});
+      console.log(
+        "задача добавлена",
+        this.name,
+        this.description,
+        this.projectId,
+        this.userId,
+      );
+      this.$store.dispatch("addTask", {
+        name: this.name,
+        description: this.description,
+        projectId: this.currentProjectId,
+        userId: this.selectedElement
+      });
       this.showDialog = false;
       this.sendRequestTask();
     },
 
+    saveProject() {
+      console.log('Проект сохранен', this.taskId, this.id );
+      this.$store.dispatch('addTaskToProject', {
+         taskId: this.selectedTask, 
+         id: this.currentProjectId,
+         });  
+      this.editShowDialog = false;
+      this.sendRequestProject();
+    },
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
     onDrag(x, y, item, task) {
       let allTaskListCoords = this.getCoordsTaskList();
 
@@ -162,8 +235,8 @@ export default {
         coords.push({
           id: taskDiv.dataset.id,
           x: taskDivCoords.left + window.pageXOffset,
-          y: taskDivCoords.top + window.pageYOffset,
-        })
+          y: taskDivCoords.top + window.pageYOffset
+        });
       });
 
       return coords;
@@ -187,7 +260,7 @@ export default {
         if (minDemension == null) {
           minDemension = el.diff;
         }
-        if(el.diff <= minDemension) {
+        if (el.diff <= minDemension) {
           minDemension = el.diff;
           idNearTask = el.id;
         }
@@ -213,30 +286,45 @@ export default {
       });
     }
   },
-computed: {
+  computed: {
     items() {
       return this.$store.getters.projects;
     },
+
+    elements() {
+      return this.$store.getters.users;
+    },
+
+    tasks() {
+      return this.$store.getters.tasks;
+    },
+
     currentProjectId() {
       return this.$route.params.id;
     },
+
     currentProject() {
       return this.items.find(item => {
         return item._id === this.currentProjectId;
       });
     },
+
     currentProjectUsers() {
       return (this.currentProject && this.currentProject.users) || [];
+    },
+
+    userOnProject() {
+      return (this.currentProject && this.currentProject.userId) || [];
     }
   },
+  
   created() {
     this.sendRequestProject();
     this.sendRequestUser();
     this.sendRequestTask();
   }
 
-
-    /*
+  /*
   data() {
     return {
       
@@ -257,15 +345,14 @@ computed: {
       
     }
   },*/
-}
-
+};
 </script>
 
 <style lang="scss">
-.vue-grid-layout{
+.vue-grid-layout {
   width: 100%;
 }
-.vue-grid-item{
+.vue-grid-item {
   background: #ccc;
 }
 .task-list {
@@ -274,9 +361,9 @@ computed: {
     margin-bottom: 46px;
   }
 }
-.pole{
-    background: rgba(0,0,0,.1);
-  }
+.pole {
+  background: rgba(0, 0, 0, 0.1);
+}
 .user-task {
   height: 192px;
   display: flex;
@@ -290,5 +377,15 @@ computed: {
     z-index: 1;
     cursor: pointer;
   }
+}
+.button_create_task{
+  display: flex;
+  height: 50px;
+  width: 100%;
+  background:rgba(255, 255, 255, 0);
+  position: fixed;
+  bottom: 0;
+  z-index: 11;
+  justify-content: center;
 }
 </style>
