@@ -1,0 +1,33 @@
+version: '2'
+services:
+  nginx:
+    build: ./containers/nginx
+    ports:
+      - 80:80
+    volumes:
+      - /etc/localtime:/etc/localtime/:ro
+      - ./logs:/var/log/nginx
+      - ./src/front/dist:/app
+    command: nginx -g "daemon off;"
+    restart: always
+
+  back:
+    build: ./src/back
+    volumes:
+      - ./src/back:/app
+      - ./src/back/node_modules:/node_modules
+      - ./logs/back:/var/log/node
+    ports:
+      - 5858:5858   
+      
+    restart: always
+
+  mongo:
+    image: mongo:3-stretch
+    ports:
+      - 27017:27017
+    volumes:
+      - ./data/mongo:/data/db
+    restart: always
+    entrypoint:
+      mongod --bind_ip_all
