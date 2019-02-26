@@ -52,6 +52,14 @@ class Routes {
       res.send({ status: 'ok' });
     });
 
+
+    this.httpServer.post('/projects/:id/del_user/:userId', async(req, res) => {
+      //console.log('router', req);
+       const _ = await this.projectController.delUsers(req.params.id, req.params.userId);
+       res.send({ status: 'ok' });
+     });
+
+
     this.httpServer.delete('/projects/:id', async (req, res) => {
       const _ = await this.projectController.delete({
         '_id': req.params.id

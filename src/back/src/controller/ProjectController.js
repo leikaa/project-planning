@@ -5,6 +5,7 @@ class  ProjectController {
     getProjects,
     getProject,
     addUser,
+    delUser,
     createProject,
     deleteProject,
     updateProject,
@@ -15,6 +16,7 @@ class  ProjectController {
     this.createProject = createProject;
     this.deleteProject = deleteProject;
     this.updateProject = updateProject;
+    this.delUser =delUser;
   }
 
   async getList() {
@@ -29,6 +31,11 @@ class  ProjectController {
   async addUsers(id, userId) {
     //console.log('addUser', id, userId);
     return await this.addUser.execute(id, userId);
+  }
+
+  async delUsers(id, userId) {
+    //console.log('addUser', id, userId);
+    return await this.delUser.execute(id, userId);
   }
 
   async update(filter, update) {

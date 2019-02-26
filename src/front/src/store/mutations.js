@@ -45,10 +45,18 @@ export default {
     console.log('DELETED PROJECT - ', data);
   },
 
+  ADD_USER_TO_PROJECT(_, data) {
+    console.log('ADD USER TO PROJECT - ', data);
+  },
+
+  DELETE_USER_ON_PROJECT(_, data) {
+    console.log('DELETE USER ON PROJECT - ', data);
+  },
+
+
   SAVED_PROJECT(_, data) {
     console.log('SAVED PROJECT - ', data);
   },
-
 
   LOADED_USERS(state, data) { 
     console.log('LOADED_USERS', data);

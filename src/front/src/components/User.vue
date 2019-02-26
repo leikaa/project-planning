@@ -81,7 +81,7 @@ export default {
 
 
 
-
+<!--
 <template>
 <div class="users">
       <div
@@ -108,24 +108,22 @@ export default {
         </v-btn>
           </div>
         </div>
-
     </div>
 </template>
+-->
 
 
-<!--
 <template>
 <div class="users">
     <v-data-iterator 
-         :items="currentProjectUsers" 
-         content-tag="div" 
-         hide-actions 
-         content-class="user users__item user-task">
+         :items="currentProjectUsers"  
+         hide-actions >
         <div
+          class="user users__item user-task"
           slot="item" 
           slot-scope="props" 
         >
-          <div class="user__name pi">{{ currentProjectUsers.userId }}</div>
+          <div class="user__name pi">{{ currentProjectUsers}}</div>
         <div class="elem">
           <v-btn
           class="mx-0"
@@ -141,8 +139,9 @@ export default {
       </v-data-iterator>
 </div>
 </template>
--->
+
  
+
  
  <script>
 export default {
@@ -198,11 +197,11 @@ export default {
 }
 .user {
   &__name {
+    display: flex;
     width: 40px;
     height: 40px;
     border-radius: 40px;
     background: #ccc;
-    display: flex;
     align-items: center;
     justify-content: center;
     margin: 0 auto;

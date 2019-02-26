@@ -45,7 +45,15 @@ const addUserToProject = ({ commit }, data) => {
   console.log('save', data);
   api.request('post', `projects/${data.id}/add_user/${data.userId}`)
     .then(
-      commit('SAVED_PROJECT', data)
+      commit('ADD_USER_TO_PROJECT', data)
+    );
+};
+
+const deleteUserOnProject = ({ commit }, data) => {
+  console.log('delete', data);
+  api.request('delete', `projects/${data.id}/del_user/${data.userId}`)
+    .then(
+      commit('DELETE_USER_ON_PROJECT', data)
     );
 };
 
@@ -133,6 +141,7 @@ export default {
   saveUser,
 
   addTaskToProject,
+  deleteUserOnProject,
   loadTasks,
   addTask,
   deleteTask,
