@@ -1,4 +1,5 @@
 'use strict';
+//Отправляет данные с клиента на сервер.
 
 const bodyParser = require('body-parser');
 
@@ -25,16 +26,6 @@ class Routes {
     const self = this;
     this.httpServer.use('/status', (_, res) => {
       res.status(200).send('OK');
-    });
-
-    this.httpServer.get('/projects/:id', async (req, res) => {
-      const data = await this.projectController.get({
-        '_id': req.params.id
-      });
-      res.send({
-        status: 'ok',
-        data
-      });
     });
 
      //Отображение на экране 
@@ -104,6 +95,7 @@ class Routes {
         status: 'ok',
         data,
       });
+      console.log(data, "Массив полученых обьектов");
     }); 
 
     this.httpServer.post('/tasks/:id', bodyParser.json(), async(req, res) => {
@@ -121,7 +113,14 @@ class Routes {
     });
 
     this.httpServer.post('/tasks', bodyParser.json(), async (req, res) => {
-      const _ = await this.taskController.create(req.body);
+      const answer = await this.taskController.create(req.body);
+      console.log(answer, "Это answer!")
+      if(answer == true){
+        console.log('Ты получил положительный ответ от controller');
+      }else{
+        console.log('Ты получил отрицательный ответ от controller');
+      };
+
       res.send({ status: 'ok' });
     });
 

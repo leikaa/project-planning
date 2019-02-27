@@ -1,14 +1,13 @@
 'use strict';
+//Получает данные с router и отправляет с command
 
 class  TaskController {
   constructor({
-    getTasks,
     getTask,
     createTask,
     deleteTask,
     updateTask,
   }) {
-    this.getTasks = getTasks;
     this.getTask = getTask;
     this.createTask = createTask;
     this.deleteTask = deleteTask;
@@ -16,16 +15,14 @@ class  TaskController {
   }
 
   async getList() {
-    return await this.getTasks.get();
-  }
-
-  async get(params) {
-    console.log('getTask', params);
-    return await this.getTask.get(params);
+    return await this.getTask.get();
   }
 
   async create(params) {
-    return await this.createTask.execute(params);
+    console.log(params , 'Этот обьект отправляеться в command createTask')
+    const test = await this.createTask.execute(params);
+    console.log(test , 'Этот обьект получен из command createTask')
+    return test;
   }
 
   async delete(params) {

@@ -4,7 +4,7 @@ const Model = require('./Model')
 
 class ProjectModel extends Model {
   constructor({ db }) {
-    super({ db, collectionName: 'ProjectsMenu' })
+    super({ db, collectionName: 'Projects' })
   }
 
   async findOneAndUpdateUserInProject(id, userId, taskId) {
@@ -29,6 +29,13 @@ class ProjectModel extends Model {
       });
       //console.log(result);
     return result;
+  }
+
+  async insertOneTask(answerOnCommond) {
+    const test = await this.db.get()
+      .collection(this.collectionName)
+      .insertOne(answerOnCommond);
+    return test;
   }
 }
 

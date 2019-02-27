@@ -10,10 +10,6 @@ class Model {
     return this.find(filter, projection).toArray();
   }
 
-  async getObject(filter, projection) {
-    return await this.findOne(filter, projection);
-  }
-
   find(filter, projection) {
     return this.db.get()
       .collection(this.collectionName)

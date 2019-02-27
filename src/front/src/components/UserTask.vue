@@ -120,6 +120,8 @@
 
 <script>
 import VueDraggableResizable from "./vue-drag/index.js";
+import moment from 'moment';  
+
 let step = 21;
 export default {
   name: "UserTask",
@@ -160,6 +162,7 @@ export default {
       this.description = "";
       this.projectId = "currentProjectId";
       this.userId = this.selectedElement;
+      this.date = moment().format('MMMM Do YYYY, h:mm:ss a');
       this.disableInput = false;
       this.showDialog = true;
     },
@@ -199,7 +202,8 @@ export default {
         name: this.name,
         description: this.description,
         projectId: this.currentProjectId,
-        userId: this.selectedElement
+        userId: this.selectedElement,
+        date: this.date,
       });
       this.showDialog = false;
       this.sendRequestTask();

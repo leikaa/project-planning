@@ -3,14 +3,12 @@
 class  ProjectController {
   constructor({
     getProjects,
-    getProject,
     addUser,
     createProject,
     deleteProject,
     updateProject,
   }) {
     this.getProjects = getProjects;
-    this.getProject = getProject;
     this.addUser = addUser;
     this.createProject = createProject;
     this.deleteProject = deleteProject;
@@ -19,11 +17,6 @@ class  ProjectController {
 
   async getList() {
     return await this.getProjects.get();
-  }
-
-  async get(params) {
-    //console.log('getProject', params);
-    return await this.getProject.get(params);
   }
 
   async addUsers(id, userId) {
