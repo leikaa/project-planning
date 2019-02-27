@@ -95,7 +95,7 @@ class Routes {
         status: 'ok',
         data,
       });
-      console.log(data, "Массив полученых обьектов");
+        //console.log(data, "Массив полученых обьектов");
     }); 
 
     this.httpServer.post('/tasks/:id', bodyParser.json(), async(req, res) => {
@@ -114,13 +114,9 @@ class Routes {
 
     this.httpServer.post('/tasks', bodyParser.json(), async (req, res) => {
       const answer = await this.taskController.create(req.body);
-      console.log(answer, "Это answer!")
       if(answer == true){
         console.log('Ты получил положительный ответ от controller');
-      }else{
-        console.log('Ты получил отрицательный ответ от controller');
-      };
-
+      }
       res.send({ status: 'ok' });
     });
 

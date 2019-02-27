@@ -19,24 +19,41 @@ class CreateTask {
       //console.log(result , 'Это result  в CreateTask!');
 
     const answerOnCommand = await this.taskModel.getLastTask(filter, projection);
-    console.log(answerOnCommand , "Последняя добавленая задача");
-
-    const ParseAnswerOnCommand = answerOnCommand.reduce(function(obj , item){
-      var key = Object.keys(item)[0];
-      obj[key] = item[key];
-      return obj;
-    }, {});
-
-
-    const addTaskOnProject = await this.projectModel.insertOneTask(ParseAnswerOnCommand);
-    console.log(addTaskOnProject , "Переменная test!");
-
-      //const sendTasjOnUser = await this.projectModel.findOneAndUpdateUserInProject(result);
-    //this.logger.debug('Полученый ответ о добавлении таска в проект и участника', sendTaskOnUser);
+      console.log(answerOnCommand , "Последняя добавленая задача");
     
 
+      //Тут полученый массив превращаеться в обьект
+    const ParseAnswerOnCommand = answerOnCommand.reduce(function(obj , item){
+      for(var i=0 ; i<6; i++){
+        var key = Object.keys(item)[i];
+        obj[key] = item[key];
+      }
+      return obj;
+    }, {});
+      console.log(ParseAnswerOnCommand , "Переменная ParseAnswerOnCommand!");
+
+    const addTaskOnProject = await this.projectModel.findOneAndUpdateTaskInUsersOnProject(ParseAnswerOnCommand);
+      //console.log(addTaskOnProject , "Переменная test!");
     return true;
   }
 }
 
 module.exports = CreateTask;
+
+
+
+
+
+     /*Перевод в строку
+      function objToString (ParseAnswerOnCommand) {
+        var str = '';
+        for (var p in ParseAnswerOnCommand) {
+            if (ParseAnswerOnCommand.hasOwnProperty(p)) {
+                str += p + '::' + ParseAnswerOnCommand[p] + '\n';
+            }
+        }
+        console.log(objToString , 'Строка')
+        console.log(str , 'str')
+        return str;
+    };
+*/

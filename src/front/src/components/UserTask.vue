@@ -162,7 +162,7 @@ export default {
       this.description = "";
       this.projectId = "currentProjectId";
       this.userId = this.selectedElement;
-      this.date = moment().format('MMMM Do YYYY, h:mm:ss a');
+      this.date = moment().format('MMMM Do YYYY, HH:mm:ss ');
       this.disableInput = false;
       this.showDialog = true;
     },
