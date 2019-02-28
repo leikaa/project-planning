@@ -38,25 +38,26 @@ class Routes {
     }); 
     
    this.httpServer.post('/projects/:id/add_user/:userId', async(req, res) => {
-     //console.log('router', req);
-      const _ = await this.projectController.addUsers(req.params.id, req.params.userId);
+      //console.log('router', req);
+      const answer = await this.projectController.addUsers(req.params.id, req.params.userId);
+      console.log('Ответ с controller' , answer)
       res.send({ status: 'ok' });
     });
 
     this.httpServer.delete('/projects/:id', async (req, res) => {
-      const _ = await this.projectController.delete({
+      const answer = await this.projectController.delete({
         '_id': req.params.id
       });
       res.send({ status: 'ok' });
     });
 
     this.httpServer.post('/projects', bodyParser.json(), async (req, res) => {
-      const _ = await this.projectController.create(req.body);
+      const answer = await this.projectController.create(req.body);
       res.send({ status: 'ok' });
     });
 
     this.httpServer.post('/projects/:id', bodyParser.json(), async(req, res) => {
-      const _ = await this.projectController.update({
+      const answer = await this.projectController.update({
         '_id': req.params.id
       }, req.body);
       res.send({ status: 'ok' });
@@ -71,21 +72,21 @@ class Routes {
     }); 
 
     this.httpServer.post('/users/:id', bodyParser.json(), async(req, res) => {
-      const _ = await this.userController.update({
+      const answer = await this.userController.update({
         '_id': req.params.id
       }, req.body);
       res.send({ status: 'ok' });
     });
 
     this.httpServer.delete('/users/:id', async (req, res) => {
-      const _ = await this.userController.delete({
+      const answer = await this.userController.delete({
         '_id': req.params.id
       });
       res.send({ status: 'ok' });
     });
 
     this.httpServer.post('/users', bodyParser.json(), async (req, res) => {
-      const _ = await this.userController.create(req.body);
+      const answer = await this.userController.create(req.body);
       res.send({ status: 'ok' });
     });
 
@@ -99,14 +100,14 @@ class Routes {
     }); 
 
     this.httpServer.post('/tasks/:id', bodyParser.json(), async(req, res) => {
-      const _ = await this.taskController.update({
+      const answer = await this.taskController.update({
         '_id': req.params.id
       }, req.body);
       res.send({ status: 'ok' });
     });
 
     this.httpServer.delete('/tasks/:id', async (req, res) => {
-      const _ = await this.taskController.delete({
+      const answer = await this.taskController.delete({
         '_id': req.params.id
       });
       res.send({ status: 'ok' });

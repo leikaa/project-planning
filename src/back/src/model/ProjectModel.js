@@ -6,9 +6,9 @@ class ProjectModel extends Model {
   constructor({ db }) {
     super({ db, collectionName: 'Projects' })
   }
-
-  async findOneAndUpdateUserInProject(id, userId, taskId) {
-    console.log('findOneAndUpdateUserInProject', id, userId , taskId);
+  
+  async findOneAndUpdateUserInProject(id, userId) {
+    console.log('findOneAndUpdateUserInProject', id, userId );
     const result = await this.db.get()
       .collection(this.collectionName)
       .findOneAndUpdate(
@@ -16,13 +16,10 @@ class ProjectModel extends Model {
           _id: this.db.objectId(id)
         },
         {
-         $addToSet: {users: { userId: this.db.objectId(userId), taskId: []} ,
+         $addToSet: {users: { userId: this.db.objectId(userId), task: []} ,
          userId: this.db.objectId(userId) 
         }
         },
-       /*{
-          $addToSet: { userId: this.db.objectId(userId) } // $addToSet
-        },*/
       )
       .catch(err => {
         console.log(err);
@@ -31,25 +28,22 @@ class ProjectModel extends Model {
     return result;
   }
 
-
-
-
-  
-  async findOneAndUpdateTaskInUsersOnProject(projectId, userId, _id) {
-    console.log('findOneAndUpdateUserInProject', projectId, userId , _id);
+  async findOneAndUpdateTaskInUsers(id, userId, taskId) {
+    console.log('findOneAndUpdateTaskInUsers', id, userId , taskId);
     const result = await this.db.get()
       .collection(this.collectionName)
       .findOneAndUpdate(
-        /*{
-          _id: this.db.objectId(id)
-        },*/
         {
-         $addToSet: {users: { userId: this.db.objectId(userId), taskId: []} 
-        }
+          _id: this.db.objectId(id),
+          'users.userId': this.db.objectId(userId),
         },
-       /*{
+        {
+          $push: { 'users.$.task': { taskId: this.db.objectId(taskId) } }
+        },
+      /*{
           $addToSet: { userId: this.db.objectId(userId) } // $addToSet
-        },*/
+        },
+      */
       )
       .catch(err => {
         console.log(err);
@@ -57,6 +51,7 @@ class ProjectModel extends Model {
       //console.log(result);
     return result;
   }
+
 
   async insertOneTask(ParseAnswerOnCommand) {
     const test = await this.db.get()

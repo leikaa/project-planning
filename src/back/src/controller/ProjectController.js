@@ -20,8 +20,10 @@ class  ProjectController {
   }
 
   async addUsers(id, userId) {
-    //console.log('addUser', id, userId);
-    return await this.addUser.execute(id, userId);
+    console.log('addUser', id, userId);
+    const test = await this.addUser.execute(id, userId);
+    console.log('Ответ с commandAddUser',test)
+    return test
   }
 
   async update(filter, update) {

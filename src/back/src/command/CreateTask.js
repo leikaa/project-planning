@@ -19,10 +19,10 @@ class CreateTask {
       //console.log(result , 'Это result  в CreateTask!');
 
     const answerOnCommand = await this.taskModel.getLastTask(filter, projection);
-      console.log(answerOnCommand , "Последняя добавленая задача");
+      console.log("Последняя добавленая задача" , answerOnCommand);
     
 
-      //Тут полученый массив превращаеться в обьект
+      //Тут полученый массив превращаеться в обьект (Если нужен только _id нужно убрать цикл)
     const ParseAnswerOnCommand = answerOnCommand.reduce(function(obj , item){
       for(var i=0 ; i<6; i++){
         var key = Object.keys(item)[i];
@@ -30,30 +30,31 @@ class CreateTask {
       }
       return obj;
     }, {});
-      console.log(ParseAnswerOnCommand , "Переменная ParseAnswerOnCommand!");
+      console.log("Переменная ParseAnswerOnCommand!" , ParseAnswerOnCommand);
 
-    const addTaskOnProject = await this.projectModel.findOneAndUpdateTaskInUsersOnProject(ParseAnswerOnCommand);
-      //console.log(addTaskOnProject , "Переменная test!");
+
+    var str = ('');
+      for(var item in ParseAnswerOnCommand){
+        if (ParseAnswerOnCommand.hasOwnProperty(item)) {
+          str += ParseAnswerOnCommand[item] + ' ';
+         }
+          //console.log("Значение", ParseAnswerOnCommand[item])
+      };
+       //console.log("Значение str", str)
+      
+    var strings = str.split(' ');
+    var taskId = strings[0];
+    var id = strings[3];
+    var userId = strings[4];
+
+    //console.log("Это _id таска", taskId);
+    //console.log("Это _id таска", id);
+    //console.log("Это userId ", userId);
+      
+
+    const addTaskOnProject = await this.projectModel.findOneAndUpdateTaskInUsers(id , userId , taskId);
+      //console.log(addTaskOnProject , "Ответ с model");
     return true;
   }
 }
-
 module.exports = CreateTask;
-
-
-
-
-
-     /*Перевод в строку
-      function objToString (ParseAnswerOnCommand) {
-        var str = '';
-        for (var p in ParseAnswerOnCommand) {
-            if (ParseAnswerOnCommand.hasOwnProperty(p)) {
-                str += p + '::' + ParseAnswerOnCommand[p] + '\n';
-            }
-        }
-        console.log(objToString , 'Строка')
-        console.log(str , 'str')
-        return str;
-    };
-*/
