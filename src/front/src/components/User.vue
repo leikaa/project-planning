@@ -89,7 +89,7 @@ export default {
         :key="num"
         class="user users__item user-task"
       >
-        <div class="user__name pi">{{ item }}</div>
+        <div class="user__name pi">{{ item.userId }}</div>
       </div>
       
        <div

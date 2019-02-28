@@ -2,16 +2,16 @@
   <div>
     <div class="task-list">
       <div
-        v-for="(item, index) in currentProjectUsers"
+        v-for="(list, index) in currentProjectUsers"
         :key="index"
         :data-id="index"
-        ref="currentProject"
+        ref="currentProjectUsers"
         class="pole user-task task-list__item"
         @click="editItem"
       >
         <vue-draggable-resizable
-          v-for="item in items"
-          :key="item.id"
+          v-for="item in list.task"
+          :key="item.taskId"
           :w="item.w"
           :h="item.h"
           :x="item.x"
@@ -72,7 +72,9 @@
         </v-layout>
       </v-card>
  <!-- -->
-<!-- Сохранение задачи 
+
+
+ 
  <v-card>
       <v-layout row align-end>
         <v-dialog v-model="editShowDialog" width="500">
@@ -105,7 +107,12 @@
         </v-dialog>
       </v-layout>
     </v-card>
- -->
+
+
+
+
+
+
     </div>
     <div class="button_create_task">
       <v-btn slot="activator" 
@@ -117,6 +124,7 @@
     </div>
   </div>
 </template>
+
 
 <script>
 import VueDraggableResizable from "./vue-drag/index.js";
@@ -142,18 +150,35 @@ export default {
       selectedElement: "",
       editShowDialog: false,
       selectedTask: "",
+      taskLis: [
+        [
+          { id: 1, x: 192, y: 0, w: 148, h: 46, bgc: 'rgb(33, 150, 243)', text: 'Задача 10' },
+          { id: 2, x: 0, y: 46, w: 148, h: 46, bgc: 'rgb(103, 58, 183)', text: 'Задача 20' }
+        ],
+        [
+          { id: 3, x: step * 4, y: 0, w: 148, h: 46, bgc: 'rgb(150, 252, 44)', text: 'Задача 30' },
+          { id: 4, x: 0, y: 46, w: 148, h: 46, bgc: 'rgb(253, 216, 53)', text: 'Задача 40' }
+        ],
+        [
+          { id: 5, x: step * 7, y: 0, w: 148, h: 46, bgc: 'rgb(244, 67, 54)', text: 'Задача 50' },
+          { id: 6, x: 0, y: 46, w: 148, h: 46, bgc: 'rgb(77, 208, 225)', text: 'Задача 60' }
+        ],      
+      ],
     };
   },
   methods: {
     sendRequestProject() {
       this.$store.dispatch("loadProjects");
     },
+
     sendRequestUser() {
       this.$store.dispatch("loadUsers");
     },
+
     sendRequestTask() {
       this.$store.dispatch("loadTasks");
     },
+
     addItem() {
       this.modalTitle = "Добавить новую задачу";
       this.modalSubmitButton = "Добавить";
@@ -163,10 +188,14 @@ export default {
       this.projectId = "currentProjectId";
       this.userId = this.selectedElement;
       this.date = moment().format('MMMM Do YYYY, HH:mm:ss ');
+      this.x = 0;
+      this.y = 46;
+      this.w = 21;
+      this.h = 46;
+      this.bgc = 'rgb(244,67,54)'
       this.disableInput = false;
       this.showDialog = true;
     },
-
 
     editItem(item) {
       this.modalTitle = 'Сохранить информацию о задаче';
@@ -177,6 +206,7 @@ export default {
       this.disableInput = false;
       this.editShowDialog = true;
     },
+
     confirmModalAction() {
       const action = this.modalAction;
       switch (action) {
@@ -190,6 +220,7 @@ export default {
           break;
       }
     },
+
     addTask() {
       console.log(
         "задача добавлена",
@@ -197,12 +228,18 @@ export default {
         this.description,
         this.projectId,
         this.userId,
+        this.date,
       );
       this.$store.dispatch("addTask", {
         name: this.name,
         description: this.description,
         projectId: this.currentProjectId,
         userId: this.selectedElement,
+        x: this.x,
+        y: this.y,
+        w: this.w,
+        h: this.h,
+        bgc: this.bgc,
         date: this.date,
       });
       this.showDialog = false;
@@ -219,8 +256,6 @@ export default {
       this.sendRequestProject();
     },
 
-
-
     onDrag(x, y, item, task) {
       let allTaskListCoords = this.getCoordsTaskList();
 
@@ -234,7 +269,7 @@ export default {
     getCoordsTaskList() {
       let coords = [];
 
-      this.$refs.taskList.forEach(taskDiv => {
+      this.$refs.currentProjectUsers.forEach(taskDiv => {
         let taskDivCoords = taskDiv.getBoundingClientRect();
         coords.push({
           id: taskDiv.dataset.id,
@@ -280,7 +315,7 @@ export default {
       item.y = Math.abs(taskListCoords[nearTaskListIndex].y - taskCoords.top);
       console.log(item.y);
 
-      this.taskList.forEach((list, listIndex) => {
+      this.currentProjectUsers.forEach((list, listIndex) => {
         list.forEach((task, taskIndex) => {
           if (task.id == item.id && listIndex != nearTaskListIndex) {
             this.taskList[listIndex].splice(taskIndex, 1);
@@ -319,7 +354,11 @@ export default {
 
     userOnProject() {
       return (this.currentProject && this.currentProject.userId) || [];
-    }
+    },
+
+    tasks() {
+      return this.$store.getters.tasks;
+    },
   },
   
   created() {
@@ -329,6 +368,33 @@ export default {
   }
 
   /*
+<template>
+  <div class="task-list">
+    <div
+      v-for="(list, index) in taskList"
+      :data-id="index"
+      ref="taskList" 
+      class="user-task task-list__item"
+    >
+      <vue-draggable-resizable
+        v-for="sim in list"
+        :key="sim.id"
+        :w="sim.w"
+        :h="sim.h"
+        :x="sim.x"
+        :y="sim.y"
+        :item="sim"
+        :handles="['ml', 'mr']"
+        :grid="[147, 46]"
+        @dragstop="onDrag"
+        maximize
+      >
+        <div class="user-task__item" :style="`background: ${sim.bgc}`">{{sim.text}}</div>
+      </vue-draggable-resizable>
+    </div>
+  </div>
+</template>
+
   data() {
     return {
       

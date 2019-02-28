@@ -19,18 +19,18 @@ class CreateTask {
       //console.log(result , 'Это result  в CreateTask!');
 
     const answerOnCommand = await this.taskModel.getLastTask(filter, projection);
-      console.log("Последняя добавленая задача" , answerOnCommand);
+      //console.log("Последняя добавленая задача" , answerOnCommand);
     
 
       //Тут полученый массив превращаеться в обьект (Если нужен только _id нужно убрать цикл)
     const ParseAnswerOnCommand = answerOnCommand.reduce(function(obj , item){
-      for(var i=0 ; i<6; i++){
+      for(var i=0 ; i<10; i++){
         var key = Object.keys(item)[i];
         obj[key] = item[key];
       }
       return obj;
     }, {});
-      console.log("Переменная ParseAnswerOnCommand!" , ParseAnswerOnCommand);
+      //console.log("Переменная ParseAnswerOnCommand!" , ParseAnswerOnCommand);
 
 
     var str = ('');
@@ -42,18 +42,31 @@ class CreateTask {
       };
        //console.log("Значение str", str)
       
-    var strings = str.split(' ');
-    var taskId = strings[0];
-    var id = strings[3];
-    var userId = strings[4];
+    var values = str.split(' ');
+
+    var taskId = values[0];
+    var id = values[3];
+    var userId = values[4];
+    var string_x = values[5];
+    var string_y = values[6];
+    var string_w = values[7];
+    var string_h = values[8];
+    var bgc = values[9];
+
+    var x = Number.parseInt(string_x);
+    var y = Number.parseInt(string_y);
+    var w = Number.parseInt(string_w);
+    var h = Number.parseInt(string_h);
+  
 
     //console.log("Это _id таска", taskId);
     //console.log("Это _id таска", id);
     //console.log("Это userId ", userId);
+  
       
 
-    const addTaskOnProject = await this.projectModel.findOneAndUpdateTaskInUsers(id , userId , taskId);
-      //console.log(addTaskOnProject , "Ответ с model");
+    const addTaskOnProject = await this.projectModel.findOneAndUpdateTaskInUsers(id , userId , taskId , x , y , w , h , bgc );
+      console.log(addTaskOnProject , "Ответ с model");
     return true;
   }
 }

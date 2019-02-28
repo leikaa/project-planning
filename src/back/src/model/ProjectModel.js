@@ -28,17 +28,17 @@ class ProjectModel extends Model {
     return result;
   }
 
-  async findOneAndUpdateTaskInUsers(id, userId, taskId) {
+  async findOneAndUpdateTaskInUsers(id , userId , taskId , x , y , w , h , bgc) {
     console.log('findOneAndUpdateTaskInUsers', id, userId , taskId);
     const result = await this.db.get()
-      .collection(this.collectionName)
+      .collection(this.collectionName) 
       .findOneAndUpdate(
         {
           _id: this.db.objectId(id),
           'users.userId': this.db.objectId(userId),
         },
         {
-          $push: { 'users.$.task': { taskId: this.db.objectId(taskId) } }
+          $push: { 'users.$.task': { taskId: this.db.objectId(taskId) , x , y , w , h , bgc}}
         },
       /*{
           $addToSet: { userId: this.db.objectId(userId) } // $addToSet
