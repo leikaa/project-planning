@@ -7,7 +7,7 @@
         :data-id="index"
         ref="currentProjectUsers"
         class="pole user-task task-list__item"
-        @click="editItem"
+        @dblclick="editItem"
       >
         <vue-draggable-resizable
           v-for="item in list.task"
@@ -82,14 +82,18 @@
             <v-card-title class="headline grey lighten-2" primary-title>{{ modalTitle }}</v-card-title>
             <v-card-text>
               <v-form v-model="formValid">
-                <v-select
-                  v-model="selectedTask"
-                  :items="tasks"
-                  label="Выберите задачу"
-                  solo
-                  item-text="name"
-                  item-value="_id"
-                ></v-select>
+                 <v-text-field
+                    v-model="name"
+                    label="Название новой задачи"
+                    :disabled="disableInput"
+                    required
+                  ></v-text-field>
+                  <v-text-field
+                    v-model="description"
+                    label="Описание задачи"
+                    :disabled="disableInput"
+                    required
+                  ></v-text-field>
               </v-form>
             </v-card-text>
             <v-divider></v-divider>
@@ -201,8 +205,15 @@ export default {
       this.modalTitle = 'Сохранить информацию о задаче';
       this.modalSubmitButton = 'Сохранить';
       this.modalAction = 'Edit';
-      this.taskId = this.selectedTask;
+      this.taskId = this.currentProjectId.task;
       this.id = this.currentProjectId;
+      this.name = item.name;
+      this.description = item.description;
+      this.x = this.left,
+      //this.y = this.style.top;
+      //this.w = this.style.widtg;
+      //this.h = this.style.height;
+      this.date = moment().format('MMMM Do YYYY, HH:mm:ss ');
       this.disableInput = false;
       this.editShowDialog = true;
     },
@@ -249,8 +260,14 @@ export default {
     saveProject() {
       console.log('Проект сохранен', this.taskId, this.id );
       this.$store.dispatch('addTaskToProject', {
-         taskId: this.selectedTask, 
+         taskId: this.taskId, 
          id: this.currentProjectId,
+         name: this.name,
+         x: this.x,
+         //y: this.y,
+         //w: this.w,
+         //h: this.h,
+         date: this.date,
          });  
       this.editShowDialog = false;
       this.sendRequestProject();
@@ -316,7 +333,7 @@ export default {
       console.log(item.y);
 
       this.currentProjectUsers.forEach((list, listIndex) => {
-        list.forEach((task, taskIndex) => {
+        list.task.forEach((task, taskIndex) => {
           if (task.id == item.id && listIndex != nearTaskListIndex) {
             this.taskList[listIndex].splice(taskIndex, 1);
             this.taskList[nearTaskListIndex].push(item);

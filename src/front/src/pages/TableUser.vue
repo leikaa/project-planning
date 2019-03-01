@@ -87,6 +87,7 @@
 <script>
 /* eslint no-underscore-dangle: ["error",{"allow":["_id"]}] */
 import DataTable from '../components/DataTable';
+import moment from 'moment'; 
 export default {
   name: 'User',
   data() {
@@ -130,7 +131,7 @@ export default {
       this.modalAction = 'Edit';
       this.id = Item._id;
       this.name = Item.name;
-      this.Date = new Date();
+      this.Date = moment().format('MMMM Do YYYY, HH:mm:ss ');
       this.disableInput = false;
       this.showDialog = true;
     },
