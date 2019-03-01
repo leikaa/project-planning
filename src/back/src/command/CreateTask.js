@@ -38,20 +38,20 @@ class CreateTask {
         if (ParseAnswerOnCommand.hasOwnProperty(item)) {
           str += ParseAnswerOnCommand[item] + ' ';
          }
-          //console.log("Значение", ParseAnswerOnCommand[item])
+          console.log("Значение", ParseAnswerOnCommand[item])
       };
-       //console.log("Значение str", str)
+       console.log("Значение str", str)
       
     var values = str.split(' ');
 
     var taskId = values[0];
-    var id = values[3];
-    var userId = values[4];
-    var string_x = values[5];
-    var string_y = values[6];
-    var string_w = values[7];
-    var string_h = values[8];
-    var bgc = values[9];
+    var id = values[1];
+    var userId = values[2];
+    var string_x = values[3];
+    var string_y = values[4];
+    var string_w = values[5];
+    var string_h = values[6];
+    var rgb = values[7];
 
     var x = Number.parseInt(string_x);
     var y = Number.parseInt(string_y);
@@ -61,11 +61,11 @@ class CreateTask {
 
     //console.log("Это _id таска", taskId);
     //console.log("Это _id таска", id);
-    //console.log("Это userId ", userId);
+    console.log("Это rgb ", rgb);
   
       
 
-    const addTaskOnProject = await this.projectModel.findOneAndUpdateTaskInUsers(id , userId , taskId , x , y , w , h , bgc );
+    const addTaskOnProject = await this.projectModel.findOneAndUpdateTaskInUsers(id , userId , taskId , x , y , w , h , rgb );
       console.log(addTaskOnProject , "Ответ с model");
     return true;
   }

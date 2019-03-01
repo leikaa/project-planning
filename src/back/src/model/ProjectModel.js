@@ -28,7 +28,7 @@ class ProjectModel extends Model {
     return result;
   }
 
-  async findOneAndUpdateTaskInUsers(id , userId , taskId , x , y , w , h , bgc) {
+  async findOneAndUpdateTaskInUsers(id , userId , taskId , x , y , w , h , rgb) {
     console.log('findOneAndUpdateTaskInUsers', id, userId , taskId);
     const result = await this.db.get()
       .collection(this.collectionName) 
@@ -38,7 +38,7 @@ class ProjectModel extends Model {
           'users.userId': this.db.objectId(userId),
         },
         {
-          $push: { 'users.$.task': { taskId: this.db.objectId(taskId) , x , y , w , h , bgc}}
+          $push: { 'users.$.task': { taskId: this.db.objectId(taskId) , x , y , w , h , rgb}}
         },
       /*{
           $addToSet: { userId: this.db.objectId(userId) } // $addToSet

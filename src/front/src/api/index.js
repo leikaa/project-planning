@@ -44,6 +44,7 @@ const getData = (method, uri) => {
     });
 };
 
+/* Удалить в следующем коммите 
 const getDataUser = (method, uri) => {
   // console.log('getData', store);
   store.commit('user/LOADING');
@@ -81,10 +82,11 @@ const getDataTask = (method, uri) => {
       store.commit('task/LOADING_ERROR', error);
     });
 };
+*/
 
 export default {
   request,
   getData,
-  getDataUser,
-  getDataTask,
+  //getDataUser,
+  //getDataTask,
 };

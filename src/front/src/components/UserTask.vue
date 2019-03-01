@@ -22,7 +22,7 @@
           @dragstop="onDrag"
           maximize
         >
-          <div class="user-task__item" :style="`background: ${item.bgc}`">{{item.text}}</div>
+          <div class="user-task__item" :style="`background: ${item.rgb}`">{{item.text}}</div>
         </vue-draggable-resizable>
       </div>
 <!-- Добавление задач  -->
@@ -83,14 +83,8 @@
             <v-card-text>
               <v-form v-model="formValid">
                  <v-text-field
-                    v-model="name"
-                    label="Название новой задачи"
-                    :disabled="disableInput"
-                    required
-                  ></v-text-field>
-                  <v-text-field
-                    v-model="description"
-                    label="Описание задачи"
+                    v-model="userId" 
+                    label="ID для проверки работы"
                     :disabled="disableInput"
                     required
                   ></v-text-field>
@@ -154,20 +148,7 @@ export default {
       selectedElement: "",
       editShowDialog: false,
       selectedTask: "",
-      taskLis: [
-        [
-          { id: 1, x: 192, y: 0, w: 148, h: 46, bgc: 'rgb(33, 150, 243)', text: 'Задача 10' },
-          { id: 2, x: 0, y: 46, w: 148, h: 46, bgc: 'rgb(103, 58, 183)', text: 'Задача 20' }
-        ],
-        [
-          { id: 3, x: step * 4, y: 0, w: 148, h: 46, bgc: 'rgb(150, 252, 44)', text: 'Задача 30' },
-          { id: 4, x: 0, y: 46, w: 148, h: 46, bgc: 'rgb(253, 216, 53)', text: 'Задача 40' }
-        ],
-        [
-          { id: 5, x: step * 7, y: 0, w: 148, h: 46, bgc: 'rgb(244, 67, 54)', text: 'Задача 50' },
-          { id: 6, x: 0, y: 46, w: 148, h: 46, bgc: 'rgb(77, 208, 225)', text: 'Задача 60' }
-        ],      
-      ],
+      userId: this.selectedElement,  //
     };
   },
   methods: {
@@ -187,16 +168,16 @@ export default {
       this.modalTitle = "Добавить новую задачу";
       this.modalSubmitButton = "Добавить";
       this.modalAction = "Add";
-      this.name = "";
-      this.description = "";
       this.projectId = "currentProjectId";
       this.userId = this.selectedElement;
-      this.date = moment().format('MMMM Do YYYY, HH:mm:ss ');
       this.x = 0;
       this.y = 46;
       this.w = 21;
       this.h = 46;
-      this.bgc = 'rgb(244,67,54)'
+      this.rgb = 'rgb(244,67,54)'
+      this.name = "";
+      this.description = "";
+      this.date = moment().format('MMMM Do YYYY, HH:mm:ss ');
       this.disableInput = false;
       this.showDialog = true;
     },
@@ -205,14 +186,16 @@ export default {
       this.modalTitle = 'Сохранить информацию о задаче';
       this.modalSubmitButton = 'Сохранить';
       this.modalAction = 'Edit';
-      this.taskId = this.currentProjectId.task;
-      this.id = this.currentProjectId;
-      this.name = item.name;
-      this.description = item.description;
+      //this.taskId = item.index;
+      //this.projectId = this.currentProjectId;
+      //this.userId = this.selectedElement;
+      //this.name = item.name;
+      //this.description = item.description;
       this.x = this.left,
-      //this.y = this.style.top;
-      //this.w = this.style.widtg;
-      //this.h = this.style.height;
+      this.y = this.top;
+      this.w = this.widtg;
+      this.h = this.height;
+      this.rgb = 'rgb(0,205,205)'
       this.date = moment().format('MMMM Do YYYY, HH:mm:ss ');
       this.disableInput = false;
       this.editShowDialog = true;
@@ -242,15 +225,15 @@ export default {
         this.date,
       );
       this.$store.dispatch("addTask", {
-        name: this.name,
-        description: this.description,
         projectId: this.currentProjectId,
         userId: this.selectedElement,
-        x: this.x,
-        y: this.y,
-        w: this.w,
-        h: this.h,
-        bgc: this.bgc,
+        x: this.left,
+        y: this.top,
+        w: this.widtg,
+        h: this.height,
+        rgb: this.rgb,
+        name: this.name,
+        description: this.description,
         date: this.date,
       });
       this.showDialog = false;
@@ -259,18 +242,19 @@ export default {
 
     saveProject() {
       console.log('Проект сохранен', this.taskId, this.id );
-      this.$store.dispatch('addTaskToProject', {
+      this.$store.dispatch('saveTask', {
          taskId: this.taskId, 
          id: this.currentProjectId,
-         name: this.name,
+         //name: this.name,
          x: this.x,
-         //y: this.y,
-         //w: this.w,
-         //h: this.h,
+         y: this.y,
+         w: this.w,
+         h: this.h,
+         rgb: this.rgb,
          date: this.date,
          });  
       this.editShowDialog = false;
-      this.sendRequestProject();
+      this.sendRequestTask();
     },
 
     onDrag(x, y, item, task) {
@@ -383,55 +367,6 @@ export default {
     this.sendRequestUser();
     this.sendRequestTask();
   }
-
-  /*
-<template>
-  <div class="task-list">
-    <div
-      v-for="(list, index) in taskList"
-      :data-id="index"
-      ref="taskList" 
-      class="user-task task-list__item"
-    >
-      <vue-draggable-resizable
-        v-for="sim in list"
-        :key="sim.id"
-        :w="sim.w"
-        :h="sim.h"
-        :x="sim.x"
-        :y="sim.y"
-        :item="sim"
-        :handles="['ml', 'mr']"
-        :grid="[147, 46]"
-        @dragstop="onDrag"
-        maximize
-      >
-        <div class="user-task__item" :style="`background: ${sim.bgc}`">{{sim.text}}</div>
-      </vue-draggable-resizable>
-    </div>
-  </div>
-</template>
-
-  data() {
-    return {
-      
-      taskList: [
-        [
-          { id: 1, x: 192, y: 0, w: 148, h: 46, bgc: 'rgb(33, 150, 243)', text: 'Задача 10' },
-          { id: 2, x: 0, y: 46, w: 148, h: 46, bgc: 'rgb(103, 58, 183)', text: 'Задача 20' }
-        ],
-        [
-          { id: 3, x: step * 4, y: 0, w: 148, h: 46, bgc: 'rgb(150, 252, 44)', text: 'Задача 30' },
-          { id: 4, x: 0, y: 46, w: 148, h: 46, bgc: 'rgb(253, 216, 53)', text: 'Задача 40' }
-        ],
-        [
-          { id: 5, x: step * 7, y: 0, w: 148, h: 46, bgc: 'rgb(244, 67, 54)', text: 'Задача 50' },
-          { id: 6, x: 0, y: 46, w: 148, h: 46, bgc: 'rgb(77, 208, 225)', text: 'Задача 60' }
-        ],      
-      ],
-      
-    }
-  },*/
 };
 </script>
 
@@ -460,6 +395,7 @@ export default {
     min-width: 20px;
     padding: 10px;
     position: relative;
+    border-radius: 10px;
     box-sizing: border-box;
     z-index: 1;
     cursor: pointer;
