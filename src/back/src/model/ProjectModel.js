@@ -6,7 +6,9 @@ class ProjectModel extends Model {
   constructor({ db }) {
     super({ db, collectionName: 'Projects' })
   }
-  
+
+
+  //Добавление участников в проект.
   async findOneAndUpdateUserInProject(id, userId) {
     console.log('findOneAndUpdateUserInProject', id, userId );
     const result = await this.db.get()
@@ -24,10 +26,10 @@ class ProjectModel extends Model {
       .catch(err => {
         console.log(err);
       });
-      //console.log(result);
     return result;
   }
-
+  
+ //Добавление задачи в проект.
   async findOneAndUpdateTaskInUsers(id , userId , taskId , x , y , w , h , rgb) {
     console.log('findOneAndUpdateTaskInUsers', id, userId , taskId);
     const result = await this.db.get()
@@ -53,13 +55,41 @@ class ProjectModel extends Model {
   }
 
 
+
+  async JoinProjectAndUser(filter , projection){
+    const result = await this.db.get()
+    .collection(this.collectionName)
+    .aggregate([
+      { "$unwind": "$users" },
+      {
+        $lookup:
+        {
+          from: "user",
+          localField: "userId",
+          foreignField: "_id",
+          as: "user"
+        }
+      },
+    ]).toArray();
+    console.log("Это агрегации", result)
+    const test = await this.find(filter, projection).toArray();
+    console.log("test", test);
+    return result || test;
+  }
+
+
+
+
+
+
+/* 
   async insertOneTask(ParseAnswerOnCommand) {
     const test = await this.db.get()
       .collection(this.collectionName)
       .insertOne(ParseAnswerOnCommand);
     return test;
   }
-
+*/
 }
 
 module.exports = ProjectModel;

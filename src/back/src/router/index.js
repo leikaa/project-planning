@@ -31,6 +31,7 @@ class Routes {
      //Отображение на экране 
     this.httpServer.get('/projects', async (_, res) => {
       const data = await this.projectController.getList();
+      //console.log("Данные с базы project" , data)
       res.send({
         status: 'ok',
         data,

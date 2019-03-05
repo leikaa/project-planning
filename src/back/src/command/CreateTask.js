@@ -22,7 +22,7 @@ class CreateTask {
       //console.log("Последняя добавленая задача" , answerOnCommand);
     
 
-      //Тут полученый массив превращаеться в обьект (Если нужен только _id нужно убрать цикл)
+    //Тут полученый массив превращаеться в обьект (Если нужен только _id нужно убрать цикл)
     const ParseAnswerOnCommand = answerOnCommand.reduce(function(obj , item){
       for(var i=0 ; i<10; i++){
         var key = Object.keys(item)[i];
@@ -61,12 +61,12 @@ class CreateTask {
 
     //console.log("Это _id таска", taskId);
     //console.log("Это _id таска", id);
-    console.log("Это rgb ", rgb);
+    //console.log("Это rgb ", rgb);
   
       
 
     const addTaskOnProject = await this.projectModel.findOneAndUpdateTaskInUsers(id , userId , taskId , x , y , w , h , rgb );
-      console.log(addTaskOnProject , "Ответ с model");
+      //console.log(addTaskOnProject , "Ответ с model");
     return true;
   }
 }

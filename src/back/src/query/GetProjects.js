@@ -6,10 +6,14 @@ class GetProjects {
     this.projectModel = projectModel;
   }
 
+ 
   async get(filter, projection) {
-    // console.log('get', filter, projection);
+    //console.log('get', filter, projection);
     const result = await this.projectModel.getList(filter, projection);
-    return result;
+    const res = await this.projectModel.JoinProjectAndUser();
+   // console.log('Это GetProjects result' , result)
+    console.log('Это GetProjects res' , res)
+    return  result ;
   }
 }
 
