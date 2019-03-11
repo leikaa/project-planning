@@ -77,6 +77,7 @@ export default {
     sendRequest() {
       this.$store.dispatch("loadProjects");
     },
+
     editItem() {
       this.modalTitle = 'Добавить участника в проект';
       this.modalSubmitButton = 'Добавить';
@@ -134,6 +135,10 @@ export default {
 
     items() {
       return this.$store.getters.projects;
+    },
+
+    joinProjects() {
+      return this.$store.getters.joinProjects;
     },
 
     currentProjectId() {

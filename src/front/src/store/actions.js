@@ -10,7 +10,12 @@ const loadStatus = ({ commit }) => {
 const loadProjects = ({ commit }) => {
   api.getData('get', 'projects/')
     .then(data => {
+       //console.log('data',data )
       commit('LOADED_PROJECTS', data);
+    })
+    api.getData('get', 'projects/join_users')
+    .then(data => {
+      commit('JOIN_USERS_TO_PROJECTS', data);
     });
 };
 
@@ -80,8 +85,6 @@ const saveUser = ({ commit }, data) => {
     .then(
       commit('SAVED_USER', data));
 };
-
-
 
 const addTaskToProject = ({ commit }, data) => {
   console.log('save', data);

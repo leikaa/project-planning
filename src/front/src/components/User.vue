@@ -85,11 +85,11 @@ export default {
 <template>
 <div class="users">
       <div
-        v-for="(item , num) in currentProjectUsers"
+        v-for="(item , num) in currentProjectJoinUsers"
         :key="num"
         class="user users__item user-task"
       >
-        <div class="user__name pi">{{ item.userId }}</div>
+        <div class="user__name pi">{{ item.name }}</div>
       </div>
       
        <div
@@ -147,18 +147,33 @@ export default {
  <script>
 export default {
   name: "User",
-  props: ["controls"],
   computed: {
-    showControls() {
-      return this.$props.controls && this.$props.controls.length;
+    currentProjectId() {
+      return this.$route.params.id;
     },
+    
     items() {
       return this.$store.getters.projects;
     },
 
-    currentProjectId() {
-      return this.$route.params.id;
+
+
+
+    joinProjects() {
+      return this.$store.getters.joinProjects;
     },
+
+   currentJoinProject() {
+      return this.joinProjects.find(joinProject => {
+        return joinProject._id === this.currentProjectId;
+      });
+    },
+
+    currentProjectJoinUsers() {
+      return (this.currentJoinProject && this.currentJoinProject.user) || [];
+    }, 
+
+    /*
     currentProject() {
       return this.items.find(item => {
         return item._id === this.currentProjectId;
@@ -166,7 +181,8 @@ export default {
     },
     currentProjectUsers() {
       return (this.currentProject && this.currentProject.users) || [];
-    }, 
+    },
+    */
   },
   methods: {
     emit(emit, item) {

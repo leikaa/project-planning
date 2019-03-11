@@ -29,6 +29,14 @@ export default {
   LOADED_PROJECTS(state, data) { 
     console.log('LOADED_PROJECTS', data);
     state.projects = data.map(elem => { 
+      //console.log('Переменная elem',elem)
+      return elem;
+    });
+  },
+
+  JOIN_USERS_TO_PROJECTS(state, data) { 
+    console.log('JOIN_USERS_TO_PROJECTS', data);
+    state.joinProjects = data.map(elem => { 
       return elem;
     });
   },

@@ -15,6 +15,11 @@ class GetProjects {
     console.log('Это GetProjects res' , res)
     return  result ;
   }
+
+  async JoinProject(){
+    const res = await this.projectModel.JoinProjectAndUser();
+    return res ;
+  }
 }
 
 module.exports = GetProjects;

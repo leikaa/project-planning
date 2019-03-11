@@ -19,6 +19,10 @@ class  ProjectController {
     return await this.getProjects.get();
   }
 
+  async JoinProjectAndUser() {
+    return await this.getProjects.JoinProject();
+  }
+
   async addUsers(id, userId) {
     console.log('addUser', id, userId);
     const test = await this.addUser.execute(id, userId);

@@ -32,6 +32,7 @@ export default {
     },
   },
   projects: [],
+  joinProjects: [],
   users: [],
   tasks:[],
   
