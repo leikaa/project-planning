@@ -15,7 +15,7 @@ const loadProjects = ({ commit }) => {
     })
     api.getData('get', 'projects/join_users')
     .then(data => {
-      commit('JOIN_USERS_TO_PROJECTS', data);
+      commit('JOINING_USERS_TO_PROJECTS', data);
     });
 };
 

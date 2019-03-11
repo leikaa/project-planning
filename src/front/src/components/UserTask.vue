@@ -48,7 +48,7 @@
                   ></v-text-field>
                   <v-select
                     v-model="selectedElement"
-                    :items="userOnProject"
+                    :items="currentProjectJoinUsers"
                     label="Выберите участника"
                     solo
                     item-text="name"
@@ -353,9 +353,25 @@ export default {
       return (this.currentProject && this.currentProject.users) || [];
     },
 
+/* На удаление в следующем коммите 
     userOnProject() {
       return (this.currentProject && this.currentProject.userId) || [];
     },
+*/
+
+    joinProjects() {
+      return this.$store.getters.joinProjects;
+    },
+
+    currentJoinProject() {
+      return this.joinProjects.find(joinProject => {
+        return joinProject._id === this.currentProjectId;
+      });
+    },
+
+    currentProjectJoinUsers() {
+      return (this.currentJoinProject && this.currentJoinProject.user) || [];
+    }, 
 
     tasks() {
       return this.$store.getters.tasks;

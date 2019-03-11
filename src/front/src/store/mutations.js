@@ -34,8 +34,8 @@ export default {
     });
   },
 
-  JOIN_USERS_TO_PROJECTS(state, data) { 
-    console.log('JOIN_USERS_TO_PROJECTS', data);
+  JOINING_USERS_TO_PROJECTS(state, data) { 
+    console.log('JOINING_USERS_TO_PROJECTS', data);
     state.joinProjects = data.map(elem => { 
       return elem;
     });

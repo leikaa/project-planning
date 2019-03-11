@@ -156,9 +156,6 @@ export default {
       return this.$store.getters.projects;
     },
 
-
-
-
     joinProjects() {
       return this.$store.getters.joinProjects;
     },
