@@ -17,6 +17,10 @@ const loadProjects = ({ commit }) => {
     .then(data => {
       commit('JOINING_USERS_TO_PROJECTS', data);
     });
+    api.getData('get', 'projects/join_task')
+    .then(data => {
+      commit('JOINING_USER_TASK_TO_PROJECTS', data);
+    });
 };
 
 const openProject = ({ commit }, id) => {

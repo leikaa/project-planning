@@ -36,7 +36,14 @@ export default {
 
   JOINING_USERS_TO_PROJECTS(state, data) { 
     console.log('JOINING_USERS_TO_PROJECTS', data);
-    state.joinProjects = data.map(elem => { 
+    state.joinUserOnProjects = data.map(elem => { 
+      return elem;
+    });
+  },
+
+  JOINING_USER_TASK_TO_PROJECTS(state, data) { 
+    console.log('JOINING_USER_TASK_TO_PROJECTS', data);
+    state.joinUserTaskToProjects = data.map(elem => { 
       return elem;
     });
   },

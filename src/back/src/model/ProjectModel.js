@@ -7,7 +7,6 @@ class ProjectModel extends Model {
     super({ db, collectionName: 'Projects' })
   }
 
-
   //Добавление участников в проект.
   async findOneAndUpdateUserInProject(id, userId) {
     console.log('findOneAndUpdateUserInProject', id, userId );
@@ -29,7 +28,7 @@ class ProjectModel extends Model {
     return result;
   }
   
- //Добавление задачи в проект.
+  //Добавление задачи в проект.
   async findOneAndUpdateTaskInUsers(id , userId , taskId , x , y , w , h , rgb) {
     console.log('findOneAndUpdateTaskInUsers', id, userId , taskId);
     const result = await this.db.get()
@@ -42,25 +41,19 @@ class ProjectModel extends Model {
         {
           $push: { 'users.$.task': { taskId: this.db.objectId(taskId) , x , y , w , h , rgb}}
         },
-      /*{
-          $addToSet: { userId: this.db.objectId(userId) } // $addToSet
-        },
-      */
       )
       .catch(err => {
         console.log(err);
       });
-      //console.log(result);
+      //console.log("Результат добавления задача в проект",result);
     return result;
   }
 
-
-
-  async JoinProjectAndUser(filter , projection){
+  async JoinningUsersToProjects(){
     const result = await this.db.get()
     .collection(this.collectionName)
     .aggregate([
-      { "$unwind": "$users" },
+      //{ "$unwind": "$users" },
       {
         $lookup:
         {
@@ -71,25 +64,27 @@ class ProjectModel extends Model {
         }
       },
     ]).toArray();
-    console.log("Это агрегации", result)
-    const test = await this.find(filter, projection).toArray();
-    console.log("test", test);
-    return result || test;
+     //console.log("Результат агрегации", result)
+    return result;
   }
 
-
-
-
-
-
-/* 
-  async insertOneTask(ParseAnswerOnCommand) {
-    const test = await this.db.get()
-      .collection(this.collectionName)
-      .insertOne(ParseAnswerOnCommand);
-    return test;
+  async JoiningUserTasksToProjects(){
+    const result = await this.db.get()
+    .collection(this.collectionName)
+    .aggregate([
+      {
+        $lookup:
+        {
+          from: "TaskList",
+          localField: "users.task.taskId",
+          foreignField: "_id",
+          as: "TaskList"
+        }
+      },
+    ]).toArray();
+     //console.log("Результат агрегации", result)
+    return result;
   }
-*/
 }
 
 module.exports = ProjectModel;

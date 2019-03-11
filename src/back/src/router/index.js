@@ -28,23 +28,17 @@ class Routes {
       res.status(200).send('OK');
     });
 
-     //Отображение на экране 
     this.httpServer.get('/projects', async (_, res) => {
       const data = await this.projectController.getList();
-      const dataJoin = await this.projectController.JoinProjectAndUser();
       //console.log("Данные с базы project" , data)
       res.send({
         status: 'ok',
         data,
-        dataJoin
       });
     }); 
-
-
-
 
     this.httpServer.get('/projects/join_users', async (_, res) => {
-      const data = await this.projectController.JoinProjectAndUser();
+      const data = await this.projectController.JoinningUsersToProjects();
       //console.log("Данные с базы project" , data)
       res.send({
         status: 'ok',
@@ -52,26 +46,21 @@ class Routes {
       });
     }); 
 
+    this.httpServer.get('/projects/join_task', async (_, res) => {
+      const data = await this.projectController.JoiningUserTasksToProjects();
+      //console.log("Данные с базы project" , data)
+      res.send({
+        status: 'ok',
+        data,
+      });
+    }); 
 
-
-
-
-
-
-
-
-
-
-
-    
    this.httpServer.post('/projects/:id/add_user/:userId', async(req, res) => {
       //console.log('router', req);
       const answer = await this.projectController.addUsers(req.params.id, req.params.userId);
       console.log('Ответ с controller' , answer)
       res.send({ status: 'ok' });
     });
-
-
 
     this.httpServer.delete('/projects/:id', async (req, res) => {
       const answer = await this.projectController.delete({

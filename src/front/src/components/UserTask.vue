@@ -359,12 +359,12 @@ export default {
     },
 */
 
-    joinProjects() {
-      return this.$store.getters.joinProjects;
+    joinUserOnProjects() {
+      return this.$store.getters.joinUserOnProjects;
     },
 
     currentJoinProject() {
-      return this.joinProjects.find(joinProject => {
+      return this.joinUserOnProjects.find(joinProject => {
         return joinProject._id === this.currentProjectId;
       });
     },

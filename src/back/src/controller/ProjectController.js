@@ -19,8 +19,12 @@ class  ProjectController {
     return await this.getProjects.get();
   }
 
-  async JoinProjectAndUser() {
-    return await this.getProjects.JoinProject();
+  async JoinningUsersToProjects() {
+    return await this.getProjects.JoinUser();
+  }
+
+  async JoiningUserTasksToProjects() {
+    return await this.getProjects.JoinTask();
   }
 
   async addUsers(id, userId) {

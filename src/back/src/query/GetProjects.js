@@ -10,15 +10,18 @@ class GetProjects {
   async get(filter, projection) {
     //console.log('get', filter, projection);
     const result = await this.projectModel.getList(filter, projection);
-    const res = await this.projectModel.JoinProjectAndUser();
-   // console.log('Это GetProjects result' , result)
-    console.log('Это GetProjects res' , res)
+    //console.log('Это GetProjects result' , result)
     return  result ;
   }
 
-  async JoinProject(){
-    const res = await this.projectModel.JoinProjectAndUser();
-    return res ;
+  async JoinUser(){
+    const result = await this.projectModel.JoinningUsersToProjects();
+    return result;
+  }
+
+  async JoinTask(){
+    const result = await this.projectModel.JoiningUserTasksToProjects();
+    return result;
   }
 }
 
