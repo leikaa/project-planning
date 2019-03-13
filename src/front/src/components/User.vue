@@ -156,12 +156,12 @@ export default {
       return this.$store.getters.projects;
     },
 
-    joinUserOnProjects() {
-      return this.$store.getters.joinUserOnProjects;
+    joinUserToProjects() {
+      return this.$store.getters.joinUserToProjects;
     },
 
    currentJoinProject() {
-      return this.joinUserOnProjects.find(item => {
+      return this.joinUserToProjects.find(item => {
         return item._id === this.currentProjectId;
       });
     },

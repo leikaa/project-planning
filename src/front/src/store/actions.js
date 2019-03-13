@@ -17,10 +17,10 @@ const loadProjects = ({ commit }) => {
     .then(data => {
       commit('JOINING_USERS_TO_PROJECTS', data);
     });
-    api.getData('get', 'projects/join_task')
+    /*api.getData('get', 'projects/join_task')
     .then(data => {
       commit('JOINING_USER_TASK_TO_PROJECTS', data);
-    });
+    });*/
 };
 
 const openProject = ({ commit }, id) => {
@@ -109,6 +109,17 @@ const addTask = ({ commit }, data) => {
   api.request('post',  `tasks/`, data)
     .then(
       commit('ADDED_TASK', data));
+
+    api.getData('get', 'projects/')
+      .then(data => {
+       //console.log('data',data )
+      commit('LOADED_PROJECTS', data);
+    });
+
+     api.getData('get', 'projects/join_users')
+      .then(data => {
+      commit('JOINING_USERS_TO_PROJECTS', data);
+    });
 };
 
 const deleteTask = ({ commit }, id) => {

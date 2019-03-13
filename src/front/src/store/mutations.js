@@ -36,17 +36,19 @@ export default {
 
   JOINING_USERS_TO_PROJECTS(state, data) { 
     console.log('JOINING_USERS_TO_PROJECTS', data);
-    state.joinUserOnProjects = data.map(elem => { 
+    state.joinUserToProjects = data.map(elem => { 
       return elem;
     });
   },
 
+  /* Обьеденен с JOINING_USERS_TO_PROJECTS
   JOINING_USER_TASK_TO_PROJECTS(state, data) { 
     console.log('JOINING_USER_TASK_TO_PROJECTS', data);
     state.joinUserTaskToProjects = data.map(elem => { 
       return elem;
     });
   },
+  */
 
   OPENED_PROJECT(state, data) {
     state.currentProject = data;

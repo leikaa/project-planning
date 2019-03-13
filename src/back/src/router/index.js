@@ -46,6 +46,7 @@ class Routes {
       });
     }); 
 
+    /* Был обьеденен с  join_users
     this.httpServer.get('/projects/join_task', async (_, res) => {
       const data = await this.projectController.JoiningUserTasksToProjects();
       //console.log("Данные с базы project" , data)
@@ -54,6 +55,7 @@ class Routes {
         data,
       });
     }); 
+    */
 
    this.httpServer.post('/projects/:id/add_user/:userId', async(req, res) => {
       //console.log('router', req);

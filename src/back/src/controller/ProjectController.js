@@ -22,16 +22,16 @@ class  ProjectController {
   async JoinningUsersToProjects() {
     return await this.getProjects.JoinUser();
   }
-
+/*
   async JoiningUserTasksToProjects() {
     return await this.getProjects.JoinTask();
   }
-
+*/
   async addUsers(id, userId) {
     console.log('addUser', id, userId);
-    const test = await this.addUser.execute(id, userId);
-    console.log('Ответ с commandAddUser',test)
-    return test
+    const addUsers = await this.addUser.execute(id, userId);
+    console.log('Ответ с commandAddUser', addUsers)
+    return addUsers;
   }
 
   async update(filter, update) {

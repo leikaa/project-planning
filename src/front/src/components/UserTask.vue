@@ -148,7 +148,7 @@ export default {
       selectedElement: "",
       editShowDialog: false,
       selectedTask: "",
-      userId: this.selectedElement,  //
+      userId: this.selectedElement,  
     };
   },
   methods: {
@@ -353,19 +353,16 @@ export default {
       return (this.currentProject && this.currentProject.users) || [];
     },
 
-/* На удаление в следующем коммите 
-    userOnProject() {
-      return (this.currentProject && this.currentProject.userId) || [];
-    },
-*/
 
-    joinUserOnProjects() {
-      return this.$store.getters.joinUserOnProjects;
+
+
+    joinUserToProjects() {
+      return this.$store.getters.joinUserToProjects;
     },
 
     currentJoinProject() {
-      return this.joinUserOnProjects.find(joinProject => {
-        return joinProject._id === this.currentProjectId;
+      return this.joinUserToProjects.find(item => {
+        return item._id === this.currentProjectId;
       });
     },
 
@@ -373,9 +370,38 @@ export default {
       return (this.currentJoinProject && this.currentJoinProject.user) || [];
     }, 
 
-    tasks() {
-      return this.$store.getters.tasks;
+
+
+
+    
+    /*
+    currentProjectJoinUsersTask() {
+      return (this.currentJoinProject && this.currentJoinProject.TaskList) || [];
+    }, 
+    */
+    
+
+
+
+
+/*
+   joinUserTaskToProjects() {
+      return this.$store.getters.joinUserTaskToProjects;
     },
+
+   currentJoinUserTaskToProjects() {
+      return this.joinUserTaskToProjects.find(item => {
+        return item._id === this.currentProjectId;
+      });
+    },
+
+    currentProjectTask() {
+      return (this.currentJoinUserTaskToProjects && this.currentJoinUserTaskToProjects.TaskList) || [];
+    }, 
+*/
+
+
+
   },
   
   created() {

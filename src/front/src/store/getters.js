@@ -10,10 +10,12 @@ export default {
   },
 
   
-  joinUserOnProjects(state) {
-    return state.joinUserOnProjects;
+  joinUserToProjects(state) {
+    return state.joinUserToProjects;
   },
+  /* Обьеденен с joinUserToProjects
   joinUserTaskToProjects(state) {
     return state.joinUserTaskToProjects;
   },
+  */
 };

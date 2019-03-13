@@ -35,8 +35,8 @@ export default {
   users:[],
   tasks:[],
   
-  joinUserOnProjects:[],
-  joinUserTaskToProjects:[],
+  joinUserToProjects:[],
+  //joinUserTaskToProjects:[],
   
   ui: {
     defaultPagination: [20, 50, { text: 'All', value: -1 }],

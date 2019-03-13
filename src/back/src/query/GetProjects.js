@@ -19,10 +19,12 @@ class GetProjects {
     return result;
   }
 
+  /*
   async JoinTask(){
     const result = await this.projectModel.JoiningUserTasksToProjects();
     return result;
   }
+  */
 }
 
 module.exports = GetProjects;

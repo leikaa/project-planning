@@ -63,11 +63,22 @@ class ProjectModel extends Model {
           as: "user"
         }
       },
+      {
+        $lookup:
+        {
+          from: "TaskList",
+          localField: "users.task.taskId",
+          foreignField: "_id",
+          as: "TaskList"
+        }
+      },
     ]).toArray();
      //console.log("Результат агрегации", result)
     return result;
   }
 
+
+  /* Обьеденен с JoinningUsersToProjects
   async JoiningUserTasksToProjects(){
     const result = await this.db.get()
     .collection(this.collectionName)
@@ -85,6 +96,7 @@ class ProjectModel extends Model {
      //console.log("Результат агрегации", result)
     return result;
   }
+  */
 }
 
 module.exports = ProjectModel;
