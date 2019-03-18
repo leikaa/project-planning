@@ -64,8 +64,7 @@ class CreateTask {
     //console.log("Это rgb ", rgb);
   
       
-
-    const addTaskOnProject = await this.projectModel.findOneAndUpdateTaskInUsers(id , userId , taskId , x , y , w , h , rgb );
+    const addTaskOnProject = await this.projectModel.findOneAndUpdateTaskInUsers(id , userId , taskId );
       //console.log(addTaskOnProject , "Ответ с model");
     return true;
   }

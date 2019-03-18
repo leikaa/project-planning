@@ -18,13 +18,6 @@ class GetProjects {
     const result = await this.projectModel.JoinningUsersToProjects();
     return result;
   }
-
-  /*
-  async JoinTask(){
-    const result = await this.projectModel.JoiningUserTasksToProjects();
-    return result;
-  }
-  */
 }
 
 module.exports = GetProjects;

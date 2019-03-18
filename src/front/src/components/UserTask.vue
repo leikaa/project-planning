@@ -2,7 +2,7 @@
   <div>
     <div class="task-list">
       <div
-        v-for="(list, index) in currentProjectUsers"
+        v-for="(list, index) in currentJoinProject.users"
         :key="index"
         :data-id="index"
         ref="currentProjectUsers"
@@ -369,6 +369,8 @@ export default {
     currentProjectJoinUsers() {
       return (this.currentJoinProject && this.currentJoinProject.user) || [];
     }, 
+
+
 
 
 
