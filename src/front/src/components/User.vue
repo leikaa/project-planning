@@ -85,11 +85,11 @@ export default {
 <template>
 <div class="users">
       <div
-        v-for="(item , num) in currentProjectUsers"
+        v-for="(item , num) in currentProjectJoinUsers"
         :key="num"
         class="user users__item user-task"
       >
-        <div class="user__name pi">{{ item }}</div>
+        <div class="user__name pi">{{ item.name }}</div>
       </div>
       
        <div
@@ -146,18 +146,30 @@ export default {
  <script>
 export default {
   name: "User",
-  props: ["controls"],
   computed: {
-    showControls() {
-      return this.$props.controls && this.$props.controls.length;
+    currentProjectId() {
+      return this.$route.params.id;
     },
+    
     items() {
       return this.$store.getters.projects;
     },
 
-    currentProjectId() {
-      return this.$route.params.id;
+    joinUserToProjects() {
+      return this.$store.getters.joinUserToProjects;
     },
+
+   currentJoinProject() {
+      return this.joinUserToProjects.find(item => {
+        return item._id === this.currentProjectId;
+      });
+    },
+
+    currentProjectJoinUsers() {
+      return (this.currentJoinProject && this.currentJoinProject.user) || [];
+    }, 
+
+    /*
     currentProject() {
       return this.items.find(item => {
         return item._id === this.currentProjectId;
@@ -165,7 +177,8 @@ export default {
     },
     currentProjectUsers() {
       return (this.currentProject && this.currentProject.users) || [];
-    }, 
+    },
+    */
   },
   methods: {
     emit(emit, item) {
@@ -206,9 +219,5 @@ export default {
     justify-content: center;
     margin: 0 auto;
   }
-}
-.elem{
-  display: flex;  
-  justify-content: center;
 }
 </style>

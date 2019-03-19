@@ -3,13 +3,11 @@
 class  UserController {
   constructor({
     getUsers,
-    getUser,
     updateUser,
     createUser,
     deleteUser,
   }) {
     this.getUsers = getUsers;
-    this.getUser = getUser;
     this.updateUser = updateUser;
     this.createUser = createUser;
     this.deleteUser = deleteUser;
@@ -17,11 +15,6 @@ class  UserController {
 
   async getList() {
     return await this.getUsers.get();
-  }
-
-  async get(params) {
-    console.log('getUser', params);
-    return await this.getUser.get(params);
   }
 
   async update(filter, update) {

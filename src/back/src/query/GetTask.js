@@ -6,9 +6,9 @@ class GetTask {
     this.taskModel = taskModel;
   }
 
-  async get(params) {
-    // console.log('GetTask', params);
-    const result = await this.taskModel.getObject(params);
+  async get(filter, projection) {
+    // console.log('get', filter, projection);
+    const result = await this.taskModel.getList(filter, projection);
     return result;
   }
 }

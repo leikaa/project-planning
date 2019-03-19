@@ -52,6 +52,7 @@
 
 <script>
 import DataUser from '../components/DataUser'; 
+import moment from 'moment';
 export default {
   name: "Project",
   data() {
@@ -79,22 +80,22 @@ export default {
       this.modalSubmitButton = "Добавить";
       this.modalAction = "Add";
       this.name = "";
-      this.Date = new Date();
+      this.Date = moment().format('MMMM Do YYYY, HH:mm:ss ');
       this.disableInput = false;
       this.showDialog = true;
     },
     editItem(item) {
-      this.modalTitle = 'Редактировать информацию об участнике';
+      this.modalTitle = 'Редактировать информацию о проекте';
       this.modalSubmitButton = 'Сохранить';
       this.modalAction = 'Edit';
       this.id = item._id;
       this.name = item.name;
-      this.Date = new Date();
+      this.Date = moment().format('MMMM Do YYYY, HH:mm:ss ');
       this.disableInput = false;
       this.showDialog = true;
     },
     deleteItem(item) {
-      this.modalTitle = 'Удалить участника';
+      this.modalTitle = 'Удалить проект';
       this.modalSubmitButton = 'Удалить';
       this.modalAction = 'Delete';
       this.id = item._id;

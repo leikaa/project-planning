@@ -31,9 +31,12 @@ export default {
       queues: [],
     },
   },
-  projects: [],
-  users: [],
+  projects:[],
+  users:[],
   tasks:[],
+  
+  joinUserToProjects:[],
+  //joinUserTaskToProjects:[],
   
   ui: {
     defaultPagination: [20, 50, { text: 'All', value: -1 }],

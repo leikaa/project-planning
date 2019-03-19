@@ -1,4 +1,5 @@
 'use strict';
+//Отправляет данные с клиента на сервер.
 
 const bodyParser = require('body-parser');
 
@@ -27,28 +28,28 @@ class Routes {
       res.status(200).send('OK');
     });
 
-    this.httpServer.get('/projects/:id', async (req, res) => {
-      const data = await this.projectController.get({
-        '_id': req.params.id
-      });
-      res.send({
-        status: 'ok',
-        data
-      });
-    });
-
-     //Отображение на экране 
     this.httpServer.get('/projects', async (_, res) => {
       const data = await this.projectController.getList();
+      //console.log("Данные с базы project" , data)
       res.send({
         status: 'ok',
         data,
       });
     }); 
-    
+
+    this.httpServer.get('/projects/join_users', async (_, res) => {
+      const data = await this.projectController.JoinningUsersToProjects();
+      //console.log("Данные с базы project" , data)
+      res.send({
+        status: 'ok',
+        data,
+      });
+    }); 
+
    this.httpServer.post('/projects/:id/add_user/:userId', async(req, res) => {
-     //console.log('router', req);
-      const _ = await this.projectController.addUsers(req.params.id, req.params.userId);
+      //console.log('router', req);
+      const answer = await this.projectController.addUsers(req.params.id, req.params.userId);
+      console.log('Ответ с controller' , answer)
       res.send({ status: 'ok' });
     });
 
@@ -61,19 +62,19 @@ class Routes {
 
 
     this.httpServer.delete('/projects/:id', async (req, res) => {
-      const _ = await this.projectController.delete({
+      const answer = await this.projectController.delete({
         '_id': req.params.id
       });
       res.send({ status: 'ok' });
     });
 
     this.httpServer.post('/projects', bodyParser.json(), async (req, res) => {
-      const _ = await this.projectController.create(req.body);
+      const answer = await this.projectController.create(req.body);
       res.send({ status: 'ok' });
     });
 
     this.httpServer.post('/projects/:id', bodyParser.json(), async(req, res) => {
-      const _ = await this.projectController.update({
+      const answer = await this.projectController.update({
         '_id': req.params.id
       }, req.body);
       res.send({ status: 'ok' });
@@ -88,21 +89,21 @@ class Routes {
     }); 
 
     this.httpServer.post('/users/:id', bodyParser.json(), async(req, res) => {
-      const _ = await this.userController.update({
+      const answer = await this.userController.update({
         '_id': req.params.id
       }, req.body);
       res.send({ status: 'ok' });
     });
 
     this.httpServer.delete('/users/:id', async (req, res) => {
-      const _ = await this.userController.delete({
+      const answer = await this.userController.delete({
         '_id': req.params.id
       });
       res.send({ status: 'ok' });
     });
 
     this.httpServer.post('/users', bodyParser.json(), async (req, res) => {
-      const _ = await this.userController.create(req.body);
+      const answer = await this.userController.create(req.body);
       res.send({ status: 'ok' });
     });
 
@@ -112,24 +113,28 @@ class Routes {
         status: 'ok',
         data,
       });
+        //console.log(data, "Массив полученых обьектов");
     }); 
 
     this.httpServer.post('/tasks/:id', bodyParser.json(), async(req, res) => {
-      const _ = await this.taskController.update({
+      const answer = await this.taskController.update({
         '_id': req.params.id
       }, req.body);
       res.send({ status: 'ok' });
     });
 
     this.httpServer.delete('/tasks/:id', async (req, res) => {
-      const _ = await this.taskController.delete({
+      const answer = await this.taskController.delete({
         '_id': req.params.id
       });
       res.send({ status: 'ok' });
     });
 
     this.httpServer.post('/tasks', bodyParser.json(), async (req, res) => {
-      const _ = await this.taskController.create(req.body);
+      const answer = await this.taskController.create(req.body);
+      if(answer == true){
+        console.log('Ты получил положительный ответ от controller');
+      }
       res.send({ status: 'ok' });
     });
 

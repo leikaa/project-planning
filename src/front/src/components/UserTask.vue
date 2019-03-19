@@ -2,16 +2,16 @@
   <div>
     <div class="task-list">
       <div
-        v-for="(item, index) in currentProjectUsers"
+        v-for="(list, index) in currentJoinProject.users"
         :key="index"
         :data-id="index"
-        ref="currentProject"
+        ref="currentProjectUsers"
         class="pole user-task task-list__item"
-        @click="editItem"
+        @dblclick="editItem"
       >
         <vue-draggable-resizable
-          v-for="item in items"
-          :key="item.id"
+          v-for="item in list.task" 
+          :key="item.taskId"
           :w="item.w"
           :h="item.h"
           :x="item.x"
@@ -22,7 +22,9 @@
           @dragstop="onDrag"
           maximize
         >
-          <div class="user-task__item" :style="`background: ${item.bgc}`">{{item.text}}</div>
+          <div class="user-task__item" :style="`background: ${item.rgb}`">
+             <div class="task-text">{{item.name}}</div>
+          </div>
         </vue-draggable-resizable>
       </div>
 <!-- Добавление задач  -->
@@ -48,7 +50,7 @@
                   ></v-text-field>
                   <v-select
                     v-model="selectedElement"
-                    :items="userOnProject"
+                    :items="currentProjectJoinUsers"
                     label="Выберите участника"
                     solo
                     item-text="name"
@@ -72,7 +74,9 @@
         </v-layout>
       </v-card>
  <!-- -->
-<!-- Сохранение задачи 
+
+
+ 
  <v-card>
       <v-layout row align-end>
         <v-dialog v-model="editShowDialog" width="500">
@@ -80,14 +84,12 @@
             <v-card-title class="headline grey lighten-2" primary-title>{{ modalTitle }}</v-card-title>
             <v-card-text>
               <v-form v-model="formValid">
-                <v-select
-                  v-model="selectedTask"
-                  :items="tasks"
-                  label="Выберите задачу"
-                  solo
-                  item-text="name"
-                  item-value="_id"
-                ></v-select>
+                 <v-text-field
+                    v-model="userId" 
+                    label="ID для проверки работы"
+                    :disabled="disableInput"
+                    required
+                  ></v-text-field>
               </v-form>
             </v-card-text>
             <v-divider></v-divider>
@@ -105,7 +107,12 @@
         </v-dialog>
       </v-layout>
     </v-card>
- -->
+
+
+
+
+
+
     </div>
     <div class="button_create_task">
       <v-btn slot="activator" 
@@ -118,8 +125,11 @@
   </div>
 </template>
 
+
 <script>
 import VueDraggableResizable from "./vue-drag/index.js";
+import moment from 'moment';  
+
 let step = 21;
 export default {
   name: "UserTask",
@@ -140,40 +150,59 @@ export default {
       selectedElement: "",
       editShowDialog: false,
       selectedTask: "",
+      userId: this.selectedElement,  
     };
   },
   methods: {
     sendRequestProject() {
       this.$store.dispatch("loadProjects");
     },
+
     sendRequestUser() {
       this.$store.dispatch("loadUsers");
     },
+
     sendRequestTask() {
       this.$store.dispatch("loadTasks");
     },
+
     addItem() {
       this.modalTitle = "Добавить новую задачу";
       this.modalSubmitButton = "Добавить";
       this.modalAction = "Add";
-      this.name = "";
-      this.description = "";
       this.projectId = "currentProjectId";
       this.userId = this.selectedElement;
+      this.x = 0;
+      this.y = 46;
+      this.w = 21;
+      this.h = 46;
+      this.rgb = 'rgb(244,67,54)'
+      this.description = "";
+      this.name = '';
+      this.date = moment().format('MMMM Do YYYY, HH:mm:ss ');
       this.disableInput = false;
       this.showDialog = true;
     },
-
 
     editItem(item) {
       this.modalTitle = 'Сохранить информацию о задаче';
       this.modalSubmitButton = 'Сохранить';
       this.modalAction = 'Edit';
-      this.taskId = this.selectedTask;
-      this.id = this.currentProjectId;
+      //this.taskId = item.index;
+      //this.projectId = this.currentProjectId;
+      //this.userId = this.selectedElement;
+      //this.name = item.name;
+      //this.description = item.description;
+      this.x = this.left,
+      this.y = this.top;
+      this.w = this.widtg;
+      this.h = this.height;
+      this.rgb = 'rgb(0,205,205)'
+      this.date = moment().format('MMMM Do YYYY, HH:mm:ss ');
       this.disableInput = false;
       this.editShowDialog = true;
     },
+
     confirmModalAction() {
       const action = this.modalAction;
       switch (action) {
@@ -187,6 +216,7 @@ export default {
           break;
       }
     },
+
     addTask() {
       console.log(
         "задача добавлена",
@@ -194,12 +224,19 @@ export default {
         this.description,
         this.projectId,
         this.userId,
+        this.date,
       );
       this.$store.dispatch("addTask", {
-        name: this.name,
-        description: this.description,
         projectId: this.currentProjectId,
-        userId: this.selectedElement
+        userId: this.selectedElement,
+        x: this.x,
+        y: this.y,
+        w: this.w,
+        h: this.h,
+        rgb: this.rgb,
+        description: this.description,
+        name: this.name,
+        date: this.date,
       });
       this.showDialog = false;
       this.sendRequestTask();
@@ -207,15 +244,20 @@ export default {
 
     saveProject() {
       console.log('Проект сохранен', this.taskId, this.id );
-      this.$store.dispatch('addTaskToProject', {
-         taskId: this.selectedTask, 
+      this.$store.dispatch('saveTask', {
+         taskId: this.taskId, 
          id: this.currentProjectId,
+         //name: this.name,
+         x: this.left,
+         y: this.top,
+         w: this.widtg,
+         h: this.height,
+         rgb: this.rgb,
+         date: this.date,
          });  
       this.editShowDialog = false;
-      this.sendRequestProject();
+      this.sendRequestTask();
     },
-
-
 
     onDrag(x, y, item, task) {
       let allTaskListCoords = this.getCoordsTaskList();
@@ -230,7 +272,7 @@ export default {
     getCoordsTaskList() {
       let coords = [];
 
-      this.$refs.taskList.forEach(taskDiv => {
+      this.$refs.currentProjectUsers.forEach(taskDiv => {
         let taskDivCoords = taskDiv.getBoundingClientRect();
         coords.push({
           id: taskDiv.dataset.id,
@@ -276,8 +318,8 @@ export default {
       item.y = Math.abs(taskListCoords[nearTaskListIndex].y - taskCoords.top);
       console.log(item.y);
 
-      this.taskList.forEach((list, listIndex) => {
-        list.forEach((task, taskIndex) => {
+      this.currentProjectUsers.forEach((list, listIndex) => {
+        list.task.forEach((task, taskIndex) => {
           if (task.id == item.id && listIndex != nearTaskListIndex) {
             this.taskList[listIndex].splice(taskIndex, 1);
             this.taskList[nearTaskListIndex].push(item);
@@ -313,9 +355,77 @@ export default {
       return (this.currentProject && this.currentProject.users) || [];
     },
 
-    userOnProject() {
-      return (this.currentProject && this.currentProject.userId) || [];
-    }
+    joinUserToProjects() {
+      return this.$store.getters.joinUserToProjects;
+    },
+
+    currentJoinProject() {
+      return this.joinUserToProjects.find(item => {
+        return item._id === this.currentProjectId;
+      });
+    },
+
+    currentProjectJoinUsers() {
+      return (this.currentJoinProject && this.currentJoinProject.user) || [];
+    }, 
+
+
+    
+
+    currentTask() {
+      return this.joinUserToProjects.find(item => {
+        return item._id === this.currentProjectId;
+      });
+    },
+
+    currentProjectTask() {
+      return (this.currentTask && this.currentTask.TaskList) || [];
+    }, 
+   
+
+
+
+    currentProjectTask() {
+      return this.joinUserToProjects.find(item => {
+        return item._id === this.currentProjectId;
+      });
+    },
+
+    currentProjectTaskList() {
+      return (this.currentProjectTask && this.currentProjectTask.TaskList) || [];
+    }, 
+
+
+
+    
+    /*
+    currentProjectJoinUsersTask() {
+      return (this.currentJoinProject && this.currentJoinProject.TaskList) || [];
+    }, 
+    */
+    
+
+
+
+
+/*
+   joinUserTaskToProjects() {
+      return this.$store.getters.joinUserTaskToProjects;
+    },
+
+   currentJoinUserTaskToProjects() {
+      return this.joinUserTaskToProjects.find(item => {
+        return item._id === this.currentProjectId;
+      });
+    },
+
+    currentProjectTask() {
+      return (this.currentJoinUserTaskToProjects && this.currentJoinUserTaskToProjects.TaskList) || [];
+    }, 
+*/
+
+
+
   },
   
   created() {
@@ -323,28 +433,6 @@ export default {
     this.sendRequestUser();
     this.sendRequestTask();
   }
-
-  /*
-  data() {
-    return {
-      
-      taskList: [
-        [
-          { id: 1, x: 192, y: 0, w: 148, h: 46, bgc: 'rgb(33, 150, 243)', text: 'Задача 10' },
-          { id: 2, x: 0, y: 46, w: 148, h: 46, bgc: 'rgb(103, 58, 183)', text: 'Задача 20' }
-        ],
-        [
-          { id: 3, x: step * 4, y: 0, w: 148, h: 46, bgc: 'rgb(150, 252, 44)', text: 'Задача 30' },
-          { id: 4, x: 0, y: 46, w: 148, h: 46, bgc: 'rgb(253, 216, 53)', text: 'Задача 40' }
-        ],
-        [
-          { id: 5, x: step * 7, y: 0, w: 148, h: 46, bgc: 'rgb(244, 67, 54)', text: 'Задача 50' },
-          { id: 6, x: 0, y: 46, w: 148, h: 46, bgc: 'rgb(77, 208, 225)', text: 'Задача 60' }
-        ],      
-      ],
-      
-    }
-  },*/
 };
 </script>
 
@@ -373,6 +461,7 @@ export default {
     min-width: 20px;
     padding: 10px;
     position: relative;
+    border-radius: 10px;
     box-sizing: border-box;
     z-index: 1;
     cursor: pointer;
@@ -387,5 +476,10 @@ export default {
   bottom: 0;
   z-index: 11;
   justify-content: center;
+}
+.task-text{
+  display: flex;
+  overflow: hidden;
+  white-space: nowrap;
 }
 </style>
