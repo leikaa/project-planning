@@ -31,24 +31,23 @@ export default {
   name: "User",
   props: ["items","controls"],
   computed: {
-    currentProjectId() {
-      return this.$route.params.id;
-    },
+    // currentProjectId() {
+    //   return this.$route.params.id;
+    // },
     
-    joinUserToProjects() {
-      return this.$store.getters.joinUserToProjects;
-    },
+    // joinUserToProjects() {
+    //   return this.$store.getters.joinUserToProjects;
+    // },
 
-    currentJoinProject() {
-      return this.joinUserToProjects.find(item => {
-        return item._id === this.currentProjectId;
-      });
-    },
+    // currentJoinProject() {
+    //   return this.joinUserToProjects.find(item => {
+    //     return item._id === this.currentProjectId;
+    //   });
+    // },
 
-    currentProjectJoinUsers() {
-      return (this.currentJoinProject && this.currentJoinProject.user) || [];
-    },
-
+    // currentProjectJoinUsers() {
+    //   return (this.currentJoinProject && this.currentJoinProject.user) || [];
+    // },
   },
   methods: {
     emit(emit, item) {

@@ -78,7 +78,7 @@
         </v-layout>
       </v-card>
     <user
-      :items="currentProjectUsers"
+      :items="currentProjectJoinUsers"
       :controls="controls"
       @deleteItem="deleteItem"
     />
@@ -129,7 +129,7 @@ export default {
       this.modalTitle = 'Удалить участника из проекта';
       this.modalSubmitButton = 'Удалить';
       this.modalAction = 'Delete';
-      this.id = item._id;
+      this.userId = item._id;
       this.name = item.name;
       this.disableInput = true;
       this.UsersDialog = true;
@@ -161,9 +161,8 @@ export default {
     },
 
     deleteUserOnProject() {
-      console.log('Участник удалён', this.userId, this.id);
+      console.log('Участник удалён', this.userId);
       this.$store.dispatch('deleteUserOnProject', {
-         id: this.currentProjectId,
          userId: item._id,
         });
       this.showDialog = false;
@@ -201,21 +200,19 @@ export default {
       return (this.currentProject && this.currentProject.userId) || [];
     },
 
-    
+    joinUserToProjects() {
+      return this.$store.getters.joinUserToProjects;
+    },
 
-    // joinUserToProjects() {
-    //   return this.$store.getters.joinUserToProjects;
-    // },
+    currentJoinProject() {
+      return this.joinUserToProjects.find(item => {
+        return item._id === this.currentProjectId;
+      });
+    },
 
-    // currentJoinProject() {
-    //   return this.joinUserToProjects.find(item => {
-    //     return item._id === this.currentProjectId;
-    //   });
-    // },
-
-    // currentProjectJoinUsers() {
-    //   return (this.currentJoinProject && this.currentJoinProject.user) || [];
-    // },
+    currentProjectJoinUsers() {
+      return (this.currentJoinProject && this.currentJoinProject.user) || [];
+    },
   },
   created() {
     this.sendRequest();
