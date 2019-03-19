@@ -27,6 +27,8 @@ export default {
   },
 }
 </script>
+
+
 <style lang="scss">
 .backlog{
   position: sticky;

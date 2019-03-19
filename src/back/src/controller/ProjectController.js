@@ -33,7 +33,7 @@ class  ProjectController {
   }
 
   async delUsers(id, userId) {
-    //console.log('addUser', id, userId);
+    console.log('delUsers', id, userId);
     return await this.delUser.execute(id, userId);
   }
 

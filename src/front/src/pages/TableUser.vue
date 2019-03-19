@@ -67,9 +67,9 @@
           </v-btn>
         </v-flex>
       </v-layout>
-      <data-table
+      <table-system-members
       :headers="headers"
-      :items="Items"
+      :items="users"
       :loading="false"
       v-if="isShow"
       :transforms="transforms"
@@ -85,8 +85,7 @@
 </template>
 
 <script>
-/* eslint no-underscore-dangle: ["error",{"allow":["_id"]}] */
-import DataTable from '../components/DataTable';
+import TableSystemMembers from '../components/TableSystemMembers';
 import moment from 'moment'; 
 export default {
   name: 'User',
@@ -106,7 +105,7 @@ export default {
     };
   },
   components: {
-    DataTable,
+    TableSystemMembers,
   },
   methods: {
     sendRequest() {
@@ -135,12 +134,13 @@ export default {
       this.disableInput = false;
       this.showDialog = true;
     },
-    deleteItem(Item) {
+    deleteItem(item) {
+      console.log("Я тут",item)
       this.modalTitle = 'Удалить участника';
       this.modalSubmitButton = 'Удалить';
       this.modalAction = 'Delete';
-      this.id = Item._id;
-      this.name = Item.name;
+      this.id = item._id;
+      this.name = item.name;
       this.disableInput = true;
       this.showDialog = true;
     },
@@ -186,7 +186,7 @@ export default {
     isShow() {
       return true;
     },
-    Items() {
+    users() {
       return this.$store.getters.users;
     },
     projects() {
@@ -196,12 +196,9 @@ export default {
       return this.$store.getters.users;
     },
     headers() {
-      return [{ text: 'Участники', value: 'name' }]; // Добавление в шапку таблицы.
+      return [{ text: 'Участники', value: 'name' }];
     },
-    /**
-     * преобразует значение по ключу заголовка (headers)
-     * @example headerKey: function(value) { return transform (value); }
-     */
+    
     transforms() {
       return {
         updateAt(value) {

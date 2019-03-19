@@ -43,9 +43,7 @@
         </v-dialog>
       </v-layout>
     </v-card>
-
-
-
+<!--Удаление пользователя-->
 <v-card>
         <v-layout row align-end>
           <v-dialog v-model="UsersDialog" width="500">
@@ -53,14 +51,15 @@
               <v-card-title class="headline grey lighten-2" primary-title>{{ modalTitle }}</v-card-title>
               <v-card-text>
                  <v-form v-model="DelUser">
-                  <v-select
-                    v-model="selectedElement"
+                  <v-text-field
+                    v-model="name"
                     :items="userOnProject"
+                    :disabled="disableInput"
                     label="Выберите участника"
                     solo
                     item-text="name"
                     item-value="_id"
-                  ></v-select>
+                  ></v-text-field>
                 </v-form>
               </v-card-text>
               <v-divider></v-divider>
@@ -78,18 +77,6 @@
           </v-dialog>
         </v-layout>
       </v-card>
-
-
-
-
-
-
-
-
-
-
-
-
     <user
       :items="currentProjectUsers"
       :controls="controls"
@@ -111,6 +98,7 @@ export default {
       disableInput: false,
       modalTitle: "Добавить нового участника в проект",
       modalSubmitButton: "Сохранить",
+      name: "",
       selectedElement: "",
     };
   },
@@ -138,11 +126,11 @@ export default {
     },
 
     deleteItem(item) {
-      this.modalTitle = 'Удалить участника';
+      this.modalTitle = 'Удалить участника из проекта';
       this.modalSubmitButton = 'Удалить';
       this.modalAction = 'Delete';
-      this.userId = this.selectedUser;
-      this.id = this.currentProjectId;
+      this.id = item._id;
+      this.name = item.name;
       this.disableInput = true;
       this.UsersDialog = true;
     },
@@ -161,6 +149,7 @@ export default {
           break;
       }
     },
+
     saveProject() {
       console.log("Участник сохранен", this.userId, this.id);
       this.$store.dispatch("addUserToProject", {
@@ -171,18 +160,21 @@ export default {
       this.sendRequest();
     },
 
-
     deleteUserOnProject() {
       console.log('Участник удалён', this.userId, this.id);
       this.$store.dispatch('deleteUserOnProject', {
          id: this.currentProjectId,
-         userId: this.selectedUser,
+         userId: item._id,
         });
       this.showDialog = false;
       this.sendRequest();
     },
   },
   computed: {
+    controls() {
+    return this.$store.state.ui.DelUserControls;
+    },
+    
     elements() {
       return this.$store.getters.users;
     },
@@ -190,8 +182,6 @@ export default {
     items() {
       return this.$store.getters.projects;
     },
-
-   
 
     currentProjectId() {
       return this.$route.params.id;
@@ -203,17 +193,29 @@ export default {
       });
     },
 
-    controls() {
-    return this.$store.state.ui.DelUserControls;
-    },
-
     currentProjectUsers() {
       return (this.currentProject && this.currentProject.users) || [];
     }, 
 
     userOnProject() {
       return (this.currentProject && this.currentProject.userId) || [];
-    }
+    },
+
+    
+
+    // joinUserToProjects() {
+    //   return this.$store.getters.joinUserToProjects;
+    // },
+
+    // currentJoinProject() {
+    //   return this.joinUserToProjects.find(item => {
+    //     return item._id === this.currentProjectId;
+    //   });
+    // },
+
+    // currentProjectJoinUsers() {
+    //   return (this.currentJoinProject && this.currentJoinProject.user) || [];
+    // },
   },
   created() {
     this.sendRequest();

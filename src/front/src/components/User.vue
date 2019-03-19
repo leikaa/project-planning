@@ -1,130 +1,15 @@
-<!--
-<template>
-<div class="users">
-      <div
-        v-for="(item , index) in currentProjectUsers"
-        :key="index"
-        class="user users__item user-task"
-      >
-        <div class="user__name pi">{{ item }}</div>
-      </div>
-    </div>
-</template>
-
-<script>
-export default {
-  name: "User",
-  methods: {
-    sendRequest() {
-      this.$store.dispatch("loadProjects");
-    },
-    sendReques() {
-      this.$store.dispatch("loadUsers");
-    },
-  },
-  computed: {
-    items() {
-      return this.$store.getters.projects;
-    },
-    elements() {
-      return this.$store.getters.users;
-    },
-  
-    currentProjectId() {
-      return this.$route.params.id;
-    },
-    currentProject() {
-      return this.items.find(item => {
-        return item._id === this.currentProjectId;
-      });
-    },
-    currentProjectUsers() {
-      return (this.currentProject && this.currentProject.users) || [];
-    }, 
-  },
-  created() {
-    this.sendRequest();
-    this.sendReques();
-  }
-};
-</script>
-
-<style lang="scss">
-.users {
-  width: 54px;
-  z-index: 10;
-  background: #fff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
-  position: sticky;
-  left: 0;
-  top: 0;
-  padding-top: 52px;
-  &__item {
-    min-height: 92px;
-    margin-bottom: 46px;
-  }
-}
-.user {
-  &__name {
-    width: 40px;
-    height: 40px;
-    border-radius: 40px;
-    background: #ccc;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto;
-  }
-}
-</style>
--->
-
-
-
-<!--
-<template>
-<div class="users">
-      <div
-        v-for="(item , num) in currentProjectJoinUsers"
-        :key="num"
-        class="user users__item user-task"
-      >
-        <div class="user__name pi">{{ item.name }}</div>
-      </div>
-      
-       <div
-          slot="item" 
-          slot-scope="props" 
-        >
-        <div class="elem">
-          <v-btn
-          class="mx-0"
-          icon
-          @click="emit(control.emit, props.item)"
-          v-for="(control, controlIndex) in controls"
-          :key="props.index + '_' + controlIndex"
-        >
-          <v-icon :color="control.color">{{ control.icon }}</v-icon>
-        </v-btn>
-          </div>
-        </div>
-    </div>
-</template>
--->
-
-
 <template>
 <div class="users">
     <v-data-iterator 
-         :items="currentProjectUsers"  
+         :items="items"  
          hide-actions >
         <div
           class="user users__item user-task"
           slot="item" 
           slot-scope="props" 
         >
-          <div class="user__name pi">{{ currentProjectUsers}}</div>
-        <div class="elem">
+          <div class="user__name pi">{{props.item.name }}</div>
+        <div class="el">
           <v-btn
           class="mx-0"
           icon
@@ -140,26 +25,21 @@ export default {
 </div>
 </template>
 
- 
 
- 
- <script>
+<script>
 export default {
   name: "User",
+  props: ["items","controls"],
   computed: {
     currentProjectId() {
       return this.$route.params.id;
     },
     
-    items() {
-      return this.$store.getters.projects;
-    },
-
     joinUserToProjects() {
       return this.$store.getters.joinUserToProjects;
     },
 
-   currentJoinProject() {
+    currentJoinProject() {
       return this.joinUserToProjects.find(item => {
         return item._id === this.currentProjectId;
       });
@@ -167,27 +47,14 @@ export default {
 
     currentProjectJoinUsers() {
       return (this.currentJoinProject && this.currentJoinProject.user) || [];
-    }, 
+    },
 
-    /*
-    currentProject() {
-      return this.items.find(item => {
-        return item._id === this.currentProjectId;
-      });
-    },
-    currentProjectUsers() {
-      return (this.currentProject && this.currentProject.users) || [];
-    },
-    */
   },
   methods: {
     emit(emit, item) {
-      // console.log('emit', emit, item);
+      console.log('emit', emit, item);
       this.$emit(emit, item);
     },
-    click(props) {
-      this.$emit("click", props.item, props.index);
-    }
   }
 };
 </script>
@@ -218,6 +85,14 @@ export default {
     align-items: center;
     justify-content: center;
     margin: 0 auto;
+    font-size: 10px;
   }
+}
+.el{
+ height: 100px;
+ position: absolute;
+ top: 50%;
+ margin: 0;
+ left: 10px;
 }
 </style>

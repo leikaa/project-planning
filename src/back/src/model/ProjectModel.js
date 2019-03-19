@@ -78,7 +78,7 @@ class ProjectModel extends Model {
       // },
      // {$project : {TaskList : 0}},
     ]).toArray();
-      //console.log("Результат агрегации", result)
+      console.log("Результат агрегации", result)
     return result;
   }
 

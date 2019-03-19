@@ -1,7 +1,5 @@
 export default {
   STATUS_LOADED(state, payload) {
-    // console.log('STATUS_LOADED', payload);
-
     state.appStatus = payload;
   },
 

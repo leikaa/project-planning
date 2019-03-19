@@ -10,8 +10,6 @@
 </template>
 
 <script>
-//Это родной файл
-
 import 'style.sass';
 import { mapGetters } from 'vuex';
 import ChangeProjects from '../components/ChangeProjects';

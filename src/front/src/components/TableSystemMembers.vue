@@ -79,8 +79,6 @@ export default {
       this.$emit(emit, item);
     },
 
-    // преобразует значение по ключу заголовка (headers)
-    // используется для корректной сортировки (например по дате)
     getTransformedValue(filter, value) {
       if (this.transforms && this.transforms[filter]) {
         return this.transforms[filter](value);
@@ -88,7 +86,7 @@ export default {
       return value;
     },
 
-    click(props) {
+   click(props) {
       this.$emit('click', props.item, props.index);
     },
   },

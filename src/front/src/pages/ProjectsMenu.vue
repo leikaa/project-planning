@@ -1,8 +1,8 @@
 <template>
   <div>
     <v-app id="inspire">
-      <data-user 
-      :items="items"
+      <data-project 
+      :items="projects"
       :controls="controls"
       @editItem="editItem"
       @deleteItem="deleteItem"
@@ -51,7 +51,7 @@
 
 
 <script>
-import DataUser from '../components/DataUser'; 
+import DataProject from '../components/DataProject'; 
 import moment from 'moment';
 export default {
   name: "Project",
@@ -69,7 +69,7 @@ export default {
     };
   },
   components: {
-    DataUser,
+    DataProject,
   },
   methods: {
     sendRequest() {
@@ -137,9 +137,7 @@ export default {
       this.$store.dispatch('saveProject', { name: this.name, id: this.id , Date: this.Date });
       this.showDialog = false;
       this.sendRequest();
-    },
-
-  
+    },  
     updateServersStatus() {
       this.$store.dispatch("loadProjects");
       this.timerId = setTimeout(() => {
@@ -154,7 +152,7 @@ export default {
   showControls() {
       return this.$props.controls && this.$props.controls.length;
     },
-  items() {
+  projects() {
       return this.$store.getters.projects;
     },
   },
@@ -176,21 +174,3 @@ export default {
   height: 150px;
 }
 </style>
-
-
-
-<!-- работает но не правельно (Если буду делать верхнее меню )
-    <v-tabs class="projects">
-     <v-tab v-for="item in items" 
-         :key="item.name"
-         :id="item._id" 
-         :class="projects"
-       >
-       <v-tabs-item :to="{name :'Project', params: {id: item._id}}" class="project_name">
-           <div>
-           {{item.name}}
-           </div>
-       </v-tabs-item>
-     </v-tab>
-    </v-tabs>
--->

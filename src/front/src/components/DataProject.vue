@@ -31,7 +31,7 @@
  
  <script>
 export default {
-  name: "DataUser",
+  name: "DataProject",
   props: ["items", "controls"],
   computed: {
     showControls() {
@@ -40,12 +40,9 @@ export default {
   },
   methods: {
     emit(emit, item) {
-      // console.log('emit', emit, item);
+      console.log('emit', emit, item);
       this.$emit(emit, item);
     },
-    click(props) {
-      this.$emit("click", props.item, props.index);
-    }
   }
 };
 </script>
@@ -76,10 +73,10 @@ export default {
   border-radius: 3px;
   background: rgb(64, 199, 129);
   box-shadow: 0 -3px rgb(53, 167, 110) inset;
-  word-break: break-all;
 }
 .elem{
   display: flex;  
   justify-content: center;
+  height: 36px;
 }
 </style>
