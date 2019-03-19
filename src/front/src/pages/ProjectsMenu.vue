@@ -85,7 +85,7 @@ export default {
       this.showDialog = true;
     },
     editItem(item) {
-      this.modalTitle = 'Редактировать информацию об участнике';
+      this.modalTitle = 'Редактировать информацию о проекте';
       this.modalSubmitButton = 'Сохранить';
       this.modalAction = 'Edit';
       this.id = item._id;
@@ -95,7 +95,7 @@ export default {
       this.showDialog = true;
     },
     deleteItem(item) {
-      this.modalTitle = 'Удалить участника';
+      this.modalTitle = 'Удалить проект';
       this.modalSubmitButton = 'Удалить';
       this.modalAction = 'Delete';
       this.id = item._id;

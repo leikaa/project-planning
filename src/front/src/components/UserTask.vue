@@ -10,7 +10,7 @@
         @dblclick="editItem"
       >
         <vue-draggable-resizable
-          v-for="item in list.task"
+          v-for="item in list.task" 
           :key="item.taskId"
           :w="item.w"
           :h="item.h"
@@ -22,7 +22,9 @@
           @dragstop="onDrag"
           maximize
         >
-          <div class="user-task__item" :style="`background: ${item.rgb}`">{{item.text}}</div>
+          <div class="user-task__item" :style="`background: ${item.rgb}`">
+             <div class="task-text">{{item.name}}</div>
+          </div>
         </vue-draggable-resizable>
       </div>
 <!-- Добавление задач  -->
@@ -175,8 +177,8 @@ export default {
       this.w = 21;
       this.h = 46;
       this.rgb = 'rgb(244,67,54)'
-      this.name = "";
       this.description = "";
+      this.name = '';
       this.date = moment().format('MMMM Do YYYY, HH:mm:ss ');
       this.disableInput = false;
       this.showDialog = true;
@@ -232,8 +234,8 @@ export default {
         w: this.w,
         h: this.h,
         rgb: this.rgb,
-        name: this.name,
         description: this.description,
+        name: this.name,
         date: this.date,
       });
       this.showDialog = false;
@@ -353,9 +355,6 @@ export default {
       return (this.currentProject && this.currentProject.users) || [];
     },
 
-
-
-
     joinUserToProjects() {
       return this.$store.getters.joinUserToProjects;
     },
@@ -371,7 +370,30 @@ export default {
     }, 
 
 
+    
 
+    currentTask() {
+      return this.joinUserToProjects.find(item => {
+        return item._id === this.currentProjectId;
+      });
+    },
+
+    currentProjectTask() {
+      return (this.currentTask && this.currentTask.TaskList) || [];
+    }, 
+   
+
+
+
+    currentProjectTask() {
+      return this.joinUserToProjects.find(item => {
+        return item._id === this.currentProjectId;
+      });
+    },
+
+    currentProjectTaskList() {
+      return (this.currentProjectTask && this.currentProjectTask.TaskList) || [];
+    }, 
 
 
 
@@ -454,5 +476,10 @@ export default {
   bottom: 0;
   z-index: 11;
   justify-content: center;
+}
+.task-text{
+  display: flex;
+  overflow: hidden;
+  white-space: nowrap;
 }
 </style>

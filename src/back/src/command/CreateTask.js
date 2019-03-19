@@ -22,7 +22,7 @@ class CreateTask {
       //console.log("Последняя добавленая задача" , answerOnCommand);
     
 
-    //Тут полученый массив превращаеться в обьект (Если нужен только _id нужно убрать цикл)
+    //Тут полученый массив превращаеться в обьект.
     const ParseAnswerOnCommand = answerOnCommand.reduce(function(obj , item){
       for(var i=0 ; i<10; i++){
         var key = Object.keys(item)[i];
@@ -32,18 +32,22 @@ class CreateTask {
     }, {});
       //console.log("Переменная ParseAnswerOnCommand!" , ParseAnswerOnCommand);
 
-
+      
     var str = ('');
+    var strName = ('');
       for(var item in ParseAnswerOnCommand){
         if (ParseAnswerOnCommand.hasOwnProperty(item)) {
           str += ParseAnswerOnCommand[item] + ' ';
+          strName = ParseAnswerOnCommand[item] + ' ';
          }
           console.log("Значение", ParseAnswerOnCommand[item])
       };
        console.log("Значение str", str)
-      
-    var values = str.split(' ');
+  
 
+    var values = str.split(' ',8);
+    var valueName = strName;
+  
     var taskId = values[0];
     var id = values[1];
     var userId = values[2];
@@ -52,19 +56,17 @@ class CreateTask {
     var string_w = values[5];
     var string_h = values[6];
     var rgb = values[7];
+    var name = valueName;
 
     var x = Number.parseInt(string_x);
     var y = Number.parseInt(string_y);
     var w = Number.parseInt(string_w);
     var h = Number.parseInt(string_h);
-  
-
-    //console.log("Это _id таска", taskId);
-    //console.log("Это _id таска", id);
-    //console.log("Это rgb ", rgb);
+    
+    //console.log("Это name ", name);
   
       
-    const addTaskOnProject = await this.projectModel.findOneAndUpdateTaskInUsers(id , userId , taskId );
+    const addTaskOnProject = await this.projectModel.findOneAndUpdateTaskInUsers(id , userId , taskId , x , y , w , h , rgb, name);
       //console.log(addTaskOnProject , "Ответ с model");
     return true;
   }

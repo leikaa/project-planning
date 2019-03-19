@@ -221,8 +221,4 @@ export default {
     margin: 0 auto;
   }
 }
-.elem{
-  display: flex;  
-  justify-content: center;
-}
 </style>

@@ -29,8 +29,8 @@ class ProjectModel extends Model {
   }
   
   //Добавление задачи в проект.
-  async findOneAndUpdateTaskInUsers(id , userId , taskId ) {
-    console.log('findOneAndUpdateTaskInUsers', id, userId , taskId);
+  async findOneAndUpdateTaskInUsers(id , userId , taskId , x , y , w , h , rgb, name) {
+    console.log('findOneAndUpdateTaskInUsers', id, userId , taskId );
     const result = await this.db.get()
       .collection(this.collectionName) 
       .findOneAndUpdate(
@@ -39,7 +39,7 @@ class ProjectModel extends Model {
           'users.userId': this.db.objectId(userId),
         },
         {
-          $push: { 'users.$.task': { taskId: this.db.objectId(taskId)}}
+          $push: { 'users.$.task': { taskId: this.db.objectId(taskId), x , y , w , h , rgb, name}}
         },
       )
       .catch(err => {
@@ -62,28 +62,60 @@ class ProjectModel extends Model {
           as: "user"
         }
       },
-      {
-        $lookup:
-        {
-          from: "TaskList",
-          localField: "users.task.taskId",
-          foreignField: "_id",
-          as: "TaskList"
-        }
-      },
-      { $addFields : {"users.task": "$TaskList"}} // {$eq : ["$TaskList.userId" , "userId" ]}} },
+      // {
+      //   $lookup:
+      //   {
+      //     from: "TaskList",
+      //     localField: "users.task.taskId",
+      //     foreignField: "_id",
+      //     as: "TaskList"
+      //   }
+      // },
+      // { $addFields : {"users.task": "$TaskList"}} // {$eq : ["$TaskList.userId" , "userId" ]}} },
 
       // {
       //   $match: { "users.task.userId" : "users.userId" }
       // },
      // {$project : {TaskList : 0}},
     ]).toArray();
-     console.log("Результат агрегации", result)
+      //console.log("Результат агрегации", result)
     return result;
   }
 }
 
 module.exports = ProjectModel;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -113,3 +145,6 @@ module.exports = ProjectModel;
 //       $in: ["5c88dfe5658314003432910a", "5c88dfee658314003432910b"] //УЧАСТНИКИ
 //   },
 // })
+
+
+
