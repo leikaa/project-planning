@@ -1,6 +1,5 @@
 import api from '../../api';
 
-
 const loadEntitiesFromBackend = store => {
   api.getData('get', 'project/all/')
     .then(data => {

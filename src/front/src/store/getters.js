@@ -8,14 +8,9 @@ export default {
   tasks(state) {
     return state.tasks;
   },
-
   
   joinUserToProjects(state) {
     return state.joinUserToProjects;
   },
-  /* Обьеденен с joinUserToProjects
-  joinUserTaskToProjects(state) {
-    return state.joinUserTaskToProjects;
-  },
-  */
+ 
 };

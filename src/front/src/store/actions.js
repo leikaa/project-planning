@@ -17,10 +17,6 @@ const loadProjects = ({ commit }) => {
     .then(data => {
       commit('JOINING_USERS_TO_PROJECTS', data);
     });
-    /*api.getData('get', 'projects/join_task')
-    .then(data => {
-      commit('JOINING_USER_TASK_TO_PROJECTS', data);
-    });*/
 };
 
 const openProject = ({ commit }, id) => {
@@ -60,7 +56,7 @@ const addUserToProject = ({ commit }, data) => {
 
 const deleteUserOnProject = ({ commit }, data) => {
   console.log('delete', data);
-  api.request('delete', `projects/${data.id}/del_user/${data.userId}`)
+  api.request('post', `projects/${data.id}/del_user/${data.userId}`)
     .then(
       commit('DELETE_USER_ON_PROJECT', data)
     );

@@ -17,14 +17,6 @@ class TaskModel extends Model {
       .collection(this.collectionName)
       .find(this.getFilter(filter)).project(projection).sort({date: -1}).limit(1);
   }
-
- 
-// db.getCollection('Projects').update({}, { Удаляет обьект из вложеного масива (для project)
-//   $pull : {
-//       "users.$[].task" : {"taskId": ObjectId("5c8fa9774a2ef41bca36b13e")} 
-//   }
-// })
-
 }
 
 module.exports = TaskModel;

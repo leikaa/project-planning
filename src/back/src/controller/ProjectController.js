@@ -14,7 +14,7 @@ class  ProjectController {
     this.createProject = createProject;
     this.deleteProject = deleteProject;
     this.updateProject = updateProject;
-    this.delUser =delUser;
+    this.delUser = delUser;
   }
 
   async getList() {

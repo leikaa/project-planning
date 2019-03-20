@@ -3,7 +3,8 @@
          :items="items" 
          content-tag="div" 
          hide-actions 
-         content-class="projects">
+         content-class="projects"
+         no-data-text="Нет данных">
         <div
           slot="item" 
           slot-scope="props" 

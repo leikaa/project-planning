@@ -1,9 +1,5 @@
 export default {
-  data: {
-    items: [],
-  },
-  currentEntity: null,
-  entities: null,
+  
   status: {
     loading: false,
   },

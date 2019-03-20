@@ -2,7 +2,8 @@
 <div class="users">
     <v-data-iterator 
          :items="items"  
-         hide-actions >
+         hide-actions 
+         no-data-text="Нет данных">
         <div
           class="user users__item user-task"
           slot="item" 
@@ -30,25 +31,6 @@
 export default {
   name: "User",
   props: ["items","controls"],
-  computed: {
-    // currentProjectId() {
-    //   return this.$route.params.id;
-    // },
-    
-    // joinUserToProjects() {
-    //   return this.$store.getters.joinUserToProjects;
-    // },
-
-    // currentJoinProject() {
-    //   return this.joinUserToProjects.find(item => {
-    //     return item._id === this.currentProjectId;
-    //   });
-    // },
-
-    // currentProjectJoinUsers() {
-    //   return (this.currentJoinProject && this.currentJoinProject.user) || [];
-    // },
-  },
   methods: {
     emit(emit, item) {
       console.log('emit', emit, item);

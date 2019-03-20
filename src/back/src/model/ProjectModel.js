@@ -1,6 +1,6 @@
 'use strict';
 
-const Model = require('./Model')
+const Model = require('./Model');
 
 class ProjectModel extends Model {
   constructor({ db }) {
@@ -18,7 +18,6 @@ class ProjectModel extends Model {
         },
         {
          $addToSet: {users: { userId: this.db.objectId(userId), task: []} ,
-         userId: this.db.objectId(userId) 
         }
         },
       )
@@ -57,7 +56,7 @@ class ProjectModel extends Model {
         $lookup:
         {
           from: "user",
-          localField: "userId",
+          localField: "users.userId",
           foreignField: "_id",
           as: "user"
         }
@@ -82,9 +81,8 @@ class ProjectModel extends Model {
     return result;
   }
 
-
-  async findOneAndUpdateUserDelProject(id, userId, taskId) {
-    console.log('findOneAndUpdateUserInProject', id, userId , taskId);
+  async findOneAndUpdateUserDelProject(id, userId) {
+    console.log('findOneAndUpdateUserInProject', id, userId);
     const result = await this.db.get()
       .collection(this.collectionName)
       .findOneAndUpdate(
@@ -92,58 +90,24 @@ class ProjectModel extends Model {
           _id: this.db.objectId(id)
         },
         {
-         $pull: {users: { userId: this.db.objectId(userId), taskId: []} ,
-         userId: this.db.objectId(userId) 
+         $pull: {users: { userId: this.db.objectId(userId)} ,
         }
         },
-       /*{
-          $addToSet: { userId: this.db.objectId(userId) } // $addToSet
-        },*/
       )
       .catch(err => {
         console.log(err);
       });
-      //console.log(result);
+      console.log(result);
     return result;
   }
-
-
-
 }
-
 module.exports = ProjectModel;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// db.getCollection('Projects').update({},{ 
+//   $pull : {
+//       "users.$[].task" : {"taskId": ObjectId("5c8fa9774a2ef41bca36b13e")} 
+//   }
+// })
 
 
 
@@ -163,14 +127,10 @@ module.exports = ProjectModel;
 // },
 
 
-
-
-
-
 // db.getCollection('TaskList').find({  решение без агрегаций выводит по проекту все таски 
-//   projectId: "5c88dfdf6583140034329109", //ПРОЕКТ
+//   projectId: "5c88dfdf6583140034329109", 
 //   userId: { 
-//       $in: ["5c88dfe5658314003432910a", "5c88dfee658314003432910b"] //УЧАСТНИКИ
+//       $in: ["5c88dfe5658314003432910a", "5c88dfee658314003432910b"] 
 //   },
 // })
 

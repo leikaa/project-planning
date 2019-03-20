@@ -131,6 +131,7 @@ export default {
       this.modalAction = 'Delete';
       this.userId = item._id;
       this.name = item.name;
+      this.id = this.currentProjectId;
       this.disableInput = true;
       this.UsersDialog = true;
     },
@@ -161,9 +162,10 @@ export default {
     },
 
     deleteUserOnProject() {
-      console.log('Участник удалён', this.userId);
+      console.log('Участник удалён из проекта', this.userId, this.id);
       this.$store.dispatch('deleteUserOnProject', {
-         userId: item._id,
+         id: this.id,
+         userId: this.userId,
         });
       this.showDialog = false;
       this.sendRequest();

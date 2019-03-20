@@ -55,7 +55,6 @@ class Routes {
 
 
     this.httpServer.post('/projects/:id/del_user/:userId', async(req, res) => {
-      //console.log('router', req);
        const answer = await this.projectController.delUsers(req.params.id, req.params.userId);
        console.log('Ответ с controller' , answer)
        res.send({ status: 'ok' });
