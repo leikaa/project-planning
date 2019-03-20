@@ -10,6 +10,7 @@
     :total-items="totalItems"
     :disable-initial-sort="disableInitialSort"
     :hide-actions="hideActions"
+    no-data-text="Нет данных">
   >
     <v-progress-linear
       slot="progress"

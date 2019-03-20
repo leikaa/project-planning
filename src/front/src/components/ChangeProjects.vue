@@ -59,6 +59,7 @@
                     solo
                     item-text="name"
                     item-value="_id"
+                    required
                   ></v-text-field>
                 </v-form>
               </v-card-text>
@@ -70,7 +71,7 @@
                   color="green"
                   flat
                   @click="confirmModalAction"
-                  :disabled="!formValid"
+                  :disabled="!DelUser"
                 >{{ modalSubmitButton }}</v-btn>
               </v-card-actions>
             </v-card>
@@ -132,7 +133,7 @@ export default {
       this.userId = item._id;
       this.name = item.name;
       this.id = this.currentProjectId;
-      this.disableInput = true;
+      this.disableInput = false;
       this.UsersDialog = true;
     },
 
@@ -167,7 +168,7 @@ export default {
          id: this.id,
          userId: this.userId,
         });
-      this.showDialog = false;
+      this.UsersDialog = false;
       this.sendRequest();
     },
   },

@@ -14,16 +14,32 @@ class ProjectModel extends Model {
       .collection(this.collectionName)
       .findOneAndUpdate(
         {
-          _id: this.db.objectId(id)
+          _id: this.db.objectId(id)   
         },
         {
-         $addToSet: {users: { userId: this.db.objectId(userId), task: []} ,
-        }
+         $addToSet: {users: { userId: this.db.objectId(userId), task: [] } ,
         },
-      )
+        },
+        )
       .catch(err => {
         console.log(err);
       });
+    return result;
+  }
+
+  //Сортирует участников в проекте.
+  async sortUserInProject(id, userId) {
+    console.log('sortUserInProject', id, userId );
+    const result = await this.db.get()
+      .collection(this.collectionName)
+      .update(
+        {
+          _id: this.db.objectId(id)   
+        },
+        { 
+          $push : {"users":{$each:[],$sort: 1}}
+        }
+        )
     return result;
   }
   
@@ -48,6 +64,7 @@ class ProjectModel extends Model {
     return result;
   }
 
+  //Соеденение коллекций.
   async JoinningUsersToProjects(){
     const result = await this.db.get()
     .collection(this.collectionName)
@@ -81,6 +98,7 @@ class ProjectModel extends Model {
     return result;
   }
 
+  //Удаление участников из проекта.
   async findOneAndUpdateUserDelProject(id, userId) {
     console.log('findOneAndUpdateUserInProject', id, userId);
     const result = await this.db.get()
@@ -110,21 +128,6 @@ module.exports = ProjectModel;
 // })
 
 
-
-
-// {
-//   $project: {
-//     "users": {
-//         "task": { 
-//             $cond: {
-//                 if: { $eq: [ "task", "_id" ] },
-//                 then: "task",
-//                 else: "$$REMOVE"
-//             }
-//         }
-//     }
-//   },
-// },
 
 
 // db.getCollection('TaskList').find({  решение без агрегаций выводит по проекту все таски 
