@@ -29,10 +29,10 @@ class ProjectModel extends Model {
 
   //Сортирует участников в проекте.
   async sortUserInProject(id, userId) {
-    console.log('sortUserInProject', id, userId );
+    //console.log('sortUserInProject', id, userId );
     const result = await this.db.get()
       .collection(this.collectionName)
-      .update(
+      .findOneAndUpdate(
         {
           _id: this.db.objectId(id)   
         },

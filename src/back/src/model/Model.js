@@ -24,6 +24,7 @@ class Model {
   }
 
   async findOneAndUpdate(filter, update, params) {
+    // console.log("update ",update)
     const result = await this.db.get()
       .collection(this.collectionName)
       .findOneAndUpdate(
@@ -35,6 +36,7 @@ class Model {
       .catch(err => {
         console.log(err);
       });
+      console.log("Результат обновления", result)
     return result;
   }
 

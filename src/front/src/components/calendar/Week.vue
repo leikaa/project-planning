@@ -3,10 +3,10 @@
     <div class="week__month-info">{{monthName}}</div>
     <day
       v-for="(day, index ,) in days"
-      v-bind:index="index"
-      v-bind:key="day.id"
-      v-bind:dayInWeek="getDaysNum(days , index)"
-      v-bind:dayInName="getDaysName(days , index)"
+      :index="index"
+      :key="day.id"
+      :dayInWeek="getDaysNum(days , index)"
+      :dayInName="getDaysName(days , index)"
     />
   </div>
 </template>

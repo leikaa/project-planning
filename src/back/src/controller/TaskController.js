@@ -6,10 +6,12 @@ class  TaskController {
     getTask,
     createTask,
     deleteTask,
+    updateTask,
   }) {
     this.getTask = getTask;
     this.createTask = createTask;
     this.deleteTask = deleteTask;
+    this.updateTask = updateTask;
   }
 
   async getList() {
@@ -22,6 +24,12 @@ class  TaskController {
     //console.log(test , 'Этот обьект получен из command createTask')
     return test;
   }
+
+  async update(filter, update) {
+    console.log('UpdateTask', filter, update);
+    return await this.updateTask.execute(filter, update);
+  }
+
 }
 
 module.exports = TaskController;

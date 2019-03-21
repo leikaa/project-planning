@@ -10,7 +10,7 @@ class DelUser {
   }
 
   async execute(filter, update) {
-    console.log('DelUser', filter, update);
+    console.log('deleteUserOfProject', filter, update);
     await this.projectModel.findOneAndUpdateUserDelProject(filter, update);
     return true;
   }

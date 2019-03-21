@@ -18,7 +18,7 @@ class  UserController {
   }
 
   async update(filter, update) {
-    console.log('updateUser', filter, update);
+    console.log('UpdateUser', filter, update);
     return await this.updateUser.execute(filter, update);
   }
 

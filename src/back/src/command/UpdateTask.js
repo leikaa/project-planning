@@ -1,22 +1,22 @@
 'use strict';
 
-class UpdateUser {
+class UpdateTask {
   constructor({
     logger,
-    userModel,
+    taskModel,
   }) {
     this.logger = logger;
-    this.userModel = userModel;
+    this.taskModel = taskModel;
   }
 
   async execute(filter, update) {
-     //console.log('UpdateUser', filter, update);
+    //console.log('UpdateTask', filter, update);
     const id = update.id;
     delete(update.id);
-    await this.userModel.findOneAndUpdate(filter, update);
+    await this.taskModel.findOneAndUpdate(filter, update);
     update._id = id;
     return true;
   }
 }
 
-module.exports = UpdateUser;
+module.exports = UpdateTask;

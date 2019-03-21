@@ -49,14 +49,14 @@ class Routes {
    this.httpServer.post('/projects/:id/add_user/:userId', async(req, res) => {
       //console.log('router', req);
       const answer = await this.projectController.addUsers(req.params.id, req.params.userId);
-      console.log('Ответ с controller' , answer)
+      //console.log('Ответ с controller' , answer)
       res.send({ status: 'ok' });
     });
 
 
     this.httpServer.post('/projects/:id/del_user/:userId', async(req, res) => {
-       const answer = await this.projectController.delUsers(req.params.id, req.params.userId);
-       console.log('Ответ с controller' , answer)
+       const answer = await this.projectController.deleteUserOfProjects(req.params.id, req.params.userId);
+       //console.log('Ответ с controller' , answer)
        res.send({ status: 'ok' });
      });
 
@@ -132,9 +132,6 @@ class Routes {
 
     this.httpServer.post('/tasks', bodyParser.json(), async (req, res) => {
       const answer = await this.taskController.create(req.body);
-      if(answer == true){
-        console.log('Ты получил положительный ответ от controller');
-      }
       res.send({ status: 'ok' });
     });
 

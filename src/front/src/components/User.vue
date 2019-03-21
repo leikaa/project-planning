@@ -45,8 +45,8 @@ export default {
 .users {
   width: 54px;
   z-index: 10;
-  background: #fff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+  background: #fafafa;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   position: sticky;
   left: 0;
   top: 0;

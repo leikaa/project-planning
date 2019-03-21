@@ -40,9 +40,9 @@ class CreateTask {
           str += ParseAnswerOnCommand[item] + ' ';
           strName = ParseAnswerOnCommand[item] + ' ';
          }
-          console.log("Значение", ParseAnswerOnCommand[item])
+          //console.log("Значение", ParseAnswerOnCommand[item])
       };
-       console.log("Значение str", str)
+       //console.log("Значение str", str)
   
 
     var values = str.split(' ',8);
@@ -63,7 +63,7 @@ class CreateTask {
     var w = Number.parseInt(string_w);
     var h = Number.parseInt(string_h);
     
-    //console.log("Это name ", name);
+    //console.log("name: ", name);
   
       
     const addTaskOnProject = await this.projectModel.findOneAndUpdateTaskInUsers(id , userId , taskId , x , y , w , h , rgb, name);

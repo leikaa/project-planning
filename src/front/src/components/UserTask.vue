@@ -7,7 +7,6 @@
         :data-id="index"
         ref="currentProjectUsers"
         class="pole user-task task-list__item"
-        @dblclick="editItem"
       >
         <vue-draggable-resizable
           v-for="item in list.task" 
@@ -20,6 +19,8 @@
           :handles="['ml', 'mr']"
           :grid="[21, 46]"
           @dragstop="onDrag"
+          @mouseup.native="saveTask(item)"
+          @dblclick.native="deleteItem" 
           maximize
         >
           <div class="user-task__item" :style="`background: ${item.rgb}`">
@@ -27,7 +28,7 @@
           </div>
         </vue-draggable-resizable>
       </div>
-<!-- Добавление задач  -->
+<!-- Добавление задач @mouseup.native.ctrl="addItem"  -->
       <v-card>
         <v-layout row align-end>
           <v-dialog v-model="showDialog" width="500">
@@ -73,47 +74,7 @@
           </v-dialog>
         </v-layout>
       </v-card>
- <!-- -->
-
-
- 
- <v-card>
-      <v-layout row align-end>
-        <v-dialog v-model="editShowDialog" width="500">
-          <v-card>
-            <v-card-title class="headline grey lighten-2" primary-title>{{ modalTitle }}</v-card-title>
-            <v-card-text>
-              <v-form v-model="formValid">
-                 <v-text-field
-                    v-model="userId" 
-                    label="ID для проверки работы"
-                    :disabled="disableInput"
-                    required
-                  ></v-text-field>
-              </v-form>
-            </v-card-text>
-            <v-divider></v-divider>
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn color="red" flat @click="editShowDialog = false">Отмена</v-btn>
-              <v-btn
-                color="green"
-                flat
-                @click="confirmModalAction"
-                :disabled="!formValid"
-              >{{ modalSubmitButton }}</v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
-      </v-layout>
-    </v-card>
-
-
-
-
-
-
-    </div>
+  </div>
     <div class="button_create_task">
       <v-btn slot="activator" 
       color="green  accent-3" 
@@ -149,8 +110,6 @@ export default {
       description: "",
       selectedElement: "",
       editShowDialog: false,
-      selectedTask: "",
-      userId: this.selectedElement,  
     };
   },
   methods: {
@@ -179,29 +138,39 @@ export default {
       this.rgb = 'rgb(244,67,54)'
       this.description = "";
       this.name = '';
-      this.date = moment().format('MMMM Do YYYY, HH:mm:ss ');
       this.disableInput = false;
       this.showDialog = true;
     },
 
-    editItem(item) {
-      this.modalTitle = 'Сохранить информацию о задаче';
-      this.modalSubmitButton = 'Сохранить';
-      this.modalAction = 'Edit';
-      //this.taskId = item.index;
-      //this.projectId = this.currentProjectId;
-      //this.userId = this.selectedElement;
-      //this.name = item.name;
-      //this.description = item.description;
-      this.x = this.left,
-      this.y = this.top;
-      this.w = this.widtg;
-      this.h = this.height;
-      this.rgb = 'rgb(0,205,205)'
-      this.date = moment().format('MMMM Do YYYY, HH:mm:ss ');
-      this.disableInput = false;
-      this.editShowDialog = true;
+    deleteItem(item) {
+      this.modalTitle = 'Удалить задачу';
+      this.modalSubmitButton = 'Удалить';
+      this.modalAction = 'Delete';
+      this.id = item._id;
+      this.name = item.name;
+      this.disableInput = true;
+      this.showDialog = true;
     },
+
+    // editItem(item) {
+    //   console.log("Работает!");
+    //   this.saveTask = item.taskId;
+    //   this.modalAction = 'Edit';
+    //   this.taskId = item.index;
+    //   this.projectId = this.currentProjectId;
+    //   this.userId = this.selectedElement;
+    //   this.name = item.name;
+    //   this.description = item.description;
+    //   this.x = this.data,
+    //   this.y = this.top;
+    //   this.w = this.widtg;
+    //   this.h = this.height;
+    //   this.rgb = 'rgb(0,205,205)'
+    //   this.date = moment().format('MMMM Do YYYY, HH:mm:ss ');
+    //   this.disableInput = false;
+    //   this.editShowDialog = true;
+    //   console.log("Работает!" , item)
+    // },
 
     confirmModalAction() {
       const action = this.modalAction;
@@ -210,9 +179,6 @@ export default {
           break;
         case "Add":
           this.addTask();
-          break;
-        case 'Edit':
-          this.saveProject();
           break;
       }
     },
@@ -236,28 +202,34 @@ export default {
         rgb: this.rgb,
         description: this.description,
         name: this.name,
-        date: this.date,
+        date: moment().format('MMMM Do YYYY, HH:mm:ss '),
       });
       this.showDialog = false;
       this.sendRequestTask();
     },
 
-    saveProject() {
-      console.log('Проект сохранен', this.taskId, this.id );
-      this.$store.dispatch('saveTask', {
-         taskId: this.taskId, 
-         id: this.currentProjectId,
-         //name: this.name,
-         x: this.left,
-         y: this.top,
-         w: this.widtg,
-         h: this.height,
-         rgb: this.rgb,
-         date: this.date,
-         });  
-      this.editShowDialog = false;
+    saveTask(item) {
+      console.log('Проект сохранен', item.taskId, this.currentProjectId);
+       this.$store.dispatch('saveTask', {
+          id: item.taskId, 
+          projectId: this.currentProjectId,
+          date: moment().format('MMMM Do YYYY, HH:mm:ss '),
+          // x: this.x, 
+          // y: this.top,
+          // w: this.widtg,
+          // h: this.height,
+          });  
       this.sendRequestTask();
     },
+
+    deleteTask() {
+       console.log('Проект удалён', this.name, this.id);
+      // this.$store.dispatch('deleteProject', this.id);
+      // this.showDialog = false;
+      // this.sendRequest();
+      console.log("Удален таск")
+    },
+
 
     onDrag(x, y, item, task) {
       let allTaskListCoords = this.getCoordsTaskList();
@@ -329,7 +301,7 @@ export default {
     }
   },
   computed: {
-    items() {
+    projects() {
       return this.$store.getters.projects;
     },
 
@@ -346,7 +318,7 @@ export default {
     },
 
     currentProject() {
-      return this.items.find(item => {
+      return this.projects.find(item => {
         return item._id === this.currentProjectId;
       });
     },
@@ -393,41 +365,8 @@ export default {
 
     currentProjectTaskList() {
       return (this.currentProjectTask && this.currentProjectTask.TaskList) || [];
-    }, 
-
-
-
-    
-    /*
-    currentProjectJoinUsersTask() {
-      return (this.currentJoinProject && this.currentJoinProject.TaskList) || [];
-    }, 
-    */
-    
-
-
-
-
-/*
-   joinUserTaskToProjects() {
-      return this.$store.getters.joinUserTaskToProjects;
     },
-
-   currentJoinUserTaskToProjects() {
-      return this.joinUserTaskToProjects.find(item => {
-        return item._id === this.currentProjectId;
-      });
-    },
-
-    currentProjectTask() {
-      return (this.currentJoinUserTaskToProjects && this.currentJoinUserTaskToProjects.TaskList) || [];
-    }, 
-*/
-
-
-
   },
-  
   created() {
     this.sendRequestProject();
     this.sendRequestUser();

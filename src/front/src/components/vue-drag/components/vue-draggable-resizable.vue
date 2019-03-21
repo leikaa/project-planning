@@ -134,7 +134,7 @@ export default {
     },
     taskListCoords: {
       type: Array,
-    }
+    },
   },
 
   created: function () {

@@ -1,6 +1,6 @@
 <template>
   <v-app id="inspire" class="users">
-    <v-card>
+    <v-card >
       <v-layout row align-end>
         <v-dialog v-model="showDialog" width="500">
           <v-btn
