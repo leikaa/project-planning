@@ -75,6 +75,36 @@
         </v-layout>
       </v-card>
   </div>
+   <v-card>
+        <v-layout row align-end>
+          <v-dialog v-model="showTask" width="500">
+            <v-card>
+              <v-card-title class="headline grey lighten-2" primary-title>{{ modalTitle }}</v-card-title>
+              <v-card-text>
+                <v-form v-model="formValid">
+                  <v-text-field
+                    v-model="name"
+                    label="Удаление задачи"
+                    :disabled="disableInput"
+                    required
+                  ></v-text-field>
+                </v-form>
+              </v-card-text>
+              <v-divider></v-divider>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="red" flat @click="showTask = false">Отмена</v-btn>
+                <v-btn
+                  color="green"
+                  flat
+                  @click="confirmModalAction"
+                  :disabled="!formValid"
+                >{{ modalSubmitButton }}</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+        </v-layout>
+      </v-card>
     <div class="button_create_task">
       <v-btn slot="activator" 
       color="green  accent-3" 
@@ -109,7 +139,7 @@ export default {
       name: "",
       description: "",
       selectedElement: "",
-      editShowDialog: false,
+      showTask: false,
     };
   },
   methods: {
@@ -143,13 +173,14 @@ export default {
     },
 
     deleteItem(item) {
+      console.log("dfsdf" ,item.taskId , item.name )
       this.modalTitle = 'Удалить задачу';
       this.modalSubmitButton = 'Удалить';
       this.modalAction = 'Delete';
-      this.id = item._id;
+      this.id = item.taskId;
       this.name = item.name;
       this.disableInput = true;
-      this.showDialog = true;
+      this.showTask = true;
     },
 
     // editItem(item) {
@@ -179,6 +210,9 @@ export default {
           break;
         case "Add":
           this.addTask();
+          break;
+        case "Delete":
+          this.deleteTask();
           break;
       }
     },
