@@ -24,7 +24,7 @@ class CreateTask {
 
     //Тут полученый массив превращаеться в обьект.
     const ParseAnswerOnCommand = answerOnCommand.reduce(function(obj , item){
-      for(var i=0 ; i<10; i++){
+      for(var i=0 ; i<12; i++){
         var key = Object.keys(item)[i];
         obj[key] = item[key];
       }
@@ -45,17 +45,19 @@ class CreateTask {
        //console.log("Значение str", str)
   
 
-    var values = str.split(' ',8);
+    var values = str.split(' ' , 10);
     var valueName = strName;
   
     var taskId = values[0];
     var id = values[1];
     var userId = values[2];
-    var string_x = values[3];
-    var string_y = values[4];
-    var string_w = values[5];
-    var string_h = values[6];
-    var rgb = values[7];
+    var dateOne = values[3];
+    var dateTwo = values[4];
+    var string_x = values[5];
+    var string_y = values[6];
+    var string_w = values[7];
+    var string_h = values[8];
+    var rgb = values[9];
     var name = valueName;
 
     var x = Number.parseInt(string_x);
@@ -66,7 +68,7 @@ class CreateTask {
     //console.log("name: ", name);
   
       
-    const addTaskOnProject = await this.projectModel.findOneAndUpdateTaskInUsers(id , userId , taskId , x , y , w , h , rgb, name);
+    const addTaskOnProject = await this.projectModel.findOneAndUpdateTaskInUsers(id , userId , taskId , dateOne , dateTwo , x , y , w , h , rgb, name);
       //console.log(addTaskOnProject , "Ответ с model");
     return true;
   }

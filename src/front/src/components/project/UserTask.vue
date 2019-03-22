@@ -57,6 +57,17 @@
                     item-text="name"
                     item-value="_id"
                   ></v-select>
+                  <div class="pickers">
+                   <v-date-picker 
+                   v-model="dateOne"
+                   width= "220">
+                   </v-date-picker>
+                   <v-date-picker 
+                   v-model="dateTwo"
+                   show-current = "false" 
+                   width= "230">
+                   </v-date-picker>
+                  </div>
                 </v-form>
               </v-card-text>
               <v-divider></v-divider>
@@ -141,6 +152,8 @@ export default {
       description: "",
       selectedElement: "",
       showTask: false,
+      dateOne: new Date().toISOString().substr(0, 10),
+      dateTwo: new Date().toISOString().substr(0, 10),
     };
   },
   methods: {
@@ -162,6 +175,8 @@ export default {
       this.modalAction = "Add";
       this.projectId = "currentProjectId";
       this.userId = this.selectedElement;
+      this.dateOne = this.dateOne;
+      this.dateTwo = this.dateTwo;
       this.x = 0;
       this.y = 46;
       this.w = 21;
@@ -200,16 +215,20 @@ export default {
 
     addTask() {
       console.log(
-        "задача добавлена",
+        "Задача добавлена",
         this.name,
         this.description,
         this.projectId,
         this.userId,
         this.date,
+        this.dateOne,
+        this.dateTwo,
       );
       this.$store.dispatch("addTask", {
         projectId: this.currentProjectId,
         userId: this.selectedElement,
+        dateOne : this.dateOne,
+        dateTwo: this.dateTwo,
         x: this.x,
         y: this.y,
         w: this.w,
@@ -426,5 +445,9 @@ export default {
   display: flex;
   overflow: hidden;
   white-space: nowrap;
+}
+.pickers{
+  display: flex;
+  justify-content: space-around;
 }
 </style>

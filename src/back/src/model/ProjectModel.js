@@ -42,28 +42,28 @@ class ProjectModel extends Model {
         )
     return result;
   }
-  
-  //Добавление задачи в проект.
-  async findOneAndUpdateTaskInUsers(id , userId , taskId , x , y , w , h , rgb, name) {
-    console.log('findOneAndUpdateTaskInUsers', id, userId , taskId );
+
+  //Удаление участников из проекта.
+  async findOneAndUpdateUserDelProject(id, userId) {
+    console.log('findOneAndUpdateUserInProject', id, userId);
     const result = await this.db.get()
-      .collection(this.collectionName) 
+      .collection(this.collectionName)
       .findOneAndUpdate(
         {
-          _id: this.db.objectId(id),
-          'users.userId': this.db.objectId(userId),
+          _id: this.db.objectId(id)
         },
         {
-          $push: { 'users.$.task': { taskId: this.db.objectId(taskId), x , y , w , h , rgb, name}}
+         $pull: {users: { userId: this.db.objectId(userId)} ,
+        }
         },
       )
       .catch(err => {
         console.log(err);
       });
-      //console.log("Результат добавления задача в проект",result);
+      console.log(result);
     return result;
   }
-
+  
   //Соеденение коллекций.
   async JoinningUsersToProjects(){
     const result = await this.db.get()
@@ -98,24 +98,24 @@ class ProjectModel extends Model {
     return result;
   }
 
-  //Удаление участников из проекта.
-  async findOneAndUpdateUserDelProject(id, userId) {
-    console.log('findOneAndUpdateUserInProject', id, userId);
+  //Добавление задачи в проект.
+  async findOneAndUpdateTaskInUsers(id, userId, taskId, dateOne, dateTwo, x, y, w, h, rgb, name) {
+    console.log('findOneAndUpdateTaskInUsers', id, userId , taskId );
     const result = await this.db.get()
-      .collection(this.collectionName)
+      .collection(this.collectionName) 
       .findOneAndUpdate(
         {
-          _id: this.db.objectId(id)
+          _id: this.db.objectId(id),
+          'users.userId': this.db.objectId(userId),
         },
         {
-         $pull: {users: { userId: this.db.objectId(userId)} ,
-        }
+          $push: { 'users.$.task': { taskId: this.db.objectId(taskId), dateOne, dateTwo, x, y, w, h, rgb, name}}
         },
       )
       .catch(err => {
         console.log(err);
       });
-      console.log(result);
+      //console.log("Результат добавления задача в проект",result);
     return result;
   }
 
