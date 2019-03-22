@@ -32,7 +32,7 @@
  
  <script>
 export default {
-  name: "DataProject",
+  name: "ProjectData",
   props: ["items", "controls"],
   computed: {
     showControls() {

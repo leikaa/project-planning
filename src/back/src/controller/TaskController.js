@@ -25,6 +25,10 @@ class  TaskController {
     return test;
   }
 
+  async delete(params) {
+    return await this.deleteTask.execute(params);
+  }
+
   async update(filter, update) {
     console.log('UpdateTask', filter, update);
     return await this.updateTask.execute(filter, update);

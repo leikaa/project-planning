@@ -20,7 +20,7 @@
           :grid="[21, 46]"
           @dragstop="onDrag"
           @mouseup.native="saveTask(item)"
-          @dblclick.native="deleteItem" 
+          @dblclick.native="deleteItem(item)" 
           maximize
         >
           <div class="user-task__item" :style="`background: ${item.rgb}`">
@@ -75,6 +75,7 @@
         </v-layout>
       </v-card>
   </div>
+  <!--Удаление задач -->
    <v-card>
         <v-layout row align-end>
           <v-dialog v-model="showTask" width="500">
@@ -84,8 +85,8 @@
                 <v-form v-model="formValid">
                   <v-text-field
                     v-model="name"
-                    label="Удаление задачи"
                     :disabled="disableInput"
+                    label="Удаление задачи"
                     required
                   ></v-text-field>
                 </v-form>
@@ -118,7 +119,7 @@
 
 
 <script>
-import VueDraggableResizable from "./vue-drag/index.js";
+import VueDraggableResizable from "../vue-drag/index.js";
 import moment from 'moment';  
 
 let step = 21;
@@ -173,35 +174,15 @@ export default {
     },
 
     deleteItem(item) {
-      console.log("dfsdf" ,item.taskId , item.name )
       this.modalTitle = 'Удалить задачу';
       this.modalSubmitButton = 'Удалить';
       this.modalAction = 'Delete';
-      this.id = item.taskId;
+      this.taskId = item.taskId;
+      this.projectId = "currentProjectId";
       this.name = item.name;
       this.disableInput = true;
       this.showTask = true;
     },
-
-    // editItem(item) {
-    //   console.log("Работает!");
-    //   this.saveTask = item.taskId;
-    //   this.modalAction = 'Edit';
-    //   this.taskId = item.index;
-    //   this.projectId = this.currentProjectId;
-    //   this.userId = this.selectedElement;
-    //   this.name = item.name;
-    //   this.description = item.description;
-    //   this.x = this.data,
-    //   this.y = this.top;
-    //   this.w = this.widtg;
-    //   this.h = this.height;
-    //   this.rgb = 'rgb(0,205,205)'
-    //   this.date = moment().format('MMMM Do YYYY, HH:mm:ss ');
-    //   this.disableInput = false;
-    //   this.editShowDialog = true;
-    //   console.log("Работает!" , item)
-    // },
 
     confirmModalAction() {
       const action = this.modalAction;
@@ -248,22 +229,19 @@ export default {
           id: item.taskId, 
           projectId: this.currentProjectId,
           date: moment().format('MMMM Do YYYY, HH:mm:ss '),
-          // x: this.x, 
-          // y: this.top,
-          // w: this.widtg,
-          // h: this.height,
           });  
       this.sendRequestTask();
     },
 
     deleteTask() {
-       console.log('Проект удалён', this.name, this.id);
-      // this.$store.dispatch('deleteProject', this.id);
-      // this.showDialog = false;
-      // this.sendRequest();
-      console.log("Удален таск")
+      console.log('Задача удалена', this.taskId , this.currentProjectId);
+      this.$store.dispatch('deleteTaskOnProject', {
+         taskId: this.taskId,
+         id: this.currentProjectId,
+        });
+      this.showTask = false;
+      this.sendRequestTask();
     },
-
 
     onDrag(x, y, item, task) {
       let allTaskListCoords = this.getCoordsTaskList();
@@ -374,10 +352,7 @@ export default {
     currentProjectJoinUsers() {
       return (this.currentJoinProject && this.currentJoinProject.user) || [];
     }, 
-
-
     
-
     currentTask() {
       return this.joinUserToProjects.find(item => {
         return item._id === this.currentProjectId;
@@ -387,10 +362,7 @@ export default {
     currentProjectTask() {
       return (this.currentTask && this.currentTask.TaskList) || [];
     }, 
-   
-
-
-
+  
     currentProjectTask() {
       return this.joinUserToProjects.find(item => {
         return item._id === this.currentProjectId;

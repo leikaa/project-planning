@@ -10,7 +10,7 @@ class UpdateUser {
   }
 
   async execute(filter, update) {
-     //console.log('UpdateUser', filter, update);
+    this.logger.debug('UpdateUser', filter , update);
     const id = update.id;
     delete(update.id);
     await this.userModel.findOneAndUpdate(filter, update);

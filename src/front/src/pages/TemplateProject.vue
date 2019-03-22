@@ -1,6 +1,6 @@
 <template>
 	<div class="wrap">
-    <change-projects/>
+    <change-users-in-projects/>
     <div class="calendar-task">
       <calendar-header/>
        <user-task/>
@@ -12,15 +12,15 @@
 <script>
 import 'style.sass';
 import { mapGetters } from 'vuex';
-import ChangeProjects from '../components/ChangeProjects';
+import ChangeUsersInProjects from '../components/project/ChangeUsersInProjects';
 import CalendarHeader from '../components/calendar/CalendarHeader';
-import UserTask from '../components/UserTask';
-//import Backlog from '../components/Backlog';
+import UserTask from '../components/project/UserTask';
+//import Backlog from '../components/project/Backlog';
 
 export default {
   name: 'TemplateProject',
   components: {
-    ChangeProjects,
+    ChangeUsersInProjects,
     CalendarHeader,
     UserTask,
    // Backlog

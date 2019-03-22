@@ -53,13 +53,11 @@ class Routes {
       res.send({ status: 'ok' });
     });
 
-
     this.httpServer.post('/projects/:id/del_user/:userId', async(req, res) => {
        const answer = await this.projectController.deleteUserOfProjects(req.params.id, req.params.userId);
        //console.log('Ответ с controller' , answer)
        res.send({ status: 'ok' });
      });
-
 
     this.httpServer.delete('/projects/:id', async (req, res) => {
       const answer = await this.projectController.delete({
@@ -70,6 +68,12 @@ class Routes {
 
     this.httpServer.post('/projects', bodyParser.json(), async (req, res) => {
       const answer = await this.projectController.create(req.body);
+      res.send({ status: 'ok' });
+    });
+
+    this.httpServer.post('/projects/:id/del_task/:taskId', async(req, res) => {
+      const answer = await this.projectController.deleteTaskOfProjects(req.params.id, req.params.taskId);
+      //console.log('Ответ с controller' , answer)
       res.send({ status: 'ok' });
     });
 
@@ -123,9 +127,9 @@ class Routes {
       res.send({ status: 'ok' });
     });
 
-    this.httpServer.delete('/tasks/:id', async (req, res) => {
+    this.httpServer.delete('/task/:taskId', async (req, res) => {
       const answer = await this.taskController.delete({
-        '_id': req.params.id
+        '_id': req.params.taskId
       });
       res.send({ status: 'ok' });
     });

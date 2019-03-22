@@ -10,7 +10,7 @@ class DeleteTask {
   }
 
   async execute(filter) {
-    console.log('DeleteTask', filter);
+    this.logger.warn('DeleteTask', filter);
     await this.taskModel.deleteOne(filter);
     return true;
   }

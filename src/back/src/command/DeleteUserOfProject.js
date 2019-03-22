@@ -1,6 +1,6 @@
 'use strict';
 
-class DelUser {
+class DeleteUserOfProject {
   constructor({
     logger,
     projectModel,
@@ -10,10 +10,10 @@ class DelUser {
   }
 
   async execute(filter, update) {
-    console.log('deleteUserOfProject', filter, update);
+    this.logger.warn('DeleteUserOfProject', filter , update);
     await this.projectModel.findOneAndUpdateUserDelProject(filter, update);
     return true;
   }
 }
 
-module.exports = DelUser;
+module.exports = DeleteUserOfProject;

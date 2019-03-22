@@ -19,13 +19,6 @@ const loadProjects = ({ commit }) => {
     });
 };
 
-const openProject = ({ commit }, id) => {
-  api.getData('get', `projects/${id}`)
-    .then(data => {
-      commit('OPENED_PROJECT', data);
-    });
-};
-
 const addProject = ({ commit }, data) => {
   api.request('post', 'projects/', data)
     .then(
@@ -126,10 +119,22 @@ const addTask = ({ commit }, data) => {
     });
 };
 
-const deleteTask = ({ commit }, id) => {
-  api.request('delete', `tasks/${id}`)
+const deleteTaskOnProject = ({ commit }, data) => {
+  console.log('delete', data);
+  api.request('post', `projects/${data.id}/del_task/${data.taskId}`)
     .then(
-      commit('DELETED_TASK', id));
+      commit('DELETE_TASK_ON_PROJECT', data)
+    );
+
+  api.request('delete', `task/${data.taskId}`)
+    .then(
+      commit('DELETED_TASK', data)
+    );
+
+  api.getData('get', 'projects/join_users')
+    .then(data => {
+    commit('JOINING_USERS_TO_PROJECTS', data);
+  });
 };
 
 const saveTask = ({ commit }, data) => {
@@ -144,9 +149,9 @@ export default {
   loadProjects,
   addProject,
   deleteProject,
-  addUserToProject,
-  openProject,
   saveProject,
+  addUserToProject,
+  deleteUserOnProject,
 
   loadUsers,
   openUser,
@@ -155,9 +160,8 @@ export default {
   saveUser,
 
   addTaskToProject,
-  deleteUserOnProject,
   loadTasks,
   addTask,
-  deleteTask,
+  deleteTaskOnProject,
   saveTask,
 };

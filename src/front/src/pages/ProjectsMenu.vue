@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-app id="inspire">
-      <data-project 
+      <project-data 
       :items="projects"
       :controls="controls"
       @editItem="editItem"
@@ -51,7 +51,7 @@
 
 
 <script>
-import DataProject from '../components/DataProject'; 
+import ProjectData from '../components/project/ProjectData'; 
 import moment from 'moment';
 export default {
   name: "Project",
@@ -69,7 +69,7 @@ export default {
     };
   },
   components: {
-    DataProject,
+    ProjectData,
   },
   methods: {
     sendRequest() {
@@ -80,7 +80,7 @@ export default {
       this.modalSubmitButton = "Добавить";
       this.modalAction = "Add";
       this.name = "";
-      this.Date = moment().format('MMMM Do YYYY, HH:mm:ss ');
+      this.CreationDate = moment().format('MMMM Do YYYY, HH:mm:ss ');
       this.disableInput = false;
       this.showDialog = true;
     },
@@ -121,8 +121,8 @@ export default {
       }
     },
     addProject() {
-      console.log("Проект добавлен", this.name, this.Date );
-      this.$store.dispatch("addProject", { name: this.name , Date:this.Date});
+      console.log("Проект добавлен", this.name, this.CreationDate );
+      this.$store.dispatch("addProject", { name: this.name , CreationDate:this.CreationDate});
       this.showDialog = false;
       this.sendRequest();
     },

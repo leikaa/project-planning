@@ -130,7 +130,7 @@ export default {
       this.modalAction = 'Edit';
       this.id = Item._id;
       this.name = Item.name;
-      this.Date = moment().format('MMMM Do YYYY, HH:mm:ss ');
+      this.UpdateDate = moment().format('MMMM Do YYYY, HH:mm:ss ');
       this.disableInput = false;
       this.showDialog = true;
     },
@@ -173,8 +173,8 @@ export default {
       this.sendRequest();
     },
     saveUser() {
-      console.log('Участник сохранен', this.id, this.name , this.Date );
-      this.$store.dispatch('saveUser', { name: this.name, id: this.id , Date: this.Date });
+      console.log('Участник сохранен', this.id, this.name , this.UpdateDate );
+      this.$store.dispatch('saveUser', { name: this.name, id: this.id , UpdateDate: this.UpdateDate });
       this.showDialog = false;
       this.sendRequest();
     },

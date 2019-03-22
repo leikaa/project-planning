@@ -10,7 +10,7 @@ class UpdateTask {
   }
 
   async execute(filter, update) {
-    //console.log('UpdateTask', filter, update);
+    this.logger.debug('UpdateTask', filter , update);
     const id = update.id;
     delete(update.id);
     await this.taskModel.findOneAndUpdate(filter, update);

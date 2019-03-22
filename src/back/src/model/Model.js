@@ -1,11 +1,12 @@
 'use strict';
 //Определяеться порядок записи в базу
 class Model {
-  constructor({ db, collectionName }) {
+  constructor({ db, collectionName, logger, }) {
     this.db = db;
     this.collectionName = collectionName;
+    this.logger = logger;
   }
-
+  
   async getList(filter, projection) {
     return this.find(filter, projection).toArray();
   }
@@ -35,6 +36,7 @@ class Model {
       )
       .catch(err => {
         console.log(err);
+        this.logger.error('Error', err);
       });
       console.log("Результат обновления", result)
     return result;

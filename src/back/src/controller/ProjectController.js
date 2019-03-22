@@ -5,16 +5,20 @@ class  ProjectController {
     getProjects,
     addUser,
     deleteUserOfProject,
+    deleteTaskOfProject,
     createProject,
     deleteProject,
     updateProject,
+    logger,
   }) {
     this.getProjects = getProjects;
     this.addUser = addUser;
+    this.deleteUserOfProject = deleteUserOfProject;
+    this.deleteTaskOfProject = deleteTaskOfProject;
     this.createProject = createProject;
     this.deleteProject = deleteProject;
     this.updateProject = updateProject;
-    this.deleteUserOfProject = deleteUserOfProject;
+    this.logger = logger;
   }
 
   async getList() {
@@ -37,9 +41,9 @@ class  ProjectController {
     return await this.deleteUserOfProject.execute(id, userId);
   }
 
-  async update(filter, update) {
-    console.log('UpdateProject', filter, update);
-    return await this.updateProject.execute(filter, update);
+  async deleteTaskOfProjects(id, taskId) {
+    console.log('deleteTaskOfProject', id, taskId);
+    return await this.deleteTaskOfProject.execute(id, taskId);
   }
 
   async create(params) {
@@ -49,7 +53,12 @@ class  ProjectController {
   async delete(params) {
     return await this.deleteProject.execute(params);
   }
-  
+
+  async update(filter, update) {
+    console.log('UpdateProject', filter, update);
+    return await this.updateProject.execute(filter, update);
+  }
+ 
 }
 
 module.exports = ProjectController;

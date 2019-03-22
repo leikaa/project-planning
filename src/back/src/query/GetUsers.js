@@ -11,7 +11,6 @@ class GetUsers {
     const result = await this.userModel.getList(filter, projection);
     return result;
   }
-
 }
 
 module.exports = GetUsers;

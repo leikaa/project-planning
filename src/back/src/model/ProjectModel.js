@@ -9,7 +9,7 @@ class ProjectModel extends Model {
 
   //Добавление участников в проект.
   async findOneAndUpdateUserInProject(id, userId) {
-    console.log('findOneAndUpdateUserInProject', id, userId );
+    //console.log('findOneAndUpdateUserInProject', id, userId );
     const result = await this.db.get()
       .collection(this.collectionName)
       .findOneAndUpdate(
@@ -118,16 +118,30 @@ class ProjectModel extends Model {
       console.log(result);
     return result;
   }
+
+  //Удаление задачи из проекта
+  async findOneAndUpdateDeleteTask(id, taskId) {
+    console.log('findOneAndUpdateUserInProject', id, taskId);
+    const result = await this.db.get()
+      .collection(this.collectionName)
+      .findOneAndUpdate(
+        {
+          _id: this.db.objectId(id)
+        },
+        {
+         $pull: {
+           "users.$[].task" : { taskId: this.db.objectId(taskId)}
+        }
+        },
+      )
+      .catch(err => {
+        console.log(err);
+      });
+      console.log(result);
+    return result;
+  }
 }
 module.exports = ProjectModel;
-
-// db.getCollection('Projects').update({},{ 
-//   $pull : {
-//       "users.$[].task" : {"taskId": ObjectId("5c8fa9774a2ef41bca36b13e")} 
-//   }
-// })
-
-
 
 
 // db.getCollection('TaskList').find({  решение без агрегаций выводит по проекту все таски 

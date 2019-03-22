@@ -53,12 +53,9 @@
                  <v-form v-model="DelUser">
                   <v-text-field
                     v-model="name"
-                    :items="userOnProject"
                     :disabled="disableInput"
                     label="Выберите участника"
                     solo
-                    item-text="name"
-                    item-value="_id"
                     required
                   ></v-text-field>
                 </v-form>
@@ -78,7 +75,7 @@
           </v-dialog>
         </v-layout>
       </v-card>
-    <user
+    <users-in-project
       :items="currentProjectJoinUsers"
       :controls="controls"
       @deleteItem="deleteItem"
@@ -87,7 +84,7 @@
 </template>
 
 <script>
-import User from "./User";
+import UsersInProject from "./UsersInProject";
 export default {
   name: "ChangeProjects",
   data() {
@@ -104,7 +101,7 @@ export default {
     };
   },
   components: {
-    User
+    UsersInProject
   },
   watch: {
     selectedElement(val) {

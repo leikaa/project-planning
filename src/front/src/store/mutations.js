@@ -41,7 +41,6 @@ export default {
     console.log('DELETE USER ON PROJECT - ', data);
   },
 
-
   SAVED_PROJECT(_, data) {
     console.log('SAVED PROJECT - ', data);
   },
@@ -79,6 +78,10 @@ export default {
 
   ADDED_TASK(_, data) {
     console.log('ADDED TASK - ', data);
+  },
+
+  DELETE_TASK_ON_PROJECT(_, data) {
+    console.log('DELETE_TASK_ON_PROJECT - ', data);
   },
 
   DELETED_TASK(_, data) {
