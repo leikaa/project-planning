@@ -5,7 +5,7 @@
         v-for="(list, index) in currentJoinProject.users"
         :key="index"
         :data-id="index"
-        ref="currentProjectUsers"
+        ref="currentJoinProject"
         class="pole user-task task-list__item"
       >
         <vue-draggable-resizable
@@ -18,11 +18,11 @@
           :item="item"
           :handles="['ml', 'mr']"
           :grid="[21, 46]"
-          @dragstop="onDrag"
           @mouseup.native="saveTask(item)"
           @dblclick.native="deleteItem(item)" 
           maximize
         >
+        <!-- @dragstop="onDrag" -->
           <div class="user-task__item" :style="`background: ${item.rgb}`">
              <div class="task-text">{{item.name}}</div>
           </div>
@@ -169,6 +169,9 @@ export default {
       this.$store.dispatch("loadTasks");
     },
 
+    sendRequestJoin() {
+      this.$store.dispatch("joinUsers");
+    },
     addItem() {
       this.modalTitle = "Добавить новую задачу";
       this.modalSubmitButton = "Добавить";
@@ -218,11 +221,6 @@ export default {
         "Задача добавлена",
         this.name,
         this.description,
-        this.projectId,
-        this.userId,
-        this.date,
-        this.dateOne,
-        this.dateTwo,
       );
       this.$store.dispatch("addTask", {
         projectId: this.currentProjectId,
@@ -262,6 +260,13 @@ export default {
       this.sendRequestTask();
     },
 
+     updateServersStatus() {
+      this.$store.dispatch("joinUsers");
+      this.timerId = setTimeout(() => {
+        this.updateServersStatus();
+      }, 2000);
+    }
+/*
     onDrag(x, y, item, task) {
       let allTaskListCoords = this.getCoordsTaskList();
 
@@ -275,7 +280,7 @@ export default {
     getCoordsTaskList() {
       let coords = [];
 
-      this.$refs.currentProjectUsers.forEach(taskDiv => {
+      this.$refs.currentJoinProject.forEach(taskDiv => {
         let taskDivCoords = taskDiv.getBoundingClientRect();
         coords.push({
           id: taskDiv.dataset.id,
@@ -321,7 +326,7 @@ export default {
       item.y = Math.abs(taskListCoords[nearTaskListIndex].y - taskCoords.top);
       console.log(item.y);
 
-      this.currentProjectUsers.forEach((list, listIndex) => {
+      this.currentJoinProject.forEach((list, listIndex) => {
         list.task.forEach((task, taskIndex) => {
           if (task.id == item.id && listIndex != nearTaskListIndex) {
             this.taskList[listIndex].splice(taskIndex, 1);
@@ -330,32 +335,15 @@ export default {
         });
       });
     }
+    */
   },
   computed: {
     projects() {
       return this.$store.getters.projects;
     },
 
-    elements() {
-      return this.$store.getters.users;
-    },
-
-    tasks() {
-      return this.$store.getters.tasks;
-    },
-
     currentProjectId() {
       return this.$route.params.id;
-    },
-
-    currentProject() {
-      return this.projects.find(item => {
-        return item._id === this.currentProjectId;
-      });
-    },
-
-    currentProjectUsers() {
-      return (this.currentProject && this.currentProject.users) || [];
     },
 
     joinUserToProjects() {
@@ -371,32 +359,16 @@ export default {
     currentProjectJoinUsers() {
       return (this.currentJoinProject && this.currentJoinProject.user) || [];
     }, 
-    
-    currentTask() {
-      return this.joinUserToProjects.find(item => {
-        return item._id === this.currentProjectId;
-      });
-    },
-
-    currentProjectTask() {
-      return (this.currentTask && this.currentTask.TaskList) || [];
-    }, 
-  
-    currentProjectTask() {
-      return this.joinUserToProjects.find(item => {
-        return item._id === this.currentProjectId;
-      });
-    },
-
-    currentProjectTaskList() {
-      return (this.currentProjectTask && this.currentProjectTask.TaskList) || [];
-    },
   },
-  created() {
-    this.sendRequestProject();
+    created() {
     this.sendRequestUser();
     this.sendRequestTask();
-  }
+    this.updateServersStatus()
+    },
+
+    beforeDestroy() {
+    clearTimeout(this.timerId);
+    }
 };
 </script>
 

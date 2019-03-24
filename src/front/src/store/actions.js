@@ -87,14 +87,6 @@ const saveUser = ({ commit }, data) => {
       commit('SAVED_USER', data));
 };
 
-const addTaskToProject = ({ commit }, data) => {
-  console.log('save', data);
-  api.request('post', `projects/${data.id}/add_task/${data.taskId}`)
-    .then(
-      commit('SAVED_PROJECT', data)
-    );
-};
-
 const loadTasks = ({ commit }) => {
   api.getData('get', 'tasks/')
     .then(data => {
@@ -106,12 +98,6 @@ const addTask = ({ commit }, data) => {
   api.request('post',  `tasks/`, data)
     .then(
       commit('ADDED_TASK', data));
-
-    api.getData('get', 'projects/')
-      .then(data => {
-       //console.log('data',data )
-      commit('LOADED_PROJECTS', data);
-    });
 
      api.getData('get', 'projects/join_users')
       .then(data => {
@@ -137,6 +123,13 @@ const deleteTaskOnProject = ({ commit }, data) => {
   });
 };
 
+const joinUsers = ({ commit }, data) => {
+  api.getData('get', 'projects/join_users')
+  .then(data => {
+   commit('JOINING_USERS_TO_PROJECTS', data);
+  });
+};
+
 const saveTask = ({ commit }, data) => {
   api.request('post', `tasks/${data.id}`, data)
     .then(
@@ -159,9 +152,9 @@ export default {
   deleteUser,
   saveUser,
 
-  addTaskToProject,
   loadTasks,
   addTask,
   deleteTaskOnProject,
+  joinUsers,
   saveTask,
 };

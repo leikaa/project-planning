@@ -12,7 +12,7 @@
 import moment from 'moment';  
 import Month from './Month.vue'; 
 
-const NUM_ALL_MONTH = 12,
+const NUM_ALL_MONTH = 36,
       NUM_DAYS_IN_WEEK = 7,
       CUR_YEAR = moment().format('2018'); 
 
