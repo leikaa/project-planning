@@ -99,7 +99,7 @@ class ProjectModel extends Model {
   }
 
   //Добавление задачи в проект.
-  async findOneAndUpdateTaskInUsers(id, userId, taskId, dateOne, dateTwo, x, y, w, h, rgb, name) {
+  async findOneAndUpdateTaskInUsers(id, userId, taskId, dateOne, dateTwo, x, y, w, h, rgb, name ) {
     console.log('findOneAndUpdateTaskInUsers', id, userId , taskId );
     const result = await this.db.get()
       .collection(this.collectionName) 

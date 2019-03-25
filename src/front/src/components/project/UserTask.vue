@@ -180,9 +180,9 @@ export default {
       this.userId = this.selectedElement;
       this.dateOne = this.dateOne;
       this.dateTwo = this.dateTwo;
-      this.x = 0;
+      //this.x = 0;
       this.y = 46;
-      this.w = 21;
+      //this.w = 21;
       this.h = 46;
       this.rgb = 'rgb(244,67,54)'
       this.description = "";
@@ -227,14 +227,14 @@ export default {
         userId: this.selectedElement,
         dateOne : this.dateOne,
         dateTwo: this.dateTwo,
-        x: this.x,
+        //x: this.x,
         y: this.y,
-        w: this.w,
+        //w: this.w,
         h: this.h,
         rgb: this.rgb,
         description: this.description,
         name: this.name,
-        date: moment().format('MMMM Do YYYY, HH:mm:ss '),
+        dateCreate: moment().format('MMMM Do YYYY, HH:mm:ss '),
       });
       this.showDialog = false;
       this.sendRequestTask();
@@ -245,7 +245,7 @@ export default {
        this.$store.dispatch('saveTask', {
           id: item.taskId, 
           projectId: this.currentProjectId,
-          date: moment().format('MMMM Do YYYY, HH:mm:ss '),
+          dateCreate: moment().format('MMMM Do YYYY, HH:mm:ss '),
           });  
       this.sendRequestTask();
     },
@@ -260,12 +260,12 @@ export default {
       this.sendRequestTask();
     },
 
-     updateServersStatus() {
-      this.$store.dispatch("joinUsers");
-      this.timerId = setTimeout(() => {
-        this.updateServersStatus();
-      }, 2000);
-    }
+    //  updateServersStatus() {
+    //   this.$store.dispatch("joinUsers");
+    //   this.timerId = setTimeout(() => {
+    //     this.updateServersStatus();
+    //   }, 2000);
+    // }
 /*
     onDrag(x, y, item, task) {
       let allTaskListCoords = this.getCoordsTaskList();
@@ -359,11 +359,63 @@ export default {
     currentProjectJoinUsers() {
       return (this.currentJoinProject && this.currentJoinProject.user) || [];
     }, 
+
+
+    // currentTaskList(){
+    //   let result = this.currentJoinProject.users.map(item => item.task);
+    //   //return result (Так будет массив)
+    //    return (Object.assign({}, result))
+    // },
+   
+    // newTask(){
+    //   var mobNum=[1,2]; 
+    //   for(var i = 0 ; i < currentTaskList.lenght ; i++){
+    //      return( this.currentTaskList[i].forEach(function(item , index){
+    //       item.mobile=mobNum[index]
+    //     }
+    //   ))
+    //   }
+    // }
+
+    // newTask(){
+    //      return( this.currentTaskList.forEach(function(item , index , currentTaskList){
+    //       currentTaskList.push(new Date());
+    //     }))
+    // }
+  
+    // newTask(){
+    //  return( this.currentTaskList.forEach((elems , i , currentTaskList) => {
+    //     for(var prop in elems){
+    //       return prop[i] = new Date();
+    //     }
+    //   }))
+    // }
+  
+
+   
+
+    newTask(){
+      var counter = 0;
+      for(var key in this.currentTaskList){
+         counter++;
+      }
+      return counter;
+    },
+
+  
+   
+
+    
+
+
+
+
+
   },
     created() {
     this.sendRequestUser();
     this.sendRequestTask();
-    this.updateServersStatus()
+    //this.updateServersStatus()
     },
 
     beforeDestroy() {

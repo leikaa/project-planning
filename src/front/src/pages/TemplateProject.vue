@@ -36,7 +36,7 @@ body{
 }
 .wrap{
   min-height: 100vh;
-  width: 10000px;
+  width: 24000px;
   display: flex;
 }
 
