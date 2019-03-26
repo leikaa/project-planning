@@ -18,14 +18,24 @@
             <v-card-title class="headline grey lighten-2" primary-title>{{ modalTitle }}</v-card-title>
             <v-card-text>
               <v-form v-model="formValid">
-                <v-select
+                <select v-model="selectedElement" class="select-element">
+                    <option disabled value="">Выберите участника</option>
+                    <option 
+                    v-for="item in elements" 
+                    :value="item._id"
+                    :key="item.name"
+                    >
+                    {{item.name}}
+                    </option>
+                  </select>
+                <!-- <v-select
                   v-model="selectedElement"
                   :items="elements"
                   label="Выберите участника"
                   solo
                   item-text="name"
                   item-value="_id"
-                ></v-select>
+                ></v-select> -->
               </v-form>
             </v-card-text>
             <v-divider></v-divider>

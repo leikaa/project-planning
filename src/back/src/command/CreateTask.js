@@ -18,7 +18,7 @@ class CreateTask {
     this.logger.debug('CreateTask 2', result);
     
     const answerOnCommand = await this.taskModel.getLastTask(filter, projection);
-      console.log("Последняя добавленная задача" , answerOnCommand);
+      //console.log("Последняя добавленная задача" , answerOnCommand);
     
 
 
@@ -30,7 +30,7 @@ class CreateTask {
       }
       return obj;
     }, {});
-      console.log("Обьект c последней добавленой задачей" , ParseAnswerOnCommand);
+      //console.log("Обьект c последней добавленой задачей" , ParseAnswerOnCommand);
 
 
 
@@ -42,9 +42,9 @@ class CreateTask {
           ValueString += ParseAnswerOnCommand[item] + ' ';
           LastValue = ParseAnswerOnCommand[item] + ' ';
          }
-          console.log("Значение", ParseAnswerOnCommand[item])
+          //console.log("Значение", ParseAnswerOnCommand[item])
       };
-       console.log("Значение ValueString", ValueString)
+       //console.log("Значение ValueString", ValueString)
   
 
     //Тут строка превращается в массив для удобства дальнейшего присвоения.
@@ -83,13 +83,13 @@ class CreateTask {
     var dateX = ((dateOne - StartDate)/ 1000 / 60 / 60 / 24);
     var x = dateX * 21;
 
-    console.log("dateOne: ", dateOne);
-    console.log("dateTwo: ", dateTwo);
-    console.log("StartDate: ", StartDate);
-    console.log("resultDate: ", resultDate);
-    console.log("valueName: ", valueName);
-    console.log("dateX: ", dateX);
-    console.log("values" , values);
+    // console.log("dateOne: ", dateOne);
+    // console.log("dateTwo: ", dateTwo);
+    // console.log("StartDate: ", StartDate);
+    // console.log("resultDate: ", resultDate);
+    // console.log("valueName: ", valueName);
+    // console.log("dateX: ", dateX);
+    // console.log("values" , values);
   
 
     await this.projectModel.findOneAndUpdateTaskInUsers(id , userId , taskId , dateOne , dateTwo , x , y , w , h , rgb, name );
