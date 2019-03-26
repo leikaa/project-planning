@@ -474,7 +474,7 @@ export default {
     position: absolute;
     box-sizing: border-box;
   }
-  .handle {
+  /* .handle {
     box-sizing: border-box;
     display: none;
     position: absolute;
@@ -483,6 +483,17 @@ export default {
     font-size: 1px;
     background: #EEE;
     border: 1px solid #333;
+  } */
+  .handle {
+    box-sizing: border-box;
+    display: none;
+    position: absolute;
+    width: 10px;
+    height: 40px;
+    font-size: 1px;
+    background: #EEE;
+    border: 1px solid rgb(244, 67, 54);
+    border-radius: 10px;
   }
   .handle-tl {
     top: -10px;
@@ -500,17 +511,31 @@ export default {
     right: -10px;
     cursor: ne-resize;
   }
-  .handle-ml {
+  /* .handle-ml {
     top: 50%;
     margin-top: -5px;
     left: -10px;
     cursor: w-resize;
+  } */
+  .handle-ml {
+    top: 26%;
+    margin-top: -10px;
+    left: 0px;
+    cursor: w-resize;
+    z-index: 2;
   }
-  .handle-mr {
+  /* .handle-mr {
     top: 50%;
     margin-top: -5px;
     right: -10px;
     cursor: e-resize;
+  } */
+   .handle-mr {
+    top: 26%;
+    margin-top: -10px;
+    right: 0px;
+    cursor: e-resize;
+    z-index: 2;
   }
   .handle-bl {
     bottom: -10px;

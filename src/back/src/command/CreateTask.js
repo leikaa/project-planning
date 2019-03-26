@@ -18,7 +18,7 @@ class CreateTask {
     this.logger.debug('CreateTask 2', result);
     
     const answerOnCommand = await this.taskModel.getLastTask(filter, projection);
-      console.log("Последняя добавленая задача" , answerOnCommand);
+      console.log("Последняя добавленная задача" , answerOnCommand);
     
 
 
@@ -30,25 +30,25 @@ class CreateTask {
       }
       return obj;
     }, {});
-      console.log("Переменная ParseAnswerOnCommand!" , ParseAnswerOnCommand);
+      console.log("Обьект c последней добавленой задачей" , ParseAnswerOnCommand);
 
 
 
-    //Тут обьект превращаеться в строку.
-    var str = ('');
-    var strName = ('');
+    //Тут обьект превращается в строку.
+    var ValueString = ('');
+    var LastValue = ('');
       for(var item in ParseAnswerOnCommand){
         if (ParseAnswerOnCommand.hasOwnProperty(item)) {
-          str += ParseAnswerOnCommand[item] + ' ';
-          strName = ParseAnswerOnCommand[item] + ' ';
+          ValueString += ParseAnswerOnCommand[item] + ' ';
+          LastValue = ParseAnswerOnCommand[item] + ' ';
          }
           console.log("Значение", ParseAnswerOnCommand[item])
       };
-       console.log("Значение str", str)
+       console.log("Значение ValueString", ValueString)
   
 
-    //Тут строка превращаеться в массив
-    var values = str.split(' ' , 8);
+    //Тут строка превращается в массив для удобства дальнейшего присвоения.
+    var values = ValueString.split(' ' , 8);
     var taskId = values[0];
     var id = values[1];
     var userId = values[2];
@@ -60,7 +60,7 @@ class CreateTask {
     var string_h = values[6];
     var rgb = values[7];
 
-    var valueName = strName;
+    var valueName = LastValue;
     var name = valueName;
 
     //var x = Number.parseInt(string_x);
@@ -74,7 +74,7 @@ class CreateTask {
     var dateTw = TwoDay.split('-');
     var dateOne = new Date(dateOn[0] ,  dateOn[1] - 1, dateOn[2]);
     var dateTwo = new Date(dateTw[0] ,  dateTw[1] - 1, dateTw[2]);
-    var resultDate =  ((dateTwo - dateOne)/ 1000 / 60 / 60 / 24);
+    var resultDate =  ((dateTwo - dateOne)/ 1000 / 60 / 60 / 24) + 1;
     var w = ((resultDate * 21));
 
 
@@ -92,8 +92,7 @@ class CreateTask {
     console.log("values" , values);
   
 
-    const addTaskOnProject = await this.projectModel.findOneAndUpdateTaskInUsers(id , userId , taskId , dateOne , dateTwo , x , y , w , h , rgb, name );
-      //console.log(addTaskOnProject , "Ответ с model");
+    await this.projectModel.findOneAndUpdateTaskInUsers(id , userId , taskId , dateOne , dateTwo , x , y , w , h , rgb, name );
     return true;
   }
 }

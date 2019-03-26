@@ -28,7 +28,7 @@
           </div>
         </vue-draggable-resizable>
       </div>
-<!-- Добавление задач @mouseup.native.ctrl="addItem"  -->
+ <!-- Добавление задач @mouseup.native.ctrl="addItem"  -->
       <v-card>
         <v-layout row align-end>
           <v-dialog v-model="showDialog" width="500">
@@ -49,14 +49,24 @@
                     :disabled="disableInput"
                     required
                   ></v-text-field>
-                  <v-select
+                  <select v-model="selectedElement" class="select-element">
+                    <option disabled value="">Список участников проекта</option>
+                    <option 
+                    v-for="item in currentProjectJoinUsers" 
+                    :value="item._id"
+                    :key="item.name"
+                    >
+                    {{item.name}}
+                    </option>
+                  </select>
+                  <!-- <v-select
                     v-model="selectedElement"
                     :items="currentProjectJoinUsers"
                     label="Выберите участника"
                     solo
                     item-text="name"
                     item-value="_id"
-                  ></v-select>
+                  ></v-select> -->
                   <div class="pickers">
                    <v-date-picker 
                    v-model="dateOne"
@@ -260,12 +270,12 @@ export default {
       this.sendRequestTask();
     },
 
-    //  updateServersStatus() {
-    //   this.$store.dispatch("joinUsers");
-    //   this.timerId = setTimeout(() => {
-    //     this.updateServersStatus();
-    //   }, 2000);
-    // }
+     updateServersStatus() {
+      this.$store.dispatch("joinUsers");
+      this.timerId = setTimeout(() => {
+        this.updateServersStatus();
+      }, 2000);
+    }
 /*
     onDrag(x, y, item, task) {
       let allTaskListCoords = this.getCoordsTaskList();
@@ -391,9 +401,6 @@ export default {
     //   }))
     // }
   
-
-   
-
     newTask(){
       var counter = 0;
       for(var key in this.currentTaskList){
@@ -402,20 +409,11 @@ export default {
       return counter;
     },
 
-  
-   
-
-    
-
-
-
-
-
   },
     created() {
     this.sendRequestUser();
     this.sendRequestTask();
-    //this.updateServersStatus()
+    this.updateServersStatus()
     },
 
     beforeDestroy() {
@@ -473,5 +471,21 @@ export default {
 .pickers{
   display: flex;
   justify-content: space-around;
+}
+
+.select-element{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 470px;
+  height: 50px;
+  box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
+  padding: 0 12px;
+  border-radius: 2px;
+  font-family: Roboto ,sans-serif;
+  line-height: 1.5;
+  font-size: 16px;
+  margin-bottom: 15px;
+  margin-top : 5px;
 }
 </style>
