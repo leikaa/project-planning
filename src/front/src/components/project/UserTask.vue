@@ -20,6 +20,7 @@
           :grid="[21, 46]"
           @mouseup.native="saveTask(item)"
           @dblclick.native="deleteItem(item)" 
+          @click.native="someMethod()"
           maximize
         >
         <!-- @dragstop="onDrag" -->
@@ -164,6 +165,9 @@ export default {
       showTask: false,
       dateOne: new Date().toISOString().substr(0, 10),
       dateTwo: new Date().toISOString().substr(0, 10),
+      // x: "",
+      // w: "",
+      // y: "",
     };
   },
   methods: {
@@ -251,10 +255,13 @@ export default {
     },
 
     saveTask(item) {
-      console.log('Проект сохранен', item.taskId, this.currentProjectId);
+      console.log('Проект сохранен', item.taskId, this.currentProjectId , this.currentItemXCoordinate, this.currentItemWCoordinate, this.currentItemYCoordinate,);
        this.$store.dispatch('saveTask', {
           id: item.taskId, 
           projectId: this.currentProjectId,
+          x: this.currentItemXCoordinate,
+          w: this.currentItemWCoordinate,
+          y: this.currentItemYCoordinate,
           dateCreate: moment().format('MMMM Do YYYY, HH:mm:ss '),
           });  
       this.sendRequestTask();
@@ -275,7 +282,7 @@ export default {
       this.timerId = setTimeout(() => {
         this.updateServersStatus();
       }, 2000);
-    }
+    },
 /*
     onDrag(x, y, item, task) {
       let allTaskListCoords = this.getCoordsTaskList();
@@ -346,6 +353,18 @@ export default {
       });
     }
     */
+    someMethod() {
+      let left = event.currentTarget.style.left;
+      let width = event.currentTarget.style.width;
+      let top = event.currentTarget.style.top;
+     
+      var x = left.slice(0, -2);
+      var w = width.slice(0, -2);
+      var y = top.slice(0, -2);
+
+      console.log("Получаемые координаты обьекта", x , w , y )
+      return x
+    }
   },
   computed: {
     projects() {
@@ -370,50 +389,61 @@ export default {
       return (this.currentJoinProject && this.currentJoinProject.user) || [];
     }, 
 
-
-    // currentTaskList(){
-    //   let result = this.currentJoinProject.users.map(item => item.task);
-    //   //return result (Так будет массив)
-    //    return (Object.assign({}, result))
-    // },
-   
-    // newTask(){
-    //   var mobNum=[1,2]; 
-    //   for(var i = 0 ; i < currentTaskList.lenght ; i++){
-    //      return( this.currentTaskList[i].forEach(function(item , index){
-    //       item.mobile=mobNum[index]
-    //     }
-    //   ))
-    //   }
-    // }
-
-    // newTask(){
-    //      return( this.currentTaskList.forEach(function(item , index , currentTaskList){
-    //       currentTaskList.push(new Date());
-    //     }))
-    // }
-  
-    // newTask(){
-    //  return( this.currentTaskList.forEach((elems , i , currentTaskList) => {
-    //     for(var prop in elems){
-    //       return prop[i] = new Date();
-    //     }
-    //   }))
-    // }
-  
-    newTask(){
-      var counter = 0;
-      for(var key in this.currentTaskList){
-         counter++;
-      }
-      return counter;
+    currentItemXCoordinate(left , x){
+      left = event.currentTarget.style.left;
+      x = left.slice(0, -2);
+      console.log("Это Х", x)
+      return x;
     },
 
+    currentItemWCoordinate(width , w){
+      width = event.currentTarget.style.width;
+      w = width.slice(0, -2);
+       console.log("Это W", w)
+      return w;
+    }, 
+
+    currentItemYCoordinate(top , y){
+      top = event.currentTarget.style.top;
+      y = top.slice(0, -2);
+       console.log("Это y", y)
+      return y;
+    }
+
+
+    // getCoordsTaskList(){ // работает, но есть ошибка 
+    //       let result = this.currentJoinProject.users.forEach((item) => { 
+    //       let task = item.task.forEach((el) => {
+
+    //       let dateOne = el.dateOne;
+    //       let dateTwo = el.dateTwo;
+
+    //       let dateOn = dateOne.split('-');
+    //       let dateTw = dateTwo.split('-');
+
+    //       let OneDate = new Date(dateOn[0] ,  dateOn[1] - 1, dateOn[2]);
+    //       let TwoDate = new Date(dateTw[0] ,  dateTw[1] - 1, dateTw[2]);
+    //       let resultDate =  ((TwoDate - OneDate)/ 1000 / 60 / 60 / 24) + 1;
+    //       let W = (resultDate * 21);
+
+    //       let StartDate = new Date(2018,0,1); 
+    //       let dateX = ((OneDate - StartDate)/ 1000 / 60 / 60 / 24);
+    //       let X = dateX * 21;
+
+    //       this.$set(el, 'x', X)
+    //       this.$set(el, 'w', W)
+    //       //console.log(el);
+    //      });
+    //    });
+    //  return this.joinUserToProjects.find(item => {
+    //     return item._id === this.currentProjectId;
+    //   });
+    // },
   },
     created() {
     this.sendRequestUser();
     this.sendRequestTask();
-    this.updateServersStatus()
+   // this.updateServersStatus()
     },
 
     beforeDestroy() {
