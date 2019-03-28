@@ -61,38 +61,26 @@ class UpdateTask {
       
       //Получение даты из секунд.
       const getFirstDay = new Date(NumberSecondsFromStart);
-      const dateOne = [getFirstDay.getDate(), getFirstDay.getMonth() + 1, getFirstDay.getFullYear() + 48].join('-');
-      console.log("dateOne",dateOne);
+      const StartDate = [getFirstDay.getFullYear() + 48, getFirstDay.getMonth() + 1, getFirstDay.getDate()].join('-');
+      console.log("StartDate",StartDate);
 
       //Длительность задачи.
       const TaskDuration = w / 21;
       console.log("TaskDuration",TaskDuration);
 
-      const getSecondDay = new Date(dateOne);
+      const getDateOne = new Date(StartDate);
+      console.log("getDateOne", getDateOne);
+      
+      const getDurationDate = getDateOne.setDate(getFirstDay.getDate() + TaskDuration);
+      console.log("getDurationDate", getDurationDate);
+
+      const getSecondDay = new Date(getDurationDate);
       console.log("getSecondDay", getSecondDay);
 
-    //  var hot = getSecondDay.setDate(getSecondDay.getDate() + TaskDuration);
-    //  console.log("hot",hot);
+      const endDate = [getSecondDay.getFullYear() , getSecondDay.getMonth() + 1 , getSecondDay.getDate() - 1].join('-');
+      console.log("EndDate", endDate);
 
-
-     
-
-
-     
-
-
-
-
-      //Тут ведуться вычесления дат из координат.
-    // var dateOn = OneDay.split('-');
-    // var dateTw = TwoDay.split('-');
-    // var dateOne = new Date(dateOn[0] ,  dateOn[1] - 1, dateOn[2]);
-    // var dateTwo = new Date(dateTw[0] ,  dateTw[1] - 1, dateTw[2]);
-    // var resultDate =  ((dateTwo - dateOne)/ 1000 / 60 / 60 / 24) + 1;
-    
-
-
- 
+  
     update._id = id;
     return true;
   }

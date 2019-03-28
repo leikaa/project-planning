@@ -71,23 +71,23 @@ class CreateTask {
     //Тут ведуться вычесления количества затраченых на задачу дней.
     var dateOn = OneDay.split('-');
     var dateTw = TwoDay.split('-');
-    var dateOne = new Date(dateOn[0] ,  dateOn[1] - 1, dateOn[2]);
-    var dateTwo = new Date(dateTw[0] ,  dateTw[1] - 1, dateTw[2]);
-    var resultDate =  ((dateTwo - dateOne)/ 1000 / 60 / 60 / 24) + 1;
+    var startDate = new Date(dateOn[0] ,  dateOn[1] - 1, dateOn[2]);
+    var endDate = new Date(dateTw[0] ,  dateTw[1] - 1, dateTw[2]);
+    var resultDate =  ((endDate - startDate)/ 1000 / 60 / 60 / 24) + 1;
     var w = ((resultDate * 21));
 
 
     //Тут ведеться расчет координат по х.
-    var StartDate = new Date(2018,0,1); //Начальная дата
-    var dateX = ((dateOne - StartDate)/ 1000 / 60 / 60 / 24);
+    var StartDate = new Date(2018,0,1); 
+    var dateX = ((startDate - StartDate)/ 1000 / 60 / 60 / 24);
     var x = dateX * 21;
 
     // console.log("dateOne: ", dateOne);
-    // console.log("dateTwo: ", dateTwo);
+    // console.log("endDate: ", endDate);
     // console.log("StartDate: ", StartDate);
     // console.log("resultDate: ", resultDate);
     // console.log("valueName: ", valueName);
-     console.log("dateX: ", dateX);
+    //console.log("dateX: ", dateX);
     // console.log("values" , values);
   
 
