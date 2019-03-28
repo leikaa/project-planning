@@ -24,14 +24,13 @@ class CreateTask {
 
     //Тут полученый массив превращаеться в обьект.
     const ParseAnswerOnCommand = answerOnCommand.reduce(function(obj , item){
-      for(var i=0 ; i < 10; i++){
+      for(var i=0 ; i < 12; i++){
         var key = Object.keys(item)[i];
         obj[key] = item[key];
       }
       return obj;
     }, {});
       //console.log("Обьект c последней добавленой задачей" , ParseAnswerOnCommand);
-
 
 
     //Тут обьект превращается в строку.
@@ -42,13 +41,13 @@ class CreateTask {
           ValueString += ParseAnswerOnCommand[item] + ' ';
           LastValue = ParseAnswerOnCommand[item] + ' ';
          }
-          //console.log("Значение", ParseAnswerOnCommand[item])
+          console.log("Значение", ParseAnswerOnCommand[item])
       };
-       //console.log("Значение ValueString", ValueString)
+       console.log("Значение ValueString", ValueString)
   
 
     //Тут строка превращается в массив для удобства дальнейшего присвоения.
-    var values = ValueString.split(' ' , 8);
+    var values = ValueString.split(' ' , 12);
     var taskId = values[0];
     var id = values[1];
     var userId = values[2];
@@ -56,9 +55,9 @@ class CreateTask {
     var TwoDay = values[4];
     //var string_x = values[5];
     //var string_w = values[6];
-    var string_y = values[5];
-    var string_h = values[6];
-    var rgb = values[7];
+    var string_y = values[7];
+    var string_h = values[8];
+    var rgb = values[9];
 
     var valueName = LastValue;
     var name = valueName;
@@ -88,12 +87,12 @@ class CreateTask {
     // console.log("StartDate: ", StartDate);
     // console.log("resultDate: ", resultDate);
     // console.log("valueName: ", valueName);
-    // console.log("dateX: ", dateX);
+     console.log("dateX: ", dateX);
     // console.log("values" , values);
   
 
-    await this.projectModel.findOneAndUpdateTaskInUsers(id , userId , taskId , dateOne , dateTwo , x , y , w , h , rgb, name );
-    return true;
+   await this.projectModel.findOneAndUpdateTaskInUsers(id , userId , taskId , OneDay , TwoDay , x , y , w , h , rgb, name );
+   return true;
   }
 }
 module.exports = CreateTask;

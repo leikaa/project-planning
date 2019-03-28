@@ -150,6 +150,7 @@ export default {
   components: {
     VueDraggableResizable
   },
+
   data() {
     return {
       showDialog: false,
@@ -165,11 +166,9 @@ export default {
       showTask: false,
       dateOne: new Date().toISOString().substr(0, 10),
       dateTwo: new Date().toISOString().substr(0, 10),
-      // x: "",
-      // w: "",
-      // y: "",
     };
   },
+
   methods: {
     sendRequestProject() {
       this.$store.dispatch("loadProjects");
@@ -186,6 +185,7 @@ export default {
     sendRequestJoin() {
       this.$store.dispatch("joinUsers");
     },
+
     addItem() {
       this.modalTitle = "Добавить новую задачу";
       this.modalSubmitButton = "Добавить";
@@ -194,9 +194,9 @@ export default {
       this.userId = this.selectedElement;
       this.dateOne = this.dateOne;
       this.dateTwo = this.dateTwo;
-      //this.x = 0;
+      this.x = 0;
       this.y = 46;
-      //this.w = 21;
+      this.w = 0;
       this.h = 46;
       this.rgb = 'rgb(244,67,54)'
       this.description = "";
@@ -241,9 +241,9 @@ export default {
         userId: this.selectedElement,
         dateOne : this.dateOne,
         dateTwo: this.dateTwo,
-        //x: this.x,
+        x: this.x,
         y: this.y,
-        //w: this.w,
+        w: this.w,
         h: this.h,
         rgb: this.rgb,
         description: this.description,
@@ -255,15 +255,15 @@ export default {
     },
 
     saveTask(item) {
-      console.log('Проект сохранен', item.taskId, this.currentProjectId , this.currentItemXCoordinate, this.currentItemWCoordinate, this.currentItemYCoordinate,);
-       this.$store.dispatch('saveTask', {
-          id: item.taskId, 
-          projectId: this.currentProjectId,
-          x: this.currentItemXCoordinate,
-          w: this.currentItemWCoordinate,
-          y: this.currentItemYCoordinate,
-          dateCreate: moment().format('MMMM Do YYYY, HH:mm:ss '),
-          });  
+      console.log('Проект сохранен', item.taskId, this.currentProjectId);
+      this.$store.dispatch('saveTask', {
+        id: item.taskId, 
+        projectId: this.currentProjectId,
+        x: this.getCurrentItemXCoordinate(),
+        w: this.getCurrentItemWCoordinate(),
+        y: this.getCurrentItemYCoordinate(),
+        dateCreate: moment().format('MMMM Do YYYY, HH:mm:ss '),
+      });  
       this.sendRequestTask();
     },
 
@@ -353,19 +353,34 @@ export default {
       });
     }
     */
-    someMethod() {
-      let left = event.currentTarget.style.left;
-      let width = event.currentTarget.style.width;
-      let top = event.currentTarget.style.top;
-     
-      var x = left.slice(0, -2);
-      var w = width.slice(0, -2);
-      var y = top.slice(0, -2);
-
-      console.log("Получаемые координаты обьекта", x , w , y )
-      return x
-    }
+  getCurrentItemXCoordinate(){
+    const left = event.currentTarget.style.left;
+    return left.slice(0, -2);
   },
+  
+  getCurrentItemWCoordinate(){
+    const width = event.currentTarget.style.width;
+    return width.slice(0, -2);
+  },
+
+  getCurrentItemYCoordinate(){
+    const top = event.currentTarget.style.top;
+    return top.slice(0, -2);
+  },
+ 
+  someMethod() {
+    let left = event.currentTarget.style.left;
+    let width = event.currentTarget.style.width;
+    let top = event.currentTarget.style.top;
+     
+    var x = left.slice(0, -2);
+    var w = width.slice(0, -2);
+    var y = top.slice(0, -2);
+
+    console.log("Координаты задачи", x , w , y )
+   }
+  },
+
   computed: {
     projects() {
       return this.$store.getters.projects;
@@ -387,30 +402,9 @@ export default {
 
     currentProjectJoinUsers() {
       return (this.currentJoinProject && this.currentJoinProject.user) || [];
-    }, 
-
-    currentItemXCoordinate(left , x){
-      left = event.currentTarget.style.left;
-      x = left.slice(0, -2);
-      console.log("Это Х", x)
-      return x;
     },
 
-    currentItemWCoordinate(width , w){
-      width = event.currentTarget.style.width;
-      w = width.slice(0, -2);
-       console.log("Это W", w)
-      return w;
-    }, 
-
-    currentItemYCoordinate(top , y){
-      top = event.currentTarget.style.top;
-      y = top.slice(0, -2);
-       console.log("Это y", y)
-      return y;
-    }
-
-
+    
     // getCoordsTaskList(){ // работает, но есть ошибка 
     //       let result = this.currentJoinProject.users.forEach((item) => { 
     //       let task = item.task.forEach((el) => {
