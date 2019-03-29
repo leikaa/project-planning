@@ -137,7 +137,7 @@ export default {
       this.modalTitle = 'Удалить участника из проекта';
       this.modalSubmitButton = 'Удалить';
       this.modalAction = 'Delete';
-      this.userId = item._id;
+      this.userId = item.userId;
       this.name = item.name;
       this.id = this.currentProjectId;
       this.disableInput = false;

@@ -17,47 +17,50 @@ class CreateTask {
     const result = await this.taskModel.insertOne(params);
     this.logger.debug('CreateTask 2', result);
     
-  //   const answerOnCommand = await this.taskModel.getLastTask(filter, projection);
-  //     //console.log("Последняя добавленная задача" , answerOnCommand);
+    const answerOnCommand = await this.taskModel.getLastTask(filter, projection);
+      //console.log("Последняя добавленная задача" , answerOnCommand);
     
 
 
-  //   //Тут полученый массив превращаеться в обьект.
-  //   const ParseAnswerOnCommand = answerOnCommand.reduce(function(obj , item){
-  //     for(var i=0 ; i < 12; i++){
-  //       var key = Object.keys(item)[i];
-  //       obj[key] = item[key];
-  //     }
-  //     return obj;
-  //   }, {});
-  //     //console.log("Обьект c последней добавленой задачей" , ParseAnswerOnCommand);
+    //Тут полученый массив превращаеться в обьект.
+    const ParseAnswerOnCommand = answerOnCommand.reduce(function(obj , item){
+      for(var i=0 ; i < 12; i++){
+        var key = Object.keys(item)[i];
+        obj[key] = item[key];
+      }
+      return obj;
+    }, {});
+      //console.log("Обьект c последней добавленой задачей" , ParseAnswerOnCommand);
 
 
-  //   //Тут обьект превращается в строку.
-  //   var ValueString = ('');
-  //   var LastValue = ('');
-  //     for(var item in ParseAnswerOnCommand){
-  //       if (ParseAnswerOnCommand.hasOwnProperty(item)) {
-  //         ValueString += ParseAnswerOnCommand[item] + ' ';
-  //         LastValue = ParseAnswerOnCommand[item] + ' ';
-  //        }
-  //         console.log("Значение", ParseAnswerOnCommand[item])
-  //     };
-  //      console.log("Значение ValueString", ValueString)
+    //Тут обьект превращается в строку.
+    var ValueString = ('');
+    //var LastValue = ('');
+      for(var item in ParseAnswerOnCommand){
+        if (ParseAnswerOnCommand.hasOwnProperty(item)) {
+          ValueString += ParseAnswerOnCommand[item] + ' ';
+          //LastValue = ParseAnswerOnCommand[item] + ' ';
+         }
+          //console.log("Значение", ParseAnswerOnCommand[item])
+      };
+      // console.log("Значение ValueString", ValueString)
   
 
-  //   //Тут строка превращается в массив для удобства дальнейшего присвоения.
-  //   var values = ValueString.split(' ' , 12);
-  //   var taskId = values[0];
-  //   var id = values[1];
-  //   var userId = values[2];
-  //   var OneDay = values[3];
-  //   var TwoDay = values[4];
-  //   //var string_x = values[5];
-  //   //var string_w = values[6];
-  //   var string_y = values[7];
-  //   var string_h = values[8];
-  //   var rgb = values[9];
+    //Тут строка превращается в массив для удобства дальнейшего присвоения.
+    var values = ValueString.split(' ' , 3);
+    var taskId = values[0];
+    var id = values[1];
+    var userId = values[2];
+
+
+
+    // var OneDay = values[3];
+    // var TwoDay = values[4];
+    // //var string_x = values[5];
+    // //var string_w = values[6];
+    // var string_y = values[7];
+    // var string_h = values[8];
+    // var rgb = values[9];
 
   //   var valueName = LastValue;
   //   var name = valueName;
@@ -91,7 +94,7 @@ class CreateTask {
   //   // console.log("values" , values);
   
 
-  //  await this.projectModel.findOneAndUpdateTaskInUsers(id , userId , taskId , OneDay , TwoDay , x , y , w , h , rgb, name );
+   await this.projectModel.findOneAndUpdateTaskInUsers(id , userId , taskId );
    return true;
   }
 }

@@ -9,7 +9,7 @@
           slot="item" 
           slot-scope="props" 
         >
-          <div class="user__name pi">{{props.item.userId }}</div>
+          <div class="user__name pi">{{props.item.name }}</div>
         <div class="el">
           <v-btn
           class="mx-0"

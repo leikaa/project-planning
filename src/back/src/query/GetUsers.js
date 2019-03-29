@@ -10,6 +10,7 @@ class GetUsers {
     // console.log('get', filter, projection);
     const result = await this.userModel.getList(filter, projection);
     //console.log('Это GetUsers result' , result)
+    
     return result;
   }
 }
