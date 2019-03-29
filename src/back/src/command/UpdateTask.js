@@ -4,9 +4,11 @@ class UpdateTask {
   constructor({
     logger,
     taskModel,
+    projectModel,
   }) {
     this.logger = logger;
     this.taskModel = taskModel;
+    this.projectModel = projectModel;
   }
 
   async execute(filter, update) {
@@ -61,14 +63,14 @@ class UpdateTask {
       
       //Получение даты из секунд.
       const getFirstDay = new Date(NumberSecondsFromStart);
-      const StartDate = [getFirstDay.getFullYear() + 48, getFirstDay.getMonth() + 1, getFirstDay.getDate()].join('-');
-      console.log("StartDate",StartDate);
+      const startDate = [getFirstDay.getFullYear() + 48, getFirstDay.getMonth() + 1, getFirstDay.getDate()].join('-');
+      console.log("startDate",startDate);
 
       //Длительность задачи.
       const TaskDuration = w / 21;
       console.log("TaskDuration",TaskDuration);
 
-      const getDateOne = new Date(StartDate);
+      const getDateOne = new Date(startDate);
       console.log("getDateOne", getDateOne);
       
       const getDurationDate = getDateOne.setDate(getFirstDay.getDate() + TaskDuration);
@@ -80,6 +82,7 @@ class UpdateTask {
       const endDate = [getSecondDay.getFullYear() , getSecondDay.getMonth() + 1 , getSecondDay.getDate() - 1].join('-');
       console.log("EndDate", endDate);
 
+      await this.projectModel.UpdateTask(_id , userId , taskId , startDate , endDate , x , y , w , h , rgb);
   
     update._id = id;
     return true;

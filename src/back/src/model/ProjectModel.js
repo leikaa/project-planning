@@ -99,7 +99,7 @@ class ProjectModel extends Model {
   }
 
   //Добавление задачи в проект.
-  async findOneAndUpdateTaskInUsers(id, userId, taskId, dateOne, dateTwo, x, y, w, h, rgb, name ) {
+  async findOneAndUpdateTaskInUsers(id, userId, taskId, startDate, endDate, x, y, w, h, rgb, name ) {
     console.log('findOneAndUpdateTaskInUsers', id, userId , taskId );
     const result = await this.db.get()
       .collection(this.collectionName) 
@@ -109,7 +109,7 @@ class ProjectModel extends Model {
           'users.userId': this.db.objectId(userId),
         },
         {
-          $push: { 'users.$.task': { taskId: this.db.objectId(taskId), dateOne, dateTwo, x, y, w, h, rgb, name}}
+          $push: { 'users.$.task': { taskId: this.db.objectId(taskId), startDate, endDate, x, y, w, h, rgb, name}}
         },
       )
       .catch(err => {
@@ -119,7 +119,7 @@ class ProjectModel extends Model {
     return result;
   }
 
-  //Удаление задачи из проекта
+  //Удаление задачи из проекта.
   async findOneAndUpdateDeleteTask(id, taskId) {
     console.log('findOneAndUpdateUserInProject', id, taskId);
     const result = await this.db.get()
@@ -140,8 +140,64 @@ class ProjectModel extends Model {
       console.log(result);
     return result;
   }
+
+  //Изменение задачи в проекте.
+  async UpdateTask(id, userId, taskId, startDate, endDate, x, y, w, h, rgb) {
+    console.log('UpdateTask', id, taskId);
+    const result = await this.db.get()
+      .collection(this.collectionName)
+      .findOneAndUpdate(
+        {
+          _id: this.db.objectId(id),
+          'users.userId': this.db.objectId(userId),
+          'users.task.taskId': this.db.objectId(taskId)
+         
+        },
+        {
+          $set:{ 
+            'users.$.task.$[]': {taskId:this.db.objectId(taskId),startDate , endDate , x, y, w, h, rgb}
+          }
+        }
+      )
+      .catch(err => {
+        console.log(err);
+      });
+      console.log(result);
+    return result;
+  }
 }
 module.exports = ProjectModel;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // db.getCollection('TaskList').find({  решение без агрегаций выводит по проекту все таски 
@@ -151,5 +207,27 @@ module.exports = ProjectModel;
 //   },
 // })
 
-
+// async UpdateTask(id, userId, taskId, startDate, endDate, x, y, w, h, rgb) {
+//   console.log('UpdateTask', id, taskId);
+//   const result = await this.db.get()
+//     .collection(this.collectionName)
+//     .findOneAndUpdate(
+//       {
+//         _id: this.db.objectId(id),
+//         'users.userId': this.db.objectId(userId),
+//        // 'task.taskId': this.db.objectId(taskId)
+       
+//       },
+//       {
+//         $set:{ 
+//           'users.$.task.$[]': {taskId:this.db.objectId(taskId),startDate , endDate , x, y, w, h, rgb}
+//         }
+//       }
+//     )
+//     .catch(err => {
+//       console.log(err);
+//     });
+//     console.log(result);
+//   return result;
+// }
 
