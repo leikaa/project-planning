@@ -2,10 +2,10 @@
   <div>
     <div class="task-list">
       <div
-        v-for="(list, index) in currentJoinProject.users"
+        v-for="(list, index) in currentProject.users"
         :key="index"
         :data-id="index"
-        ref="currentJoinProject"
+        ref="currentProject"
         class="pole user-task task-list__item"
       >
         <vue-draggable-resizable
@@ -53,9 +53,9 @@
                   <select v-model="selectedElement" class="select-element">
                     <option disabled value="">Список участников проекта</option>
                     <option 
-                    v-for="item in currentProjectJoinUsers" 
-                    :value="item._id"
-                    :key="item.name"
+                    v-for="item in currentProjectUsers" 
+                    :value="item.userId"
+                    :key="item.userId"
                     >
                     {{item.name}}
                     </option>
@@ -182,9 +182,9 @@ export default {
       this.$store.dispatch("loadTasks");
     },
 
-    sendRequestJoin() {
-      this.$store.dispatch("joinUsers");
-    },
+    // sendRequestJoin() {
+    //   this.$store.dispatch("joinUsers");
+    // },
 
     addItem() {
       this.modalTitle = "Добавить новую задачу";
@@ -277,12 +277,12 @@ export default {
       this.sendRequestTask();
     },
 
-     updateServersStatus() {
-      this.$store.dispatch("joinUsers");
-      this.timerId = setTimeout(() => {
-        this.updateServersStatus();
-      }, 2000);
-    },
+    //  updateServersStatus() {
+    //   this.$store.dispatch("joinUsers");
+    //   this.timerId = setTimeout(() => {
+    //     this.updateServersStatus();
+    //   }, 2000);
+    // },
 /*
     onDrag(x, y, item, task) {
       let allTaskListCoords = this.getCoordsTaskList();
@@ -389,20 +389,37 @@ export default {
     currentProjectId() {
       return this.$route.params.id;
     },
-
-    joinUserToProjects() {
-      return this.$store.getters.joinUserToProjects;
-    },
-
-    currentJoinProject() {
-      return this.joinUserToProjects.find(item => {
+    
+    currentProject() {
+      return this.projects.find(item => {
         return item._id === this.currentProjectId;
       });
     },
 
-    currentProjectJoinUsers() {
-      return (this.currentJoinProject && this.currentJoinProject.user) || [];
-    },
+    currentProjectUsers() {
+      return (this.currentProject && this.currentProject.users) || [];
+    }, 
+
+    // joinUserToProjects() {
+    //   return this.$store.getters.joinUserToProjects;
+    // },
+
+    // currentJoinProject() {
+    //   return this.joinUserToProjects.find(item => {
+    //     return item._id === this.currentProjectId;
+    //   });
+    // },
+
+    // currentProjectJoinUsers() {
+    //   return (this.currentJoinProject && this.currentJoinProject.user) || [];
+    // },
+
+
+    
+
+
+
+
 
     
     // getCoordsTaskList(){ // работает, но есть ошибка 
@@ -437,7 +454,7 @@ export default {
     created() {
     this.sendRequestUser();
     this.sendRequestTask();
-    this.updateServersStatus()
+    //this.updateServersStatus()
     },
 
     beforeDestroy() {

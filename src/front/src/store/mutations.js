@@ -14,12 +14,12 @@ export default {
     });
   },
 
-  JOINING_USERS_TO_PROJECTS(state, data) { 
-    console.log('JOINING_USERS_TO_PROJECTS', data);
-    state.joinUserToProjects = data.map(elem => { 
-      return elem;
-    });
-  },
+  // JOINING_USERS_TO_PROJECTS(state, data) { 
+  //   console.log('JOINING_USERS_TO_PROJECTS', data);
+  //   state.joinUserToProjects = data.map(elem => { 
+  //     return elem;
+  //   });
+  // },
 
   OPENED_PROJECT(state, data) {
     state.currentProject = data;

@@ -86,7 +86,7 @@
         </v-layout>
       </v-card>
     <users-in-project
-      :items="currentProjectJoinUsers"
+      :items="currentProjectUsers"
       :controls="controls"
       @deleteItem="deleteItem"
     />
@@ -210,19 +210,19 @@ export default {
       return (this.currentProject && this.currentProject.userId) || [];
     },
 
-    joinUserToProjects() {
-      return this.$store.getters.joinUserToProjects;
-    },
+    // joinUserToProjects() {
+    //   return this.$store.getters.joinUserToProjects;
+    // },
 
-    currentJoinProject() {
-      return this.joinUserToProjects.find(item => {
-        return item._id === this.currentProjectId;
-      });
-    },
+    // currentJoinProject() {
+    //   return this.joinUserToProjects.find(item => {
+    //     return item._id === this.currentProjectId;
+    //   });
+    // },
 
-    currentProjectJoinUsers() {
-      return (this.currentJoinProject && this.currentJoinProject.user) || [];
-    },
+    // currentProjectJoinUsers() {
+    //   return (this.currentJoinProject && this.currentJoinProject.user) || [];
+    // },
   },
   created() {
     this.sendRequest();
