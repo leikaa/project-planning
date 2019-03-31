@@ -178,6 +178,14 @@ export default {
       this.UsersDialog = false;
       this.sendRequest();
     },
+
+
+      updateServersStatus() {
+       this.$store.dispatch("loadProjects");
+       this.timerId = setTimeout(() => {
+         this.updateServersStatus();
+       }, 2000);
+     },
   },
   computed: {
     controls() {
@@ -224,8 +232,11 @@ export default {
     //   return (this.currentJoinProject && this.currentJoinProject.user) || [];
     // },
   },
+
+  
   created() {
     this.sendRequest();
+    this.updateServersStatus();
   }
 };
 </script>
