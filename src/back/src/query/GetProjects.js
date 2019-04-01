@@ -79,7 +79,7 @@ class GetProjects {
                 el.startDate = taskMapStartDate[el.taskId];
                 el.endDate = taskMapEndDate[el.taskId];
               }
-              console.log('Это el ', el)
+              //console.log('Это el ', el)
               return el
             });
          //console.log('Это elem ', elem)
@@ -88,7 +88,6 @@ class GetProjects {
         return item
     })
     //console.log("Ты тут",result)
-
     return result;
   }
 

@@ -415,38 +415,64 @@ export default {
     // },
 
 
-    
+    getCoordsTaskList(){
+          let result = this.currentProject.users.forEach(item => { 
+          let task = item.task.forEach(el => {
+
+          let dateOne = el.startDate;
+          let dateTwo = el.endDate;
+
+          let dateOn = dateOne.split('-');
+          let dateTw = dateTwo.split('-');
+
+          let OneDate = new Date(dateOn[0] ,  dateOn[1] - 1, dateOn[2]);
+          let TwoDate = new Date(dateTw[0] ,  dateTw[1] - 1, dateTw[2]);
+          let resultDate =  ((TwoDate - OneDate)/ 1000 / 60 / 60 / 24) + 1;
+
+          let W = (resultDate * 21);
+          let StartDate = new Date(2018,0,1); 
+          let dateX = ((OneDate - StartDate)/ 1000 / 60 / 60 / 24);
+          let X = dateX * 21;
+
+          this.$set(el, 'x', X)
+          this.$set(el, 'w', W)
+          console.log(el);
+         });
+       });
+    //  return this.currentProject.find(item => {
+    //     return item._id === this.currentProjectId;
+    //   });
+    },
 
 
 
-     getCoordsTaskList(){
+    //  getCoordsTaskList(){
+    //        this.currentProject.users.forEach(item => { 
+    //        item.task.forEach(el => {
+    //        let startDate = el.startDate;
+    //        let endDate = el.endDate;
 
-           let result = this.currentProject.users.forEach((item) => { 
-           let task = item.task.forEach((el) => {
-           let startDate = el.startDate;
-           let endDate = el.endDate;
+    //        let dateOne = startDate.split('-');
+    //        let dateTwo = endDate.split('-');
 
-           let dateOne = startDate.split('-');
-           let dateTwo = endDate.split('-');
+    //        let OneDate = new Date(dateOne[0] ,  dateOne[1] - 1, dateOne[2]);
+    //        let TwoDate = new Date(dateTwo[0] ,  dateTwo[1] - 1, dateTwo[2]);
+    //        let resultDate =  ((TwoDate - OneDate)/ 1000 / 60 / 60 / 24) + 1;
+    //        let W = (resultDate * 21);
 
-           let OneDate = new Date(dateOne[0] ,  dateOne[1] - 1, dateOne[2]);
-           let TwoDate = new Date(dateTwo[0] ,  dateTwo[1] - 1, dateTwo[2]);
-           let resultDate =  ((TwoDate - OneDate)/ 1000 / 60 / 60 / 24) + 1;
-           let W = (resultDate * 21);
+    //        let StartDate = new Date(2018,0,1); 
+    //        let dateX = ((OneDate - StartDate)/ 1000 / 60 / 60 / 24);
+    //        let X = dateX * 21;
 
-           let StartDate = new Date(2018,0,1); 
-           let dateX = ((OneDate - StartDate)/ 1000 / 60 / 60 / 24);
-           let X = dateX * 21;
-
-           this.$set(el, 'x', X)
-           this.$set(el, 'w', W)
-           console.log(el);
-          });
-        });
-    /*   return this.joinUserToProjects.find(item => {
-         return item._id === this.currentProjectId;
-       }); */
-     },
+    //        this.$set(el, 'x', X)
+    //        this.$set(el, 'w', W)
+    //        //console.log(el);
+    //       });
+    //     });
+    //      return this.currentProject.find(item => {
+    //        return item._id === this.currentProjectId;
+    //    });
+    // },
   },
     created() {
     this.sendRequestUser();
