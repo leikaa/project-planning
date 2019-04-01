@@ -21,13 +21,13 @@ class GetProjects {
 
     const taskList = await this.taskModel.getList(filter, projection);
 
-    //Создание обьекта с key = id , value = name.
+    //Создание объекта с key = id , value = name для дальнейшего соединения.
     const usersMap = {};
     usersList.forEach(item => {
       usersMap[item._id] = item.name;
     });
 
-    //Создание новоего масива с обновлеными обьектами.
+    //Обновление свойств объектов в массиве users.
     const JoinUsersAndProject = projectList.map(item => {
       if (item.users === undefined) {
         return item;
@@ -48,7 +48,6 @@ class GetProjects {
       taskMapName[item._id] = item.name;
     });
 
-    //Создание обьекта с key = id , value = rgb.
     const taskMapRgb = {};
     taskList.forEach(item => {
       taskMapRgb[item._id] = item.rgb;
@@ -64,6 +63,13 @@ class GetProjects {
       taskMapEndDate[item._id] = item.endDate;
     });
 
+    const taskMapY = {};
+    taskList.forEach(item => {
+      item.y = Number.parseInt(item.y)
+      taskMapY[item._id] = item.y;
+    });
+
+    //Обновление свойств объектов в массиве task.
     const result = JoinUsersAndProject.map(item =>{
       if (item.users === undefined) {
         return item;
@@ -78,6 +84,7 @@ class GetProjects {
                 el.rgb = taskMapRgb[el.taskId];
                 el.startDate = taskMapStartDate[el.taskId];
                 el.endDate = taskMapEndDate[el.taskId];
+                el.y = taskMapY[el.taskId];
               }
               //console.log('Это el ', el)
               return el
@@ -90,44 +97,6 @@ class GetProjects {
     //console.log("Ты тут",result)
     return result;
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  // const users = [{
-  //   _id: 1, name: '1'
-  // }, {
-  //   _id: 2, name: '2'
-  // }];
-  // const usersMap = {};
-  // users.forEach(item => {
-  //   usersMap[item._id] = item.name;
-  // });
-
-  // result.users.map(item => {
-  //   if (usersMap[item._id]) {
-  //     item.name = usersMap[item._id];
-  //   }
-  // });
-
 }
 
 module.exports = GetProjects;

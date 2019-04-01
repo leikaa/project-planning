@@ -16,7 +16,6 @@ class TaskModel extends Model {
     return this.db.get()
       .collection(this.collectionName)     
       .find(this.getFilter(filter)).project(projection).sort({_id: -1}).limit(1); 
-     //Удалить в следующем комите если все работает нормально .sort({dateCreate: -1})
   }
 }
 

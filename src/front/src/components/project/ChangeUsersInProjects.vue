@@ -144,7 +144,6 @@ export default {
       this.UsersDialog = true;
     },
 
-
     confirmModalAction() {
       const action = this.modalAction;
       switch (action) {
@@ -179,8 +178,7 @@ export default {
       this.sendRequest();
     },
 
-
-      updateServersStatus() {
+    updateServersStatus() {
        this.$store.dispatch("loadProjects");
        this.timerId = setTimeout(() => {
          this.updateServersStatus();
@@ -217,23 +215,8 @@ export default {
     userOnProject() {
       return (this.currentProject && this.currentProject.userId) || [];
     },
-
-    // joinUserToProjects() {
-    //   return this.$store.getters.joinUserToProjects;
-    // },
-
-    // currentJoinProject() {
-    //   return this.joinUserToProjects.find(item => {
-    //     return item._id === this.currentProjectId;
-    //   });
-    // },
-
-    // currentProjectJoinUsers() {
-    //   return (this.currentJoinProject && this.currentJoinProject.user) || [];
-    // },
   },
 
-  
   created() {
     this.sendRequest();
     this.updateServersStatus();

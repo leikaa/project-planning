@@ -35,8 +35,6 @@ export default {
   users:[],
   tasks:[],
   
-  joinUserToProjects:[],
-  
   ui: {
     defaultPagination: [20, 50, { text: 'All', value: -1 }],
     defaultControls: [

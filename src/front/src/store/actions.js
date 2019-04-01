@@ -12,11 +12,7 @@ const loadProjects = ({ commit }) => {
     .then(data => {
        //console.log('data',data )
       commit('LOADED_PROJECTS', data);
-    })
-    // api.getData('get', 'projects/join_users')
-    // .then(data => {
-    //   commit('JOINING_USERS_TO_PROJECTS', data);
-    // });
+    }) 
 };
 
 const addProject = ({ commit }, data) => {
@@ -98,11 +94,6 @@ const addTask = ({ commit }, data) => {
   api.request('post',  `tasks/`, data)
     .then(
       commit('ADDED_TASK', data));
-
-    //  api.getData('get', 'projects/join_users')
-    //   .then(data => {
-    //   commit('JOINING_USERS_TO_PROJECTS', data);
-    // });
 };
 
 const deleteTaskOnProject = ({ commit }, data) => {
@@ -116,19 +107,7 @@ const deleteTaskOnProject = ({ commit }, data) => {
     .then(
       commit('DELETED_TASK', data)
     );
-
-  // api.getData('get', 'projects/join_users')
-  //   .then(data => {
-  //   commit('JOINING_USERS_TO_PROJECTS', data);
-  // });
 };
-
-// const joinUsers = ({ commit }, data) => {
-//   api.getData('get', 'projects/join_users')
-//   .then(data => {
-//    commit('JOINING_USERS_TO_PROJECTS', data);
-//   });
-// };
 
 const saveTask = ({ commit }, data) => {
   api.request('post', `tasks/${data.id}`, data)
@@ -155,6 +134,5 @@ export default {
   loadTasks,
   addTask,
   deleteTaskOnProject,
- //joinUsers,
   saveTask,
 };

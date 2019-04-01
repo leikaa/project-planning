@@ -519,7 +519,7 @@ export default {
   } */
   .handle-ml {
     top: 26%;
-    margin-top: -45px;
+    margin-top: -10px;
     left: 0px;
     cursor: w-resize;
     z-index: 2;
@@ -532,7 +532,7 @@ export default {
   } */
    .handle-mr {
     top: 26%;
-    margin-top: -45px;
+    margin-top: -10px;
     right: 0px;
     cursor: e-resize;
     z-index: 2;
