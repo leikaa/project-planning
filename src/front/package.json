@@ -4,7 +4,7 @@
 	"description": "front",
 	"main": "main.js",
 	"scripts": {
-		"dev": "webpack-dev-server --mode development --open --hot",
+		"dev": "webpack-dev-server --mode development --open --hot --history-api-fallback",
 		"build": "webpack --mode production --colors --progress"
 	},
 	"author": "",

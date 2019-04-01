@@ -124,6 +124,9 @@ module.exports = (env, argv) => {
       open: true,
       proxy: require('./config/proxytable.js'),
       hot: true,
+      historyApiFallback: true, // is it enabled ?
+      inline: true,
+      host: '0.0.0.0',
     },
     resolve: {
       alias: {

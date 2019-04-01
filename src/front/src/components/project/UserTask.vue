@@ -307,76 +307,7 @@ export default {
       console.log("EndDate", endDate);
       return endDate;
     },
-/*
-    onDrag(x, y, item, task) {
-      let allTaskListCoords = this.getCoordsTaskList();
 
-      let diffCoords = this.getDiffCoords(allTaskListCoords, task);
-
-      let nearTaskListIndex = this.getNearTaskListIndex(diffCoords);
-
-      this.setTaskInTaskList(nearTaskListIndex, item, task);
-    },
-
-    getCoordsTaskList() {
-      let coords = [];
-
-      this.$refs.currentJoinProject.forEach(taskDiv => {
-        let taskDivCoords = taskDiv.getBoundingClientRect();
-        coords.push({
-          id: taskDiv.dataset.id,
-          x: taskDivCoords.left + window.pageXOffset,
-          y: taskDivCoords.top + window.pageYOffset
-        });
-      });
-
-      return coords;
-    },
-
-    getDiffCoords(taskListCoords, task) {
-      let taskCoords = task.getBoundingClientRect();
-      return taskListCoords.map(item => {
-        return {
-          diff: Math.abs(item.y - taskCoords.top),
-          id: item.id
-        };
-      });
-    },
-
-    getNearTaskListIndex(diffCoords) {
-      let idNearTask = 0;
-      let minDemension = null;
-
-      diffCoords.forEach((el, index) => {
-        if (minDemension == null) {
-          minDemension = el.diff;
-        }
-        if (el.diff <= minDemension) {
-          minDemension = el.diff;
-          idNearTask = el.id;
-        }
-      });
-
-      return idNearTask;
-    },
-
-    setTaskInTaskList(nearTaskListIndex, item, task) {
-      let taskCoords = task.getBoundingClientRect();
-
-      let taskListCoords = this.getCoordsTaskList();
-      item.y = Math.abs(taskListCoords[nearTaskListIndex].y - taskCoords.top);
-      console.log(item.y);
-
-      this.currentJoinProject.forEach((list, listIndex) => {
-        list.task.forEach((task, taskIndex) => {
-          if (task.id == item.id && listIndex != nearTaskListIndex) {
-            this.taskList[listIndex].splice(taskIndex, 1);
-            this.taskList[nearTaskListIndex].push(item);
-          }
-        });
-      });
-    }
-    */
     getCurrentItemXCoordinate(){
       const left = event.currentTarget.style.left;
       return left.slice(0, -2);
@@ -424,11 +355,12 @@ export default {
     }, 
 
     getCoordsTaskList(){
-      if (this.currentProject.users === undefined){
-        return this.currentProject;
+      if (this.currentProjectUsers === undefined){
+        return this.currentProjectUsers;
       } 
-        this.currentProject.users.forEach(item => { 
-          item.task.forEach(el => {
+        this.currentProjectUsers.map(item => { 
+          //console.log("item",item)
+          item.task.map(el => {
             const startDate = el.startDate;
             const endDate = el.endDate;
 
@@ -449,11 +381,10 @@ export default {
             this.$set(el, 'x', X);
             this.$set(el, 'w', W);
             this.$set(el, 'h', H);
-          });
+            //console.log("el",el)
+         });
         });
-        return this.projects.find(item => {
-          return item._id === this.currentProjectId;
-        });
+        return this.currentProject;
     },
   },
     created() {
