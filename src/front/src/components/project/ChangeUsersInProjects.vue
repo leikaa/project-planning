@@ -140,7 +140,7 @@ export default {
       this.userId = item.userId;
       this.name = item.name;
       this.id = this.currentProjectId;
-      this.disableInput = false;
+      this.disableInput = true;
       this.UsersDialog = true;
     },
 

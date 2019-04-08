@@ -20,7 +20,7 @@
           :grid="[21, 46]"
           @mouseup.native="saveTask(item)"
           @dblclick.native="deleteItem(item)" 
-          @click.native="someMethod()"
+          @click.native="getCurrentDateCoords()"
           maximize
         >
         <!-- @dragstop="onDrag" -->
@@ -285,7 +285,6 @@ export default {
 
     getStartDateFromCoords(){
       const getFirstDay = this.getFirstDay();
-      
       const startDate = [getFirstDay.getFullYear() + 48, getFirstDay.getMonth() + 1, getFirstDay.getDate()].join('-');
       console.log("startDate",startDate);
       return startDate;
@@ -332,7 +331,38 @@ export default {
       var w = width.slice(0, -2);
       var y = top.slice(0, -2);
       console.log("Координаты задачи", x , w , y )
-    }
+    },
+
+    getCurrentDate(){
+      //Получаем текущую дату.
+     const currentDay = new Date();
+     //console.log("currentDay", currentDay);
+     //Получение текущей даты без времени.
+     const dateOne = [currentDay.getFullYear() , currentDay.getMonth() + 1 , currentDay.getDate()];
+     const OneDate = new Date(dateOne[0] ,  dateOne[1] - 1, dateOne[2]);
+     return OneDate;
+    },
+
+    getCurrentDateCoords(){
+     const currentDay = this.getCurrentDate();
+     //Получаем дату начала календаря.
+     const FirstCalendarDay = new Date(2018,0,1);
+     //console.log("FirstCalendarDay", FirstCalendarDay);
+
+     //Количество дней пройденных от начала.
+     const numberDay =  ((currentDay - FirstCalendarDay)/ 1000 / 60 / 60 / 24) + 1;
+     //console.log("numberDay", numberDay);
+
+     //Координата к которой будет перемещаться scroll при загрузке.
+     const cordX = (numberDay * 21) - 200;
+     //console.log("cordX", cordX);
+     return cordX;
+    },
+
+    scrollCurrentDate(){
+     const cordX = this.getCurrentDateCoords();
+     window.scrollTo(cordX , 0);
+    },
   },
 
   computed: {
@@ -391,6 +421,10 @@ export default {
     this.sendRequestUser();
     this.sendRequestTask();
     },
+
+    mounted() {
+      this.scrollCurrentDate();
+    },
 };
 </script>
 
@@ -411,7 +445,7 @@ export default {
   background: rgba(0, 0, 0, 0.1);
 }
 .user-task {
-  height: 192px;
+  height: 138px;
   display: flex;
   position: relative;
   &__item {
@@ -421,6 +455,7 @@ export default {
     position: relative;
     border-radius: 10px;
     box-sizing: border-box;
+    clear: both;
     z-index: 1;
     cursor: pointer;
   }
