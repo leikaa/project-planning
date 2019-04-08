@@ -30,7 +30,6 @@ class Routes {
 
     this.httpServer.get('/projects', async (_, res) => {
       const data = await this.projectController.getList();
-      //console.log("Данные с базы project" , data)
       res.send({
         status: 'ok',
         data,
@@ -39,37 +38,34 @@ class Routes {
 
    this.httpServer.post('/projects/:id/add_user/:userId', async(req, res) => {
       //console.log('router', req);
-      const answer = await this.projectController.addUsers(req.params.id, req.params.userId);
-      //console.log('Ответ с controller' , answer)
+      await this.projectController.addUsers(req.params.id, req.params.userId);
       res.send({ status: 'ok' });
     });
 
-    this.httpServer.post('/projects/:id/del_user/:userId', async(req, res) => {
-       const answer = await this.projectController.deleteUserOfProjects(req.params.id, req.params.userId);
-       //console.log('Ответ с controller' , answer)
+    this.httpServer.delete('/projects/:id/users/:userId', async(req, res) => {
+       await this.projectController.deleteUserFromProject(req.params.id, req.params.userId);
        res.send({ status: 'ok' });
      });
 
     this.httpServer.delete('/projects/:id', async (req, res) => {
-      const answer = await this.projectController.delete({
+      await this.projectController.delete({
         '_id': req.params.id
       });
       res.send({ status: 'ok' });
     });
 
     this.httpServer.post('/projects', bodyParser.json(), async (req, res) => {
-      const answer = await this.projectController.create(req.body);
+      await this.projectController.create(req.body);
       res.send({ status: 'ok' });
     });
 
-    this.httpServer.post('/projects/:id/del_task/:taskId', async(req, res) => {
-      const answer = await this.projectController.deleteTaskOfProjects(req.params.id, req.params.taskId);
-      //console.log('Ответ с controller' , answer)
+    this.httpServer.delete('/projects/:id/task/:taskId', async(req, res) => {
+      await this.projectController.deleteTaskFromProject(req.params.id, req.params.taskId);
       res.send({ status: 'ok' });
     });
 
     this.httpServer.post('/projects/:id', bodyParser.json(), async(req, res) => {
-      const answer = await this.projectController.update({
+      await this.projectController.update({
         '_id': req.params.id
       }, req.body);
       res.send({ status: 'ok' });
@@ -84,21 +80,21 @@ class Routes {
     }); 
 
     this.httpServer.post('/users/:id', bodyParser.json(), async(req, res) => {
-      const answer = await this.userController.update({
+      await this.userController.update({
         '_id': req.params.id
       }, req.body);
       res.send({ status: 'ok' });
     });
 
     this.httpServer.delete('/users/:id', async (req, res) => {
-      const answer = await this.userController.delete({
+      await this.userController.delete({
         '_id': req.params.id
       });
       res.send({ status: 'ok' });
     });
 
     this.httpServer.post('/users', bodyParser.json(), async (req, res) => {
-      const answer = await this.userController.create(req.body);
+      await this.userController.create(req.body);
       res.send({ status: 'ok' });
     });
 
@@ -108,25 +104,24 @@ class Routes {
         status: 'ok',
         data,
       });
-        //console.log(data, "Массив полученых обьектов");
     }); 
 
     this.httpServer.post('/tasks/:id', bodyParser.json(), async(req, res) => {
-      const answer = await this.taskController.update({
+      await this.taskController.update({
         '_id': req.params.id
       }, req.body);
       res.send({ status: 'ok' });
     });
 
     this.httpServer.delete('/task/:taskId', async (req, res) => {
-      const answer = await this.taskController.delete({
+      await this.taskController.delete({
         '_id': req.params.taskId
       });
       res.send({ status: 'ok' });
     });
 
     this.httpServer.post('/tasks', bodyParser.json(), async (req, res) => {
-      const answer = await this.taskController.create(req.body);
+      await this.taskController.create(req.body);
       res.send({ status: 'ok' });
     });
 

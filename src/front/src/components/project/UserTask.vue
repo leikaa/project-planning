@@ -219,7 +219,7 @@ export default {
           this.addTask();
           break;
         case "Delete":
-          this.deleteTask();
+          this.deleteTaskFromProject();
           break;
       }
     },
@@ -260,9 +260,9 @@ export default {
       this.sendRequestTask();
     },
 
-    deleteTask() {
+    deleteTaskFromProject() {
       console.log('Задача удалена', this.taskId , this.currentProjectId);
-      this.$store.dispatch('deleteTaskOnProject', {
+      this.$store.dispatch('deleteTaskFromProject', {
          taskId: this.taskId,
          id: this.currentProjectId,
         });

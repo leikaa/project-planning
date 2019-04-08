@@ -8,8 +8,8 @@ class ProjectModel extends Model {
   }
 
   //Добавление участников в проект.
-  async findOneAndUpdateUserInProject(id, userId) {
-    //console.log('findOneAndUpdateUserInProject', id, userId );
+  async addUserToProject(id, userId) {
+    //console.log('addUserToProject', id, userId );
     const result = await this.db.get()
       .collection(this.collectionName)
       .findOneAndUpdate(
@@ -24,12 +24,13 @@ class ProjectModel extends Model {
       .catch(err => {
         console.log(err);
       });
+      console.log(result);
     return result;
   }
 
-  //Сортирует участников в проекте.
-  async sortUserInProject(id, userId) {
-    //console.log('sortUserInProject', id, userId );
+  //Сортировка участников в проекте.
+  async sortUsersToProject(id) {
+    //console.log('sortUserInProject', id);
     const result = await this.db.get()
       .collection(this.collectionName)
       .findOneAndUpdate(
@@ -39,12 +40,16 @@ class ProjectModel extends Model {
         { 
           $push : {"users":{$each:[],$sort: 1}}
         }
-        )
+      )
+      .catch(err => {
+        console.log(err);
+      });
+      console.log(result);
     return result;
   }
 
   //Удаление участников из проекта.
-  async findOneAndUpdateUserDelProject(id, userId) {
+  async deleteUserFromProject(id, userId) {
     console.log('findOneAndUpdateUserInProject', id, userId);
     const result = await this.db.get()
       .collection(this.collectionName)
@@ -65,8 +70,8 @@ class ProjectModel extends Model {
   }
 
   //Добавление задачи в проект.
-  async findOneAndUpdateTaskInUsers(id, userId, taskId) {
-    console.log('findOneAndUpdateTaskInUsers', id, userId , taskId );
+  async addTaskToProject(id, userId, taskId) {
+    console.log('addTaskToProject', id, userId , taskId );
     const result = await this.db.get()
       .collection(this.collectionName) 
       .findOneAndUpdate(
@@ -87,7 +92,7 @@ class ProjectModel extends Model {
 
 
   //Удаление задачи из проекта.
-  async findOneAndUpdateDeleteTask(id, taskId) {
+  async deleteTaskFromProject(id, taskId) {
     console.log('findOneAndUpdateUserInProject', id, taskId);
     const result = await this.db.get()
       .collection(this.collectionName)

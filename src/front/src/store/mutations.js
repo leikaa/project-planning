@@ -30,8 +30,8 @@ export default {
     console.log('ADD USER TO PROJECT - ', data);
   },
 
-  DELETE_USER_ON_PROJECT(_, data) {
-    console.log('DELETE USER ON PROJECT - ', data);
+  DELETE_USER_FROM_PROJECT(_, data) {
+    console.log('DELETE USER FROM PROJECT - ', data);
   },
 
   SAVED_PROJECT(_, data) {
@@ -73,8 +73,8 @@ export default {
     console.log('ADDED TASK - ', data);
   },
 
-  DELETE_TASK_ON_PROJECT(_, data) {
-    console.log('DELETE_TASK_ON_PROJECT - ', data);
+  DELETE_TASK_FROM_PROJECT(_, data) {
+    console.log('DELETE TASK FROM PROJECT - ', data);
   },
 
   DELETED_TASK(_, data) {

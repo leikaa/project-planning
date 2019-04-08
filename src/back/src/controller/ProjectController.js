@@ -4,8 +4,8 @@ class  ProjectController {
   constructor({
     getProjects,
     addUser,
-    deleteUserOfProject,
-    deleteTaskOfProject,
+    removeUserFromProject,
+    removeTaskFromProject,
     createProject,
     deleteProject,
     updateProject,
@@ -13,8 +13,8 @@ class  ProjectController {
   }) {
     this.getProjects = getProjects;
     this.addUser = addUser;
-    this.deleteUserOfProject = deleteUserOfProject;
-    this.deleteTaskOfProject = deleteTaskOfProject;
+    this.removeUserFromProject = removeUserFromProject;
+    this.removeTaskFromProject = removeTaskFromProject;
     this.createProject = createProject;
     this.deleteProject = deleteProject;
     this.updateProject = updateProject;
@@ -25,21 +25,21 @@ class  ProjectController {
     return await this.getProjects.get();
   }
 
-  async addUsers(id, userId) {
+  async addUsers(id, userId){
     console.log('addUser', id, userId);
     const addUsers = await this.addUser.execute(id, userId);
     //console.log('Ответ с commandAddUser', addUsers)
     return addUsers;
   }
 
-  async deleteUserOfProjects(id, userId) {
-    console.log('deleteUserOfProject', id, userId);
-    return await this.deleteUserOfProject.execute(id, userId);
+  async deleteUserFromProject(id, userId) {
+    console.log('removeUserFromProject', id, userId);
+    return await this.removeUserFromProject.execute(id, userId);
   }
 
-  async deleteTaskOfProjects(id, taskId) {
-    console.log('deleteTaskOfProject', id, taskId);
-    return await this.deleteTaskOfProject.execute(id, taskId);
+  async deleteTaskFromProject(id, taskId) {
+    console.log('removeTaskFromProject', id, taskId);
+    return await this.removeTaskFromProject.execute(id, taskId);
   }
 
   async create(params) {

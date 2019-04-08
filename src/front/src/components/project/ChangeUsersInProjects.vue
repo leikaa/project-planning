@@ -153,7 +153,7 @@ export default {
           this.saveProject();
           break;
         case "Delete":
-          this.deleteUserOnProject();
+          this.deleteUserFromProject();
           break;
       }
     },
@@ -168,9 +168,9 @@ export default {
       this.sendRequest();
     },
 
-    deleteUserOnProject() {
+    deleteUserFromProject() {
       console.log('Участник удалён из проекта', this.userId, this.id);
-      this.$store.dispatch('deleteUserOnProject', {
+      this.$store.dispatch('deleteUserFromProject', {
          id: this.id,
          userId: this.userId,
         });

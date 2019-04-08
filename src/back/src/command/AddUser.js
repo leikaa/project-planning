@@ -11,10 +11,10 @@ class AddUser {
 
   async execute(filter, update) {
    
-    const answer = await this.projectModel.findOneAndUpdateUserInProject(filter, update);
+    const answer = await this.projectModel.addUserToProject(filter, update);
     //console.log("Это переменная answer" , answer)
 
-    const answer2 = await this.projectModel.sortUserInProject(filter, update);
+    const answer2 = await this.projectModel.sortUsersToProject(filter, update);
     //console.log("Сортировка проекта" , answer2)
 
     return true;

@@ -13,13 +13,13 @@ class GetProjects {
     this.taskModel = taskModel;
   }
 
-  async get(filter, projection) {
+  async get() {
 
-    const projectList = await this.projectModel.getList(filter, projection);
+    const projectList = await this.projectModel.getList();
 
-    const usersList = await this.userModel.getList(filter, projection);
+    const usersList = await this.userModel.getList();
 
-    const taskList = await this.taskModel.getList(filter, projection);
+    const taskList = await this.taskModel.getList();
 
     //Создание объекта с key = id , value = name для дальнейшего соединения.
     const usersMap = {};

@@ -7,8 +7,8 @@ class Model {
     this.logger = logger;
   }
   
-  async getList(filter, projection) {
-    return this.find(filter, projection).toArray();
+  async getList() {
+    return this.find().toArray();
   }
 
   find(filter, projection) {

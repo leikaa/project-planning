@@ -49,7 +49,7 @@ class CreateTask {
     var id = values[1];
     var userId = values[2];
 
-   await this.projectModel.findOneAndUpdateTaskInUsers(id , userId , taskId );
+   await this.projectModel.addTaskToProject(id , userId , taskId );
    return true;
   }
 }
