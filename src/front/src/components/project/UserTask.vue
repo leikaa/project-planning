@@ -61,6 +61,14 @@
                     {{item.name}}
                     </option>
                   </select>
+
+
+                  <color-picker
+                    :items="colors"
+                  />
+
+
+                  
                   <!-- <v-select
                     v-model="selectedElement"
                     :items="currentProjectJoinUsers"
@@ -143,13 +151,15 @@
 
 <script>
 import VueDraggableResizable from "../vue-drag/index.js";
+import ColorPicker from "./ColorPicker";
 import moment from 'moment';  
 
 let step = 21;
 export default {
   name: "UserTask",
   components: {
-    VueDraggableResizable
+    VueDraggableResizable,
+    ColorPicker
   },
 
   data() {
@@ -164,9 +174,25 @@ export default {
       name: "",
       description: "",
       selectedElement: "",
+      rgb: "",
       showTask: false,
       startDate: new Date().toISOString().substr(0, 10),
       endDate: new Date().toISOString().substr(0, 10),
+
+
+      colors: [
+      {color:'rgb(203, 28, 28)'},
+      {color:'rgb(211, 47, 47)'},
+      {color:'rgb(244, 67, 54)'},
+      {color:'rgb(229, 115, 115)'},
+      {color:'rgb(255, 205, 210)'},
+      {disabled:true},
+      {color:'rgb(136, 14, 79)'},
+      {color:'rgb(194, 24, 91)'},    
+      {color:'rgb(233, 30, 99)'},    
+      {color:'rgb(240, 98, 146)'},
+      {color:'rgb(248, 187, 208)'},
+    ],
     };
   },
 
@@ -192,7 +218,7 @@ export default {
       this.startDate = this.startDate;
       this.endDate = this.endDate;
       this.y = 46;
-      this.rgb = 'rgb(244,67,54)'
+      this.rgb = this.current;
       this.description = "";
       this.name = '';
       this.disableInput = false;
@@ -252,8 +278,6 @@ export default {
         projectId: this.currentProjectId,
         startDate: this.getStartDateFromCoords(),
         endDate: this.getEndDateFromCoords(),
-        // x: this.getCurrentItemXCoordinate(),
-        // w: this.getCurrentItemWCoordinate(),
         y: this.getCurrentItemYCoordinate(),
         dateUpdate: moment().format('MMMM Do YYYY, HH:mm:ss '),
       });  
@@ -363,6 +387,18 @@ export default {
      const cordX = this.getCurrentDateCoords();
      window.scrollTo(cordX , 0);
     },
+
+    getRandomRgb(){
+      var num = Math.round(0xffffff * Math.random());
+      var r = num >> 16;
+      var g = num >> 8 & 255;
+      var b = num & 255;
+      const rgb = 'rgb(' + r +',' + g + ',' + b + ')';
+
+      console.log("rgb" , rgb)
+      return rgb;
+    },
+
   },
 
   computed: {
