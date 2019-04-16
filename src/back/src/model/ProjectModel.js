@@ -50,7 +50,7 @@ class ProjectModel extends Model {
 
   //Удаление участников из проекта.
   async deleteUserFromProject(id, userId) {
-    console.log('findOneAndUpdateUserInProject', id, userId);
+    console.log('deleteUserFromProject', id, userId);
     const result = await this.db.get()
       .collection(this.collectionName)
       .findOneAndUpdate(
@@ -93,7 +93,7 @@ class ProjectModel extends Model {
 
   //Удаление задачи из проекта.
   async deleteTaskFromProject(id, taskId) {
-    console.log('findOneAndUpdateUserInProject', id, taskId);
+    console.log('deleteTaskFromProject', id, taskId);
     const result = await this.db.get()
       .collection(this.collectionName)
       .findOneAndUpdate(

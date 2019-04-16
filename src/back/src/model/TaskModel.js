@@ -8,14 +8,14 @@ class TaskModel extends Model {
     super({ db, collectionName: 'TaskList' })
   }
 
-  async getLastTask(filter, projection) {
-    return this.findLastTask(filter, projection).toArray();
+  async getLastTask() {
+    return this.findLastTask().toArray();
   }
 
-  findLastTask(filter, projection) {
+  findLastTask() {
     return this.db.get()
       .collection(this.collectionName)     
-      .find(this.getFilter(filter)).project(projection).sort({_id: -1}).limit(1); 
+      .find(this.getFilter()).project().sort({_id: -1}).limit(1); 
   }
 }
 

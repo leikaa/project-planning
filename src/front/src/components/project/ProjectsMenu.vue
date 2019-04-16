@@ -51,7 +51,7 @@
 
 
 <script>
-import ProjectData from '../components/project/ProjectData'; 
+import ProjectData from './ProjectData'; 
 import moment from 'moment';
 export default {
   name: "Project",

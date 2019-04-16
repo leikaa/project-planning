@@ -28,14 +28,6 @@
                     {{item.name}}
                     </option>
                   </select>
-                <!-- <v-select
-                  v-model="selectedElement"
-                  :items="elements"
-                  label="Выберите участника"
-                  solo
-                  item-text="name"
-                  item-value="_id"
-                ></v-select> -->
               </v-form>
             </v-card-text>
             <v-divider></v-divider>

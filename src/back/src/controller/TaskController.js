@@ -19,9 +19,7 @@ class  TaskController {
   }
 
   async create(params) {
-    //console.log(params , 'Этот обьект отправляеться в command createTask')
     const test = await this.createTask.execute(params);
-    //console.log(test , 'Этот обьект получен из command createTask')
     return test;
   }
 

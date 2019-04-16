@@ -12,12 +12,12 @@ class CreateTask {
     this.projectModel = projectModel;
   }
 
-  async execute(params , filter, projection) {
+  async execute(params) {
     this.logger.debug('CreateTask', params);
     const result = await this.taskModel.insertOne(params);
     this.logger.debug('CreateTask 2', result);
     
-    const answerOnCommand = await this.taskModel.getLastTask(filter, projection);
+    const answerOnCommand = await this.taskModel.getLastTask();
     //console.log("Последняя добавленная задача" , answerOnCommand);
     
 

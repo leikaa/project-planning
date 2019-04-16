@@ -23,14 +23,12 @@
           @click.native="getCurrentDateCoords()"
           maximize
         >
-        <!-- @dragstop="onDrag" -->
-        
           <div class="user-task__item" :style="`background: ${item.rgb}`">
              <div class="task-text">{{item.name}}</div>
           </div>
         </vue-draggable-resizable>
       </div>
- <!-- Добавление задач @mouseup.native.ctrl="addItem"  -->
+ <!-- Добавление задач -->
       <v-card>
         <v-layout row align-end>
           <v-dialog v-model="showDialog" width="500">
@@ -129,27 +127,22 @@
           </v-dialog>
         </v-layout>
       </v-card>
-    <div class="button_create_task">
-      <v-btn slot="activator" 
-      color="green  accent-3" 
-      @click="addItem" 
-      dark>
-      Добавить задачу в проект
-      </v-btn>
-    </div>
+      <add-task-in-project @addItem="addItem"/>
   </div>
 </template>
 
 
 <script>
 import VueDraggableResizable from "../vue-drag/index.js";
+import AddTaskInProject from "../button/AddTaskInProject";
 import moment from 'moment';  
 
 let step = 21;
 export default {
   name: "UserTask",
   components: {
-    VueDraggableResizable
+    VueDraggableResizable,
+    AddTaskInProject 
   },
 
   data() {
@@ -191,7 +184,7 @@ export default {
       this.userId = this.selectedElement;
       this.startDate = this.startDate;
       this.endDate = this.endDate;
-      this.y = 46;
+      this.y = 0;
       this.rgb = 'rgb(244,67,54)'
       this.description = "";
       this.name = '';
@@ -321,17 +314,6 @@ export default {
       const top = event.currentTarget.style.top;
       return top.slice(0, -2);
     },
- 
-    someMethod() {
-      let left = event.currentTarget.style.left;
-      let width = event.currentTarget.style.width;
-      let top = event.currentTarget.style.top;
-      
-      var x = left.slice(0, -2);
-      var w = width.slice(0, -2);
-      var y = top.slice(0, -2);
-      console.log("Координаты задачи", x , w , y )
-    },
 
     getCurrentDate(){
       //Получаем текущую дату.
@@ -363,6 +345,17 @@ export default {
      const cordX = this.getCurrentDateCoords();
      window.scrollTo(cordX , 0);
     },
+
+    // someMethod() {
+    //   let left = event.currentTarget.style.left;
+    //   let width = event.currentTarget.style.width;
+    //   let top = event.currentTarget.style.top;
+      
+    //   var x = left.slice(0, -2);
+    //   var w = width.slice(0, -2);
+    //   var y = top.slice(0, -2);
+    //   console.log("Координаты задачи", x , w , y )
+    // },
   },
 
   computed: {
@@ -460,16 +453,6 @@ export default {
     cursor: pointer;
   }
 }
-.button_create_task{
-  display: flex;
-  height: 50px;
-  width: 100%;
-  background:rgba(255, 255, 255, 0);
-  position: fixed;
-  bottom: 0;
-  z-index: 11;
-  justify-content: center;
-}
 .task-text{
   display: flex;
   overflow: hidden;
@@ -479,7 +462,6 @@ export default {
   display: flex;
   justify-content: space-around;
 }
-
 .select-element{
   display: flex;
   align-items: center;
