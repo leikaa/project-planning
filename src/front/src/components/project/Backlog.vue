@@ -4,41 +4,23 @@
       <h2>Список задач проекта</h2>
     </div>
     <template v-if="unallocated">
-      <div
-        v-for="item in unallocatedTasks"
-        :key="item.id"
-        :style="`background: ${item.rgb}`"
-        class="backlog__item"
-      >
-        {{item.name}}
-        <div class="controls">
-          <default-controls @editItem="editItem" @deleteItem="deleteItem"/>
-          <!-- <default-controls :controls="controls" @deleteItem="deleteItem"/> -->
-        </div>
-      </div>
+      <backlog-data 
+      :items="unallocatedTasks" 
+      :controls="controls" 
+      @deleteItem="deleteItem"
+      @editItem="editItem"/>
     </template>
     <template v-if="distributed">
-      <div
-        v-for="item in distributedTasks"
-        :key="item.id"
-        :style="`background: ${item.rgb}`"
-        class="backlog__item"
-      >
-        {{item.name}}
-        <div class="controls">
-          <default-controls @editItem="editItem" @deleteItem="deleteItem"/>
-          <!-- <v-btn class="mx-0" icon>
-            <v-icon color="teal lighten-1">{{ icon = "edit" }}</v-icon>
-          </v-btn>
-          <v-btn class="mx-0" icon>
-            <v-icon color="pink lighten-2">{{ icon = "delete" }}</v-icon>
-          </v-btn>-->
-        </div>
-      </div>
+      <backlog-data 
+      :items="distributedTasks" 
+      :controls="controls" 
+      @deleteItem="deleteItem"
+      @editItem="editItem"/>
     </template>
     <v-checkbox label="Не распределенные задачи" v-model="unallocated" class="check"></v-checkbox>
     <v-checkbox label="Распределенные задачи" v-model="distributed" class="check"></v-checkbox>
 
+<!-- Удаление данных -->
     <v-card>
       <v-layout row align-end>
         <v-dialog v-model="showTask" width="500">
@@ -69,15 +51,16 @@
         </v-dialog>
       </v-layout>
     </v-card>
+  <!-- Изменение данных -->
   </div>
 </template>
 
 <script>
-import DefaultControls from "../button/DefaultControls";
+import BacklogData from "./BacklogData";
 export default {
   name: "Backlog",
   components: {
-    DefaultControls,
+    BacklogData
   },
 
   data() {
@@ -94,8 +77,8 @@ export default {
   },
 
   methods: {
-    sendRequest() {
-      this.$store.dispatch("loadProjects");
+    sendRequestTask() {
+      this.$store.dispatch("loadTasks");
     },
 
     editItem(item) {
@@ -107,14 +90,14 @@ export default {
       this.disableInput = false;
       this.showDialog = true;
     },
+
     deleteItem(item) {
-      console.log("item" , item )
       this.modalTitle = 'Удалить задачу';
       this.modalSubmitButton = 'Удалить';
       this.modalAction = 'Delete';
-      // this.taskId = item.taskId;
-      // this.projectId = "currentProjectId";
-      // this.name = item.name;
+      this.taskId = item._id;
+      this.projectId = "currentProjectId";
+      this.name = item.name;
       this.disableInput = true;
       this.showTask = true;
     },
@@ -128,7 +111,7 @@ export default {
           this.saveProject();
           break;
         case "Delete":
-          this.deleteProject();
+          this.deleteTaskFromProject();
           break;
       }
     },
@@ -144,12 +127,15 @@ export default {
       this.sendRequest();
     },
 
-    deleteProject() {
-      console.log("Проект удалён", this.name, this.id);
-      this.$store.dispatch("deleteProject", this.id);
-      this.showDialog = false;
-      this.sendRequest();
-    }
+    deleteTaskFromProject() {
+      console.log('Задача удалена', this.taskId , this.currentProjectId);
+      this.$store.dispatch('deleteTaskFromProject', {
+         taskId: this.taskId,
+         id: this.currentProjectId,
+        });
+      this.showTask = false;
+      this.sendRequestTask();
+    },
   },
 
   computed: {
@@ -184,8 +170,8 @@ export default {
     },
 
     controls() {
-      return this.$store.state.ui.DeleteControls;
-    },
+      return this.$store.state.ui.defaultControls;
+    }
   }
 };
 </script>
