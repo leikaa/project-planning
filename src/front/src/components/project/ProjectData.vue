@@ -1,21 +1,19 @@
 <template>
-    <v-data-iterator 
-         :items="items" 
-         content-tag="div" 
-         hide-actions 
-         content-class="projects"
-         no-data-text="Нет данных">
-        <div
-          slot="item" 
-          slot-scope="props" 
-        >
-          <router-link :to="{name :'Project', params: {id: props.item._id}}" class="project_name">
-            <div>
-              <h4>{{ props.item.name }}</h4>
-            </div>
-          </router-link>
-        <div class="elem">
-          <v-btn
+  <v-data-iterator
+    :items="items"
+    content-tag="div"
+    hide-actions
+    content-class="projects"
+    no-data-text="Нет данных"
+  >
+    <div slot="item" slot-scope="props">
+      <router-link :to="{name :'Project', params: {id: props.item._id}}" class="project_name">
+        <div>
+          <h4>{{ props.item.name }}</h4>
+        </div>
+      </router-link>
+      <div class="elem">
+        <v-btn
           class="mx-0"
           icon
           @click="emit(control.emit, props.item)"
@@ -24,9 +22,9 @@
         >
           <v-icon :color="control.color">{{ control.icon }}</v-icon>
         </v-btn>
-          </div>
-        </div>
-      </v-data-iterator>
+      </div>
+    </div>
+  </v-data-iterator>
 </template>
  
  
@@ -41,9 +39,9 @@ export default {
   },
   methods: {
     emit(emit, item) {
-      console.log('emit', emit, item);
+      console.log("emit", emit, item);
       this.$emit(emit, item);
-    },
+    }
   }
 };
 </script>
@@ -59,7 +57,7 @@ export default {
 }
 .project_name {
   display: flex;
-  flex-wrap:wrap;
+  flex-wrap: wrap;
   justify-content: center;
   text-decoration: none;
   margin: 5px;
@@ -75,8 +73,8 @@ export default {
   background: rgb(64, 199, 129);
   box-shadow: 0 -3px rgb(53, 167, 110) inset;
 }
-.elem{
-  display: flex;  
+.elem {
+  display: flex;
   justify-content: center;
   height: 36px;
 }

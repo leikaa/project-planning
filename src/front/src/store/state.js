@@ -41,7 +41,7 @@ export default {
       { name: 'Edit', icon: 'edit', color: 'teal lighten-1', emit: 'editItem' },
       { name: 'Delete', icon: 'delete', color: 'pink lighten-2', emit: 'deleteItem' },
     ],
-    DelUserControls: [
+    DeleteControls: [
       { name: 'Delete', icon: 'delete', color: 'pink lighten-2', emit: 'deleteItem' },
     ],
   },

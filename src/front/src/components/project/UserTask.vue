@@ -59,14 +59,6 @@
                     {{item.name}}
                     </option>
                   </select>
-                  <!-- <v-select
-                    v-model="selectedElement"
-                    :items="currentProjectJoinUsers"
-                    label="Выберите участника"
-                    solo
-                    item-text="name"
-                    item-value="_id"
-                  ></v-select> -->
                   <div class="pickers">
                    <v-date-picker 
                    v-model="startDate"
