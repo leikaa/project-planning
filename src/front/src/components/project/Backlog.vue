@@ -4,23 +4,24 @@
       <h2>Список задач проекта</h2>
     </div>
     <template v-if="unallocated">
-      <backlog-data 
-      :items="unallocatedTasks" 
-      :controls="controls" 
-      @deleteItem="deleteItem"
-      @editItem="editItem"/>
+      <backlog-data
+        :items="unallocatedTasks"
+        :controls="controls"
+        @deleteItem="deleteItem"
+        @editItem="editItem"
+      />
     </template>
     <template v-if="distributed">
-      <backlog-data 
-      :items="distributedTasks" 
-      :controls="controls" 
-      @deleteItem="deleteItem"
-      @editItem="editItem"/>
+      <backlog-data
+        :items="distributedTasks"
+        :controls="controls"
+        @deleteItem="deleteItem"
+        @editItem="editItem"
+      />
     </template>
     <v-checkbox label="Не распределенные задачи" v-model="unallocated" class="check"></v-checkbox>
     <v-checkbox label="Распределенные задачи" v-model="distributed" class="check"></v-checkbox>
-
-<!-- Удаление данных -->
+    <!-- Удаление данных -->
     <v-card>
       <v-layout row align-end>
         <v-dialog v-model="showTask" width="500">
@@ -51,7 +52,50 @@
         </v-dialog>
       </v-layout>
     </v-card>
-  <!-- Изменение данных -->
+    <!-- Изменение данных -->
+    <v-card>
+      <v-layout row align-end>
+        <v-dialog v-model="showDialog" width="500">
+          <v-card>
+            <v-card-title class="headline grey lighten-2" primary-title>{{ modalTitle }}</v-card-title>
+            <v-card-text>
+              <v-form v-model="formValid">
+                <v-text-field
+                  v-model="name"
+                  :disabled="disableInput"
+                  label="Название задачи"
+                  required
+                ></v-text-field>
+                <v-text-field
+                  v-model="description"
+                  label="Описание задачи"
+                  :disabled="disableInput"
+                  required
+                ></v-text-field>
+                <select v-model="selectedElement" class="select-element">
+                  <option
+                    v-for="item in currentProjectUsers"
+                    :value="item.userId"
+                    :key="item.userId"
+                  >{{item.name}}</option>
+                </select>
+              </v-form>
+            </v-card-text>
+            <v-divider></v-divider>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="red" flat @click="showDialog = false">Отмена</v-btn>
+              <v-btn
+                color="green"
+                flat
+                @click="confirmModalAction"
+                :disabled="!formValid"
+              >{{ modalSubmitButton }}</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </v-layout>
+    </v-card>
   </div>
 </template>
 
@@ -65,12 +109,15 @@ export default {
 
   data() {
     return {
+      showDialog: false,
       formValid: false,
       disableInput: false,
       modalSubmitButton: "Добавить",
       modalTitle: "",
       showTask: false,
       name: "",
+      description: "",
+      selectedElement: "",
       unallocated: true,
       distributed: true
     };
@@ -85,16 +132,19 @@ export default {
       this.modalTitle = "Редактирование задачи";
       this.modalSubmitButton = "Сохранить";
       this.modalAction = "Edit";
-      //this.id = item._id;
-      //this.name = item.name;
+      this.id = item._id;
+     // this.userId = item.userId; передает имя владельца а не id 
+      this.userId = this.selectedElement;
+      this.name = item.name;
+      this.description = item.description;
       this.disableInput = false;
       this.showDialog = true;
     },
 
     deleteItem(item) {
-      this.modalTitle = 'Удалить задачу';
-      this.modalSubmitButton = 'Удалить';
-      this.modalAction = 'Delete';
+      this.modalTitle = "Удалить задачу";
+      this.modalSubmitButton = "Удалить";
+      this.modalAction = "Delete";
       this.taskId = item._id;
       this.projectId = "currentProjectId";
       this.name = item.name;
@@ -108,7 +158,7 @@ export default {
         default:
           break;
         case "Edit":
-          this.saveProject();
+          this.saveTaskFromProject();
           break;
         case "Delete":
           this.deleteTaskFromProject();
@@ -116,26 +166,27 @@ export default {
       }
     },
 
-    saveProject() {
-      console.log("Проект сохранен", this.id, this.name, this.Date);
-      this.$store.dispatch("saveProject", {
-        name: this.name,
+    saveTaskFromProject() {
+      console.log("Проект сохранен", this.id, this.userId, this.name, this.description);
+      this.$store.dispatch("saveTask", {
         id: this.id,
-        Date: this.Date
+        userId: this.selectedElement,
+        name: this.name,
+        description: this.description,
       });
       this.showDialog = false;
-      this.sendRequest();
+      this.sendRequestTask();
     },
 
     deleteTaskFromProject() {
-      console.log('Задача удалена', this.taskId , this.currentProjectId);
-      this.$store.dispatch('deleteTaskFromProject', {
-         taskId: this.taskId,
-         id: this.currentProjectId,
-        });
+      console.log("Задача удалена", this.taskId, this.currentProjectId);
+      this.$store.dispatch("deleteTaskFromProject", {
+        taskId: this.taskId,
+        id: this.currentProjectId
+      });
       this.showTask = false;
       this.sendRequestTask();
-    },
+    }
   },
 
   computed: {
@@ -169,9 +220,13 @@ export default {
       });
     },
 
+     currentProjectUsers() {
+      return (this.currentProject && this.currentProject.users) || [];
+    }, 
+
     controls() {
       return this.$store.state.ui.defaultControls;
-    }
+    },
   }
 };
 </script>

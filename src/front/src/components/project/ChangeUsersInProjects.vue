@@ -20,7 +20,7 @@
               <v-form v-model="formValid">
                 <select v-model="selectedElement" class="select-element">
                   <option disabled value>Выберите участника</option>
-                  <option v-for="item in elements" :value="item._id" :key="item.name">{{item.name}}</option>
+                  <option v-for="item in users" :value="item._id" :key="item.name">{{item.name}}</option>
                 </select>
               </v-form>
             </v-card-text>
@@ -168,11 +168,11 @@ export default {
       return this.$store.state.ui.DeleteControls;
     },
 
-    elements() {
+    users() {
       return this.$store.getters.users;
     },
 
-    items() {
+    projects() {
       return this.$store.getters.projects;
     },
 
@@ -181,7 +181,7 @@ export default {
     },
 
     currentProject() {
-      return this.items.find(item => {
+      return this.projects.find(item => {
         return item._id === this.currentProjectId;
       });
     },

@@ -183,18 +183,19 @@ export default {
     controls() {
       return this.$store.state.ui.defaultControls;
     },
+    
     isShow() {
       return true;
     },
+
     users() {
       return this.$store.getters.users;
     },
+
     projects() {
       return this.$store.getters.projects;
     },
-    totalItems() {
-      return this.$store.getters.users;
-    },
+    
     headers() {
       return [{ text: 'Участники', value: 'name' }];
     },

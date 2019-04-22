@@ -149,16 +149,16 @@ export default {
   controls() {
     return this.$store.state.ui.defaultControls;
   },
-  showControls() {
-      return this.$props.controls && this.$props.controls.length;
-    },
+  
   projects() {
       return this.$store.getters.projects;
     },
   },
+
   created() {
     this.updateServersStatus();
   },
+  
   beforeDestroy() {
     clearTimeout(this.timerId);
   }
