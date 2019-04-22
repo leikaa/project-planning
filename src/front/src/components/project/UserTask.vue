@@ -172,8 +172,8 @@ export default {
       this.modalTitle = "Добавить новую задачу";
       this.modalSubmitButton = "Добавить";
       this.modalAction = "Add";
-      this.projectId = "currentProjectId";
       this.userId = this.selectedElement;
+      this.projectId = "currentProjectId";
       this.startDate = this.startDate;
       this.endDate = this.endDate;
       this.y = 0;
@@ -216,8 +216,8 @@ export default {
         this.description,
       );
       this.$store.dispatch("addTask", {
-        projectId: this.currentProjectId,
         userId: this.selectedElement,
+        projectId: this.currentProjectId,
         startDate : this.startDate,
         endDate: this.endDate,
         y: this.y,
@@ -373,8 +373,7 @@ export default {
       if (this.currentProjectUsers === undefined){
         return this.currentProjectUsers;
       } 
-        this.currentProjectUsers.map(item => { 
-          //console.log("item",item)
+       this.currentProjectUsers.map(item => {
           item.task.map(el => {
             const startDate = el.startDate;
             const endDate = el.endDate;
@@ -399,8 +398,11 @@ export default {
             //console.log("el",el)
          });
         });
-        return this.currentProject;
+      return this.currentProject;   
     },
+
+
+
   },
     created() {
     this.sendRequestUser();

@@ -5,11 +5,11 @@ class CreateTask {
   constructor({
     logger,
     taskModel,
-    projectModel,
+    userModel,
   }) {
     this.logger = logger;
     this.taskModel = taskModel;
-    this.projectModel = projectModel;
+    this.userModel = userModel;
   }
 
   async execute(params) {
@@ -24,7 +24,7 @@ class CreateTask {
 
     //Тут полученый массив превращаеться в обьект.
     const ParseAnswerOnCommand = answerOnCommand.reduce(function(obj , item){
-      for(var i=0 ; i < 3; i++){
+      for(var i=0 ; i < 2; i++){
         var key = Object.keys(item)[i];
         obj[key] = item[key];
       }
@@ -44,12 +44,12 @@ class CreateTask {
   
 
     //Тут строка превращается в массив для удобства дальнейшего присвоения.
-    var values = ValueString.split(' ' , 3);
+    var values = ValueString.split(' ' , 2);
     var taskId = values[0];
     var id = values[1];
-    var userId = values[2];
+    
 
-   await this.projectModel.addTaskToProject(id , userId , taskId );
+   await this.userModel.addTaskToProject(id  , taskId );
    return true;
   }
 }
