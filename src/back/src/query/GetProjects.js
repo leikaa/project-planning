@@ -29,63 +29,6 @@ class GetProjects {
   };
 
 
-  // async JoinTaskAndUsers() {
-  //   const taskList = await this.getTaskList();
-  //   const usersList = await this.getUserList();
-
-  //   const taskMapName = {};
-  //   taskList.forEach(item => {
-  //     //console.log("item" , item)
-  //     taskMapName[item._id] = item.name;
-  //   });
-  //   //console.log("taskMapName" , taskMapName)
-
-  //   const taskMapRgb = {};
-  //   taskList.forEach(item => {
-  //     taskMapRgb[item._id] = item.rgb;
-  //   });
-
-  //   const taskMapStartDate = {};
-  //   taskList.forEach(item => {
-  //     taskMapStartDate[item._id] = item.startDate;
-  //   });
-
-  //   const taskMapEndDate = {};
-  //   taskList.forEach(item => {
-  //     taskMapEndDate[item._id] = item.endDate;
-  //   });
-
-  //   const taskMapY = {};
-  //   taskList.forEach(item => {
-  //     item.y = Number.parseInt(item.y)
-  //     taskMapY[item._id] = item.y;
-  //   });
-
-  //   const JoinTaskAndUsers = usersList.map(item => {
-  //     if (item.task === undefined) {
-  //       return item;
-  //     }
-  //     item.task.map(elem => {
-  //       if (taskMapName[elem.taskId]) {
-  //         elem.name = taskMapName[elem.taskId];
-  //         elem.rgb = taskMapRgb[elem.taskId];
-  //         elem.startDate = taskMapStartDate[elem.taskId];
-  //         elem.endDate = taskMapEndDate[elem.taskId];
-  //         elem.y = taskMapY[elem.taskId];
-  //       }
-  //       //console.log(elem)
-  //       return elem
-  //     })
-  //     //console.log("item" , item)
-  //     return item
-  //   })
-  //   //console.log("JoinTaskAndUsers" , JoinTaskAndUsers)
-  //   return JoinTaskAndUsers
-  // }
-
-
-
-
   async JoinUsersAndProject() {
     const projectList = await this.getProjectList();
     const usersList = await this.getUserList();
@@ -178,66 +121,11 @@ class GetProjects {
 
 
 
-    // const projectList = await this.projectModel.getList();
-    // const usersList = await this.userModel.getList();
-    // const taskList = await this.taskModel.getList();
+    const projectList = await this.projectModel.getList();
+    const usersList = await this.userModel.getList();
+    const taskList = await this.taskModel.getList();
 
-    // const taskMapName = {};
-    // taskList.forEach(item => {
-    //   //console.log("item" , item)
-    //   taskMapName[item._id] = item.name;
-    // });
-    // //console.log("taskMapName" , taskMapName)
-
-
-    // const taskMapRgb = {};
-    // taskList.forEach(item => {
-    //   taskMapRgb[item._id] = item.rgb;
-    // });
-
-    // const taskMapStartDate = {};
-    // taskList.forEach(item => {
-    //   taskMapStartDate[item._id] = item.startDate;
-    // });
-
-    // const taskMapEndDate = {};
-    // taskList.forEach(item => {
-    //   taskMapEndDate[item._id] = item.endDate;
-    // });
-
-    // const taskMapY = {};
-    // taskList.forEach(item => {
-    //   item.y = Number.parseInt(item.y)
-    //   taskMapY[item._id] = item.y;
-    // });
-
-
-
-    // const JoinTaskAndUsers = usersList.map(item => {
-    //   if (item.task === undefined) {
-    //     return item;
-    //   } 
-    //     item.task.map(elem =>{
-    //       if (taskMapName[elem.taskId]) {
-    //         elem.name = taskMapName[elem.taskId];
-    //         elem.rgb = taskMapRgb[elem.taskId];
-    //         elem.startDate = taskMapStartDate[elem.taskId];
-    //         elem.endDate = taskMapEndDate[elem.taskId];
-    //         elem.y = taskMapY[elem.taskId];
-    //       }
-    //       //console.log(elem)
-    //       return elem
-    //     })
-    //     //console.log("item" , item)
-    //   return item
-    // })
-    // //console.log("JoinTaskAndUsers" , JoinTaskAndUsers)
-
-
-
-
-    
-
+  
     const JoinUsersAndProject = await this.JoinUsersAndProject();
     return  JoinUsersAndProject
 
