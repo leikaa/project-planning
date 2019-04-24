@@ -28,7 +28,7 @@ class GetProjects {
     return  taskList;
   };
 
-
+ 
   async JoinUsersAndProject() {
     const projectList = await this.getProjectList();
     const usersList = await this.getUserList();
@@ -39,16 +39,16 @@ class GetProjects {
       usersNameMap[item._id] = item.name;
     });
 
-    const taskMapName = {};
-    taskList.forEach(item => {
-      taskMapName[item._id] = item.name;
-    });
-
     const usersTaskMap = {};
     usersList.forEach(item => {
       usersTaskMap[item._id] = item.task;
     });
 
+    const taskMapName = {};
+    taskList.forEach(item => {
+      taskMapName[item._id] = item.name;
+    });
+  
     const taskMapRgb = {};
     taskList.forEach(item => {
       taskMapRgb[item._id] = item.rgb;
@@ -72,11 +72,9 @@ class GetProjects {
 
     const taskProjectId = {};
     taskList.forEach(item => {
-      item.y = Number.parseInt(item.y)
       taskProjectId[item._id] = item.projectId;
     });
-    //console.log("taskProjectId" , taskProjectId)
-
+    
     //Обновление свойств объектов в массиве users.
     const JoinUsersAndProject = projectList.map(item => {
       if (item.users === undefined) {
@@ -108,26 +106,20 @@ class GetProjects {
     return JoinUsersAndProject
   }
 
-
-
-
-
   async get() {
-    // const projectList = await this.getProjectList();
-    // const usersList = await this.getUserList();
-    // const taskList = await this.getTaskList();
+    const projectList = await this.getProjectList();
+    const usersList = await this.getUserList();
+    const taskList = await this.getTaskList();
+
+
+    // const projectList = await this.projectModel.getList();
+    // const usersList = await this.userModel.getList();
+    // const taskList = await this.taskModel.getList();
+
     
-
-
-
-
-    const projectList = await this.projectModel.getList();
-    const usersList = await this.userModel.getList();
-    const taskList = await this.taskModel.getList();
-
-  
     const JoinUsersAndProject = await this.JoinUsersAndProject();
-    return  JoinUsersAndProject
+    
+    return  JoinUsersAndProject 
 
     //  //Создание обьекта с key = id , value = name.
     // const taskMapName = {};

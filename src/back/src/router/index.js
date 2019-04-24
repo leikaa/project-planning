@@ -12,7 +12,8 @@ class Routes {
     projectController,
     userController,
     taskController,
-  }) {
+  }) 
+  {
     this.logger = logger;
     this.httpServer = httpServer;
     this.config = config;

@@ -155,13 +155,6 @@ export default {
       this.UsersDialog = false;
       this.sendRequest();
     },
-
-    updateServersStatus() {
-      this.$store.dispatch("loadProjects");
-      this.timerId = setTimeout(() => {
-        this.updateServersStatus();
-      }, 2000);
-    }
   },
   computed: {
     controls() {
@@ -197,7 +190,6 @@ export default {
 
   created() {
     this.sendRequest();
-    this.updateServersStatus();
   }
 };
 </script>

@@ -72,7 +72,8 @@
                   :disabled="disableInput"
                   required
                 ></v-text-field>
-                <select v-model="selectedElement" class="select-element">
+                <select v-model="selectedElement" class="select-element" >
+                  <option disabled value>Выберите участника</option>
                   <option
                     v-for="item in currentProjectUsers"
                     :value="item.userId"
@@ -119,7 +120,7 @@ export default {
       description: "",
       selectedElement: "",
       unallocated: true,
-      distributed: true
+      distributed: true,
     };
   },
 
