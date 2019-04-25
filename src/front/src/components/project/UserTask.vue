@@ -180,7 +180,7 @@ export default {
       this.modalSubmitButton = "Удалить";
       this.modalAction = "Delete";
       this.taskId = item.taskId;
-      this.projectId = "currentProjectId";
+      this.userId = item.userId;
       this.name = item.name;
       this.disableInput = true;
       this.showTask = true;
@@ -233,10 +233,10 @@ export default {
     },
 
     deleteTaskFromProject() {
-      console.log("Задача удалена", this.taskId, this.currentProjectId);
+      console.log("Задача удалена", this.taskId, this.userId);
       this.$store.dispatch("deleteTaskFromProject", {
         taskId: this.taskId,
-        id: this.currentProjectId
+        id: this.userId,
       });
       this.showTask = false;
       //this.sendRequestTask();

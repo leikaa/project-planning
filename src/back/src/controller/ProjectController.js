@@ -5,7 +5,6 @@ class  ProjectController {
     getProjects,
     addUser,
     removeUserFromProject,
-    removeTaskFromProject,
     createProject,
     deleteProject,
     updateProject,
@@ -14,7 +13,6 @@ class  ProjectController {
     this.getProjects = getProjects;
     this.addUser = addUser;
     this.removeUserFromProject = removeUserFromProject;
-    this.removeTaskFromProject = removeTaskFromProject;
     this.createProject = createProject;
     this.deleteProject = deleteProject;
     this.updateProject = updateProject;
@@ -36,11 +34,6 @@ class  ProjectController {
     console.log('removeUserFromProject', id, userId);
     return await this.removeUserFromProject.execute(id, userId);
   }
-
-  // async deleteTaskFromProject(id, taskId) {
-  //   console.log('removeTaskFromProject', id, taskId);
-  //   return await this.removeTaskFromProject.execute(id, taskId);
-  // }
 
   async create(params) {
     return await this.createProject.execute(params);

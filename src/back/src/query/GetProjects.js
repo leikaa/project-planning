@@ -70,6 +70,11 @@ class GetProjects {
       taskMapY[item._id] = item.y;
     });
 
+    const taskUserId = {};
+    taskList.forEach(item => {
+      taskUserId[item._id] = item.userId;
+    });
+
     const taskProjectId = {};
     taskList.forEach(item => {
       taskProjectId[item._id] = item.projectId;
@@ -87,6 +92,7 @@ class GetProjects {
           elem.task.map(el => {
             if(taskMapRgb[el.taskId]){
               el.name = taskMapName[el.taskId];
+              el.userId = taskUserId[el.taskId];
               el.projectId = taskProjectId[el.taskId];
               el.rgb = taskMapRgb[el.taskId];
               el.startDate = taskMapStartDate[el.taskId];

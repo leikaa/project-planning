@@ -72,14 +72,14 @@
                   :disabled="disableInput"
                   required
                 ></v-text-field>
-                <select v-model="selectedElement" class="select-element" >
+                <!-- <select v-model="selectedElement" class="select-element" >
                   <option disabled value>Выберите участника</option>
                   <option
                     v-for="item in currentProjectUsers"
                     :value="item.userId"
                     :key="item.userId"
                   >{{item.name}}</option>
-                </select>
+                </select> -->
               </v-form>
             </v-card-text>
             <v-divider></v-divider>
@@ -147,7 +147,7 @@ export default {
       this.modalSubmitButton = "Удалить";
       this.modalAction = "Delete";
       this.taskId = item._id;
-      this.projectId = "currentProjectId";
+      this.userId = item.userId;
       this.name = item.name;
       this.disableInput = true;
       this.showTask = true;
@@ -180,10 +180,10 @@ export default {
     },
 
     deleteTaskFromProject() {
-      console.log("Задача удалена", this.taskId, this.currentProjectId);
+      console.log("Задача удалена", this.taskId, this.userId);
       this.$store.dispatch("deleteTaskFromProject", {
         taskId: this.taskId,
-        id: this.currentProjectId
+        id: this.userId
       });
       this.showTask = false;
       //this.sendRequest();

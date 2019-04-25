@@ -7,8 +7,6 @@ class UserModel extends Model {
     super({ db, collectionName: 'user' })
   }
 
-
-
   //Добавление задачи в проект.
   async addTaskToProject(id, taskId) {
     console.log('addTaskToProject', id , taskId );
@@ -29,28 +27,27 @@ class UserModel extends Model {
     return result;
   }
 
-
-  // //Удаление задачи из проекта.
-  // async deleteTaskFromProject(id, taskId) {
-  //   console.log('deleteTaskFromProject', id, taskId);
-  //   const result = await this.db.get()
-  //     .collection(this.collectionName)
-  //     .findOneAndUpdate(
-  //       {
-  //         _id: this.db.objectId(id)
-  //       },
-  //       {
-  //        $pull: {
-  //          "users.$[].task" : { taskId: this.db.objectId(taskId)}
-  //       }
-  //       },
-  //     )
-  //     .catch(err => {
-  //       console.log(err);
-  //     });
-  //     console.log(result);
-  //   return result;
-  // }
+  //Удаление задачи из проекта.
+  async deleteTaskFromProject(id, taskId) {
+    console.log('deleteTaskFromProject', id, taskId);
+    const result = await this.db.get()
+      .collection(this.collectionName)
+      .findOneAndUpdate(
+        {
+          _id: this.db.objectId(id)
+        },
+        {
+         $pull: {
+           "task" : { taskId: this.db.objectId(taskId)}
+        }
+        },
+      )
+      .catch(err => {
+        console.log(err);
+      });
+      console.log(result);
+    return result;
+  }
 }
 
 module.exports = UserModel;

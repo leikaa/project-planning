@@ -68,49 +68,5 @@ class ProjectModel extends Model {
       console.log(result);
     return result;
   }
-
-  // //Добавление задачи в проект.
-  // async addTaskToProject(id, userId, taskId) {
-  //   console.log('addTaskToProject', id, userId , taskId );
-  //   const result = await this.db.get()
-  //     .collection(this.collectionName) 
-  //     .findOneAndUpdate(
-  //       {
-  //         _id: this.db.objectId(id),
-  //         'users.userId': this.db.objectId(userId),
-  //       },
-  //       {
-  //         $push: { 'users.$.task': { taskId: this.db.objectId(taskId)}}
-  //       },
-  //     )
-  //     .catch(err => {
-  //       console.log(err);
-  //     });
-  //     console.log("Результат добавления задача в проект",result);
-  //   return result;
-  // }
-
-
-  // //Удаление задачи из проекта.
-  // async deleteTaskFromProject(id, taskId) {
-  //   console.log('deleteTaskFromProject', id, taskId);
-  //   const result = await this.db.get()
-  //     .collection(this.collectionName)
-  //     .findOneAndUpdate(
-  //       {
-  //         _id: this.db.objectId(id)
-  //       },
-  //       {
-  //        $pull: {
-  //          "users.$[].task" : { taskId: this.db.objectId(taskId)}
-  //       }
-  //       },
-  //     )
-  //     .catch(err => {
-  //       console.log(err);
-  //     });
-  //     console.log(result);
-  //   return result;
-  // }
 }
 module.exports = ProjectModel;

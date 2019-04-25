@@ -121,10 +121,14 @@ const addTask = ({dispatch, commit}, data) => {
 
 const deleteTaskFromProject = ({dispatch, commit}, data) => {
   console.log('delete', data);
-  // api.request('delete', `projects/${data.id}/task/${data.taskId}`)
-  //    .then(
-  //     commit('DELETE_TASK_FROM_PROJECT', data)
-  //   );
+  api.request('delete', `users/${data.id}/task/${data.taskId}`)
+  setTimeout(() => {
+    return dispatch("loadProjects")
+    .then(
+      commit('DELETE_TASK_FROM_PROJECT', data)
+    );
+  }, 100)
+
   api.request('delete', `task/${data.taskId}`)
   setTimeout(() => {
     return dispatch("loadTasks")

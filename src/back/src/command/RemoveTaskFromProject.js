@@ -3,15 +3,15 @@
 class RemoveTaskFromProject {
   constructor({
     logger,
-    projectModel,
+    userModel,
   }) {
     this.logger = logger;
-    this.projectModel = projectModel;
+    this.userModel = userModel;
   }
 
   async execute(filter , update) {
     this.logger.warn('deleteTaskFromProject', filter , update);
-    await this.projectModel.deleteTaskFromProject(filter, update);
+    await this.userModel.deleteTaskFromProject(filter, update);
   }
 }
 
