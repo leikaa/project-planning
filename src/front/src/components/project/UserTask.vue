@@ -20,7 +20,6 @@
           :grid="[21, 46]"
           @mouseup.native="saveTaskFromProject(item)"
           @dblclick.native="deleteItem(item)"
-          @click.native="getCurrentDateCoords()"
           maximize
         >
           <div class="user-task__item" :style="`background: ${item.rgb}`">
@@ -49,6 +48,7 @@
                     :disabled="disableInput"
                     required
                   ></v-text-field>
+                  <color-picker />
                   <select v-model="selectedElement" class="select-element">
                     <option disabled value>Список участников проекта</option>
                     <option
@@ -116,6 +116,7 @@
 
 
 <script>
+import ColorPicker from "./ColorPicker";
 import VueDraggableResizable from "../vue-drag/index.js";
 import AddTaskInProject from "../button/AddTaskInProject";
 import moment from "moment";
@@ -125,7 +126,8 @@ export default {
   name: "UserTask",
   components: {
     VueDraggableResizable,
-    AddTaskInProject
+    AddTaskInProject,
+    ColorPicker
   },
 
   data() {
@@ -262,7 +264,7 @@ export default {
         getFirstDay.getMonth() + 1,
         getFirstDay.getDate()
       ].join("-");
-      console.log("startDate", startDate);
+      //console.log("startDate", startDate);
       return startDate;
     },
 
@@ -285,7 +287,7 @@ export default {
         getSecondDay.getMonth() + 1,
         getSecondDay.getDate() - 1
       ].join("-");
-      console.log("EndDate", endDate);
+      //console.log("EndDate", endDate);
       return endDate;
     },
 
@@ -301,6 +303,13 @@ export default {
 
     getCurrentItemYCoordinate() {
       const top = event.currentTarget.style.top;
+      const le = top.slice(0, -2);
+
+      // if((+le < 0)||(+le > 92)){
+      //   console.log("Вышел за пределы")
+      // }
+      // console.log("top" , top)
+      
       return top.slice(0, -2);
     },
 
@@ -338,7 +347,7 @@ export default {
     scrollCurrentDate() {
       const cordX = this.getCurrentDateCoords();
       window.scrollTo(cordX, 0);
-    }
+    },
   },
 
   computed: {
@@ -459,7 +468,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 470px;
+  width: 460px;
   height: 50px;
   box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14),
     0 1px 5px 0 rgba(0, 0, 0, 0.12);
