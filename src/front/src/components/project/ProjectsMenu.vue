@@ -75,6 +75,7 @@ export default {
     sendRequest() {
       this.$store.dispatch("loadProjects");
     },
+
     addItem() {
       this.modalTitle = "Добавить новый проект";
       this.modalSubmitButton = "Добавить";
@@ -84,6 +85,7 @@ export default {
       this.disableInput = false;
       this.showDialog = true;
     },
+
     editItem(item) {
       this.modalTitle = 'Редактировать информацию о проекте';
       this.modalSubmitButton = 'Сохранить';
@@ -94,6 +96,7 @@ export default {
       this.disableInput = false;
       this.showDialog = true;
     },
+
     deleteItem(item) {
       this.modalTitle = 'Удалить проект';
       this.modalSubmitButton = 'Удалить';
@@ -120,30 +123,27 @@ export default {
           break;
       }
     },
+
     addProject() {
       console.log("Проект добавлен", this.name, this.CreationDate );
       this.$store.dispatch("addProject", { name: this.name , CreationDate:this.CreationDate});
       this.showDialog = false;
-      this.sendRequest();
+      //this.sendRequest();
     },
+    
     deleteProject() {
       console.log('Проект удалён', this.name, this.id);
       this.$store.dispatch('deleteProject', this.id);
       this.showDialog = false;
-      this.sendRequest();
+      //this.sendRequest();
     },
+    
     saveProject() {
       console.log('Проект сохранен', this.id, this.name , this.Date );
       this.$store.dispatch('saveProject', { name: this.name, id: this.id , Date: this.Date });
       this.showDialog = false;
-      this.sendRequest();
+      //this.sendRequest();
     },  
-    updateServersStatus() {
-      this.$store.dispatch("loadProjects");
-      this.timerId = setTimeout(() => {
-        this.updateServersStatus();
-      }, 5000);
-    }
   },
   computed: {
   controls() {
@@ -151,17 +151,14 @@ export default {
   },
   
   projects() {
-      return this.$store.getters.projects;
+      //return this.$store.getters.projects;
+      return this.$store.state.projects;
     },
   },
 
   created() {
-    this.updateServersStatus();
+    this.sendRequest();
   },
-  
-  beforeDestroy() {
-    clearTimeout(this.timerId);
-  }
 };
 </script>
 

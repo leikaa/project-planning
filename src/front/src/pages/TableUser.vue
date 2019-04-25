@@ -111,11 +111,13 @@ export default {
     sendRequest() {
       this.$store.dispatch('loadUsers'); 
     },
+
     clickItem(Item) {
       console.log('clicked on', Item);
       // this.$store.dispatch('openProject', item._id);
       document.location.href = `/users/${Item._id}`;
     },
+
     addItem() {
       this.modalTitle = 'Добавить нового участника';
       this.modalSubmitButton = 'Добавить';
@@ -124,6 +126,7 @@ export default {
       this.disableInput = false;
       this.showDialog = true;
     },
+
     editItem(Item , project) {
       this.modalTitle = 'Редактировать информацию об участнике';
       this.modalSubmitButton = 'Сохранить';
@@ -134,6 +137,7 @@ export default {
       this.disableInput = false;
       this.showDialog = true;
     },
+
     deleteItem(item) {
       console.log("Я тут",item)
       this.modalTitle = 'Удалить участника';
@@ -144,6 +148,7 @@ export default {
       this.disableInput = true;
       this.showDialog = true;
     },
+
     confirmModalAction() {
       const action = this.modalAction;
       switch (action) {
@@ -160,23 +165,26 @@ export default {
           break;
       }
     },
+
     addUser() {
       console.log('Участник добавлен', this.name );
       this.$store.dispatch('addUser', { name: this.name});
       this.showDialog = false;
-      this.sendRequest();
+      //this.sendRequest();
     },
+
     deleteUser() {
       console.log('Участник удалён', this.name, this.id);
       this.$store.dispatch('deleteUser', this.id);
       this.showDialog = false;
-      this.sendRequest();
+      //this.sendRequest();
     },
+
     saveUser() {
       console.log('Участник сохранен', this.id, this.name , this.UpdateDate );
       this.$store.dispatch('saveUser', { name: this.name, id: this.id , UpdateDate: this.UpdateDate });
       this.showDialog = false;
-      this.sendRequest();
+      //this.sendRequest();
     },
   },
   computed: {
@@ -189,11 +197,13 @@ export default {
     },
 
     users() {
-      return this.$store.getters.users;
+      //return this.$store.getters.users;
+      return this.$store.state.users;
     },
 
     projects() {
-      return this.$store.getters.projects;
+      //return this.$store.getters.projects;
+      return this.$store.state.projects;
     },
     
     headers() {
@@ -207,16 +217,12 @@ export default {
         },
       };
     },
-    updateServersStatus() {
-      this.$store.dispatch("loadUsers");
-      this.timerId = setTimeout(() => {
-        this.updateServersStatus();
-      }, 5000);
-    }
   },
+
   created() {
     this.sendRequest();
   },
+
   mounted() {
     document.addEventListener('keydown', e => {
       if (this.showDialog === true && e.keyCode === 27) {

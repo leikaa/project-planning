@@ -18,7 +18,7 @@
           :item="item"
           :handles="['ml', 'mr']"
           :grid="[21, 46]"
-          @mouseup.native="saveTask(item)"
+          @mouseup.native="saveTaskFromProject(item)"
           @dblclick.native="deleteItem(item)"
           @click.native="getCurrentDateCoords()"
           maximize
@@ -214,12 +214,12 @@ export default {
         dateCreate: moment().format("MMMM Do YYYY, HH:mm:ss ")
       });
       this.showDialog = false;
-      this.sendRequestTask();
+      //this.sendRequestTask();
     },
 
-    saveTask(item) {
+    saveTaskFromProject(item) {
       console.log("Проект сохранен", item.taskId, this.currentProjectId);
-      this.$store.dispatch("saveTask", {
+      this.$store.dispatch("saveTaskFromProject", {
         id: item.taskId,
         projectId: this.currentProjectId,
         startDate: this.getStartDateFromCoords(),
@@ -229,7 +229,7 @@ export default {
         y: this.getCurrentItemYCoordinate(),
         dateUpdate: moment().format("MMMM Do YYYY, HH:mm:ss ")
       });
-      this.sendRequestTask();
+      //this.sendRequestTask();
     },
 
     deleteTaskFromProject() {
@@ -239,7 +239,7 @@ export default {
         id: this.currentProjectId
       });
       this.showTask = false;
-      this.sendRequestTask();
+      //this.sendRequestTask();
     },
 
     getFirstDay() {
@@ -339,22 +339,12 @@ export default {
       const cordX = this.getCurrentDateCoords();
       window.scrollTo(cordX, 0);
     }
-
-    // someMethod() {
-    //   let left = event.currentTarget.style.left;
-    //   let width = event.currentTarget.style.width;
-    //   let top = event.currentTarget.style.top;
-
-    //   var x = left.slice(0, -2);
-    //   var w = width.slice(0, -2);
-    //   var y = top.slice(0, -2);
-    //   console.log("Координаты задачи", x , w , y )
-    // },
   },
 
   computed: {
     projects() {
-      return this.$store.getters.projects;
+      //return this.$store.getters.projects;
+      return this.$store.state.projects;
     },
 
     currentProjectId() {

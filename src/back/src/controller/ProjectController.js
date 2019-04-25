@@ -37,10 +37,10 @@ class  ProjectController {
     return await this.removeUserFromProject.execute(id, userId);
   }
 
-  async deleteTaskFromProject(id, taskId) {
-    console.log('removeTaskFromProject', id, taskId);
-    return await this.removeTaskFromProject.execute(id, taskId);
-  }
+  // async deleteTaskFromProject(id, taskId) {
+  //   console.log('removeTaskFromProject', id, taskId);
+  //   return await this.removeTaskFromProject.execute(id, taskId);
+  // }
 
   async create(params) {
     return await this.createProject.execute(params);

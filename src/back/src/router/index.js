@@ -60,10 +60,10 @@ class Routes {
       res.send({ status: 'ok' });
     });
 
-    this.httpServer.delete('/projects/:id/task/:taskId', async(req, res) => {
-      await this.projectController.deleteTaskFromProject(req.params.id, req.params.taskId);
-      res.send({ status: 'ok' });
-    });
+    // this.httpServer.delete('/projects/:id/task/:taskId', async(req, res) => {
+    //   await this.projectController.deleteTaskFromProject(req.params.id, req.params.taskId);
+    //   res.send({ status: 'ok' });
+    // });
 
     this.httpServer.post('/projects/:id', bodyParser.json(), async(req, res) => {
       await this.projectController.update({

@@ -8,7 +8,7 @@ export default {
   },
 
   LOADED_PROJECTS(state, data) { 
-    //console.log('LOADED_PROJECTS', data);
+    console.log('LOADED_PROJECTS', data);
     state.projects = data.map(elem => { 
       return elem;
     });

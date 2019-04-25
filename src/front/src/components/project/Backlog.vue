@@ -125,7 +125,7 @@ export default {
   },
 
   methods: {
-    sendRequestTask() {
+    sendRequest() {
       this.$store.dispatch("loadTasks");
     },
 
@@ -169,14 +169,14 @@ export default {
 
     saveTaskFromProject() {
       console.log("Проект сохранен", this.id, this.userId, this.name, this.description);
-      this.$store.dispatch("saveTask", {
+      this.$store.dispatch("saveTaskFromProject", {
         id: this.id,
         userId: this.selectedElement,
         name: this.name,
         description: this.description,
       });
       this.showDialog = false;
-      this.sendRequestTask();
+      //this.sendRequest();
     },
 
     deleteTaskFromProject() {
@@ -186,17 +186,19 @@ export default {
         id: this.currentProjectId
       });
       this.showTask = false;
-      this.sendRequestTask();
+      //this.sendRequest();
     }
   },
 
   computed: {
     tasks() {
-      return this.$store.getters.tasks;
+      //return this.$store.getters.tasks;
+      return this.$store.state.tasks;
     },
 
     projects() {
-      return this.$store.getters.projects;
+      //return this.$store.getters.projects;
+      return this.$store.state.projects;
     },
 
     currentProjectId() {
@@ -228,7 +230,11 @@ export default {
     controls() {
       return this.$store.state.ui.defaultControls;
     },
-  }
+  },
+
+  created() {
+    this.sendRequest();
+  },
 };
 </script>
 

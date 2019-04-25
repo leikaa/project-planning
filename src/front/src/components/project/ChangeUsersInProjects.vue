@@ -143,7 +143,7 @@ export default {
         id: this.currentProjectId
       });
       this.showDialog = false;
-      this.sendRequest();
+      //this.sendRequest();
     },
 
     deleteUserFromProject() {
@@ -153,7 +153,7 @@ export default {
         userId: this.userId
       });
       this.UsersDialog = false;
-      this.sendRequest();
+     // this.sendRequest();
     },
   },
   computed: {
@@ -162,11 +162,13 @@ export default {
     },
 
     users() {
-      return this.$store.getters.users;
+      //return this.$store.getters.users;
+      return this.$store.state.users;
     },
 
     projects() {
-      return this.$store.getters.projects;
+      //return this.$store.getters.projects;
+      return this.$store.state.projects;
     },
 
     currentProjectId() {
