@@ -1,14 +1,13 @@
-<template>
+<template v-slot:activator>
   <div class="button_add_task_in_project">
-    <v-btn
-      slot="activator"
-      color="green  accent-3"
-      @click="$emit('addItem')"
-      dark
-    >Добавить задачу в проект</v-btn>
+      <v-btn
+        color="green  accent-3"
+        @click="$emit('addItem')"
+        dark
+      >Добавить задачу в проект
+      </v-btn>
   </div>
 </template>
-
 
 <script>
 export default {

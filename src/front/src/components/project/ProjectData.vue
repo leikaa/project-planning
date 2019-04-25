@@ -6,7 +6,8 @@
     content-class="projects"
     no-data-text="Нет данных"
   >
-    <div slot="item" slot-scope="props">
+    <template v-slot:item="props"> 
+      <div>
       <router-link :to="{name :'Project', params: {id: props.item._id}}" class="project_name">
         <div>
           <h4>{{ props.item.name }}</h4>
@@ -23,7 +24,9 @@
           <v-icon :color="control.color">{{ control.icon }}</v-icon>
         </v-btn>
       </div>
-    </div>
+      </div>
+    </template>
+    <!-- </div> -->
   </v-data-iterator>
 </template>
  

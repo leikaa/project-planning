@@ -36,7 +36,7 @@ module.exports = (env, argv) => {
             {
               loader: 'css-loader',
               options: {
-                minimize: isProduction
+               // minimize: isProduction
               }
             },
             'sass-loader',

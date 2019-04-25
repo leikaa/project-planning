@@ -1,22 +1,23 @@
 <template>
   <div>
     <v-app id="inspire">
-      <project-data 
-      :items="projects"
-      :controls="controls"
-      @editItem="editItem"
-      @deleteItem="deleteItem"
+      <project-data
+        :items="projects"
+        :controls="controls"
+        @editItem="editItem"
+        @deleteItem="deleteItem"
       />
       <v-card class="projects">
         <v-layout row align-end>
           <v-dialog v-model="showDialog" width="500">
-            <v-btn
-              slot="activator"
-              color="green  accent-3"
-              @click="addItem"
-              class="button_create"
-              dark
-            >Добавить проект</v-btn>
+            <template v-slot:activator="click">
+              <v-btn
+                color="green  accent-3"
+                @click="addItem"
+                class="button_create"
+                dark
+              >Добавить проект</v-btn>
+            </template>
             <v-card>
               <v-card-title class="headline grey lighten-2" primary-title>{{ modalTitle }}</v-card-title>
               <v-card-text>
@@ -51,8 +52,8 @@
 
 
 <script>
-import ProjectData from './ProjectData'; 
-import moment from 'moment';
+import ProjectData from "./ProjectData";
+import moment from "moment";
 export default {
   name: "Project",
   data() {
@@ -69,7 +70,7 @@ export default {
     };
   },
   components: {
-    ProjectData,
+    ProjectData
   },
   methods: {
     sendRequest() {
@@ -81,26 +82,26 @@ export default {
       this.modalSubmitButton = "Добавить";
       this.modalAction = "Add";
       this.name = "";
-      this.CreationDate = moment().format('MMMM Do YYYY, HH:mm:ss ');
+      this.CreationDate = moment().format("MMMM Do YYYY, HH:mm:ss ");
       this.disableInput = false;
       this.showDialog = true;
     },
 
     editItem(item) {
-      this.modalTitle = 'Редактировать информацию о проекте';
-      this.modalSubmitButton = 'Сохранить';
-      this.modalAction = 'Edit';
+      this.modalTitle = "Редактировать информацию о проекте";
+      this.modalSubmitButton = "Сохранить";
+      this.modalAction = "Edit";
       this.id = item._id;
       this.name = item.name;
-      this.Date = moment().format('MMMM Do YYYY, HH:mm:ss ');
+      this.Date = moment().format("MMMM Do YYYY, HH:mm:ss ");
       this.disableInput = false;
       this.showDialog = true;
     },
 
     deleteItem(item) {
-      this.modalTitle = 'Удалить проект';
-      this.modalSubmitButton = 'Удалить';
-      this.modalAction = 'Delete';
+      this.modalTitle = "Удалить проект";
+      this.modalSubmitButton = "Удалить";
+      this.modalAction = "Delete";
       this.id = item._id;
       this.name = item.name;
       this.disableInput = true;
@@ -115,50 +116,57 @@ export default {
         case "Add":
           this.addProject();
           break;
-        case 'Edit':
+        case "Edit":
           this.saveProject();
           break;
-        case 'Delete':
+        case "Delete":
           this.deleteProject();
           break;
       }
     },
 
     addProject() {
-      console.log("Проект добавлен", this.name, this.CreationDate );
-      this.$store.dispatch("addProject", { name: this.name , CreationDate:this.CreationDate});
+      console.log("Проект добавлен", this.name, this.CreationDate);
+      this.$store.dispatch("addProject", {
+        name: this.name,
+        CreationDate: this.CreationDate
+      });
       this.showDialog = false;
       //this.sendRequest();
     },
-    
+
     deleteProject() {
-      console.log('Проект удалён', this.name, this.id);
-      this.$store.dispatch('deleteProject', this.id);
+      console.log("Проект удалён", this.name, this.id);
+      this.$store.dispatch("deleteProject", this.id);
       this.showDialog = false;
       //this.sendRequest();
     },
-    
+
     saveProject() {
-      console.log('Проект сохранен', this.id, this.name , this.Date );
-      this.$store.dispatch('saveProject', { name: this.name, id: this.id , Date: this.Date });
+      console.log("Проект сохранен", this.id, this.name, this.Date);
+      this.$store.dispatch("saveProject", {
+        name: this.name,
+        id: this.id,
+        Date: this.Date
+      });
       this.showDialog = false;
       //this.sendRequest();
-    },  
+    }
   },
   computed: {
-  controls() {
-    return this.$store.state.ui.defaultControls;
-  },
-  
-  projects() {
+    controls() {
+      return this.$store.state.ui.defaultControls;
+    },
+
+    projects() {
       //return this.$store.getters.projects;
       return this.$store.state.projects;
-    },
+    }
   },
 
   created() {
     this.sendRequest();
-  },
+  }
 };
 </script>
 

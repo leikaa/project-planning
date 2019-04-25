@@ -3,17 +3,18 @@
     <v-card>
       <v-layout row align-end>
         <v-dialog v-model="showDialog" width="500">
-          <v-btn
-            slot="activator"
-            small
-            fab
-            dark
-            color="green lighten-2"
-            @click="editItem"
-            class="button_user"
-          >
-            <v-icon dark>add</v-icon>
-          </v-btn>
+          <template v-slot:activator="click">
+            <v-btn
+              small
+              fab
+              dark
+              color="green lighten-2"
+              @click="editItem"
+              class="button_user"
+            >
+              <v-icon dark>add</v-icon>
+            </v-btn>
+          </template>
           <v-card>
             <v-card-title class="headline grey lighten-2" primary-title>{{ modalTitle }}</v-card-title>
             <v-card-text>

@@ -12,13 +12,14 @@
     :hide-actions="hideActions"
     no-data-text="Нет данных">
   >
+  <template v-slot:progress>
     <v-progress-linear
-      slot="progress"
       color="blue"
       indeterminate
       :active="loading"
     />
-    <template slot="items" slot-scope="props">
+  </template>
+    <template v-slot:items="props">
       <td
         v-for="(field, index) in visibleHeaders"
         :key="props.index + '_' + index"

@@ -4,7 +4,8 @@
     :items="items" 
     hide-actions 
     no-data-text="Нет данных">
-      <div class="user users__item user-task" slot="item" slot-scope="props">
+    <template v-slot:item="props"> 
+      <div class="user users__item user-task">
         <div class="user__name pi">{{props.item.name }}</div>
         <div class="el">
           <v-btn
@@ -18,6 +19,7 @@
           </v-btn>
         </div>
       </div>
+    </template>
     </v-data-iterator>
   </div>
 </template>
