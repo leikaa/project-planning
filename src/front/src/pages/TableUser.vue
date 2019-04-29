@@ -51,7 +51,7 @@
             </v-btn>
           </v-flex>
         </v-layout>
-        <table-system-members
+        <data-table
           :headers="headers"
           :items="users"
           :loading="false"
@@ -69,7 +69,7 @@
 </template>
 
 <script>
-import TableSystemMembers from "../components/TableSystemMembers";
+import DataTable from "../components/DataTable";
 import moment from "moment";
 export default {
   name: "User",
@@ -87,7 +87,7 @@ export default {
     };
   },
   components: {
-    TableSystemMembers
+    DataTable
   },
   methods: {
     sendRequest() {

@@ -48,7 +48,7 @@
                     :disabled="disableInput"
                     required
                   ></v-text-field>
-                  
+
                   <!-- <color-picker 
                   v-model="current" 
                   /> -->
@@ -173,21 +173,19 @@ export default {
 
      //ColorPicker
       colors: [
-      { color: "rgb(244, 67, 54)"},
-      { color: "rgb(0, 0, 250)" },
-      { color: "rgb(0, 250 , 0)" },
-      { color: "rgb(255, 128 , 0)" },
-      { color: "rgb(0, 255, 255)" },
-
-      { disabled: true },
-
-      { color: "rgb(136, 14, 79)" },
-      { color: "rgb(255, 255 ,0)" },
-      { color: "rgb(0, 0 , 0)" },
-      { color: "rgb(153, 153, 0)" },
-      { color: "rgb(160, 160, 160)" }
-    ],
-    current: "" ,
+        { color: "rgb(244, 67, 54)"},
+        { color: "rgb(25, 25, 112)" },
+        { color: "rgb(0, 128, 0)" },
+        { color: "rgb(255, 128 , 0)" },
+        { color: "rgb(128, 0, 128)" },
+        { disabled: true },
+        { color: "rgb(128, 0, 0)" },
+        { color: "rgb(30, 144, 255)" },
+        { color: "rgb(0, 0 , 0)" },
+        { color: "rgb(153, 153, 0)" },
+        { color: "rgb(160, 160, 160)" }
+      ],
+     current: "rgb(0, 0, 250)" ,
     };
   },
 
@@ -472,18 +470,22 @@ export default {
 .vue-grid-layout {
   width: 100%;
 }
+
 .vue-grid-item {
   background: #ccc;
 }
+
 .task-list {
   &__item {
     margin-top: 15px;
     margin-bottom: 46px;
   }
 }
+
 .pole {
   background: rgba(0, 0, 0, 0.1);
 }
+
 .user-task {
   height: 138px;
   display: flex;
@@ -500,15 +502,20 @@ export default {
     cursor: pointer;
   }
 }
+
 .task-text {
   display: flex;
   overflow: hidden;
   white-space: nowrap;
+  color: white;
+  font-size: 16px;
 }
+
 .pickers {
   display: flex;
   justify-content: space-around;
 }
+
 .select-element {
   display: flex;
   align-items: center;
@@ -527,15 +534,10 @@ export default {
   padding-top: 12px;
 }
 
-
-
-
-
 //ColorPicker
 .v-menu__content {
   min-width: 210px !important;
   left: 278px !important;
-  /* position: fixed !important; */
 }
 
 .v-list {

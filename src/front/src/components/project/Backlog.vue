@@ -134,7 +134,6 @@ export default {
       this.modalSubmitButton = "Сохранить";
       this.modalAction = "Edit";
       this.id = item._id;
-     // this.userId = item.userId; передает имя владельца а не id 
       this.userId = this.selectedElement;
       this.name = item.name;
       this.description = item.description;
@@ -237,7 +236,6 @@ export default {
   },
 };
 </script>
-
 
 <style lang="scss">
 .backlog {

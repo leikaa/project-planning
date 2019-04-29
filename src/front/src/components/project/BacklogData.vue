@@ -6,7 +6,7 @@
       slot-scope="props"
       :style="`background: ${props.item.rgb}`"
     >
-      <div>{{props.item.name }}</div>
+      <div class="backlog-text">{{props.item.name }}</div>
       <div class="controls">
         <v-btn
           class="mx-0"
@@ -40,5 +40,13 @@ export default {
 .controls {
   position: absolute;
   right: 10px;
+}
+
+.backlog-text {
+  display: flex;
+  overflow: hidden;
+  white-space: nowrap;
+  color: white;
+  font-size: 14px;
 }
 </style>
