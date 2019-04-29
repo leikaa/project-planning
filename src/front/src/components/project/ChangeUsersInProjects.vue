@@ -21,8 +21,22 @@
               <v-form v-model="formValid">
                 <select v-model="selectedElement" class="select-element">
                   <option disabled value>Выберите участника</option>
-                  <option v-for="item in users" :value="item._id" :key="item.name">{{item.name}}</option>
+                  <option 
+                  v-for="item in users" 
+                  :value="item._id" 
+                  :key="item.name">
+                  {{item.name}}
+                  </option>
                 </select>
+
+                <!-- <v-select
+                  v-model="selectedElement"	                 
+                  :items="users"	                  
+                  label="Выберите участника"	                 
+                  solo	                  
+                  item-text="name"	                 
+                  item-value="_id"	                  
+                ></v-select>                -->
               </v-form>
             </v-card-text>
             <v-divider></v-divider>

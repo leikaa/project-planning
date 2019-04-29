@@ -18,7 +18,7 @@ class CreateTask {
     this.logger.debug('CreateTask 2', result);
     
     const answerOnCommand = await this.taskModel.getLastTask();
-    //console.log("Последняя добавленная задача" , answerOnCommand);
+    console.log("Последняя добавленная задача" , answerOnCommand);
     
 
 

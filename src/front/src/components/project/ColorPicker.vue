@@ -1,7 +1,14 @@
 <template>
   <div class="select_item">
-    <v-card>
-      <v-select v-model="current" :items="items" chips label="COLOR" clearable>
+      <v-select 
+      v-model="current"
+      :items="colors" 
+      solo chips 
+      label="Выберите цвет" 
+      clearable 
+      item-text="color"	                 
+      item-value="color"
+      >
         <template v-slot:selection="data">
           <v-chip v-bind:color="data.item.color"></v-chip>
         </template>
@@ -9,39 +16,44 @@
         <template v-slot:item="data">
           <div class="item" v-bind:style="{'background-color':data.item.color}"></div>
         </template>
-      </v-select>
-    </v-card>
+      </v-select>   
   </div>
 </template>
 
 <script>
 export default {
   name: "ColorPicker",
-  data: () => ({
-    items: [
-      { color: "rgb(183, 28, 28)" },
-      { color: "rgb(211, 47, 47)" },
-      { color: "rgb(244, 67, 54)" },
-      { color: "rgb(229, 115, 115)" },
-      { color: "rgb(255, 205, 210)" },
+  data() {
+    return {
+      colors: [
+      { color: "rgb(244, 67, 54)"},
+      { color: "rgb(0, 0, 250)" },
+      { color: "rgb(0, 250 , 0)" },
+      { color: "rgb(255, 128 , 0)" },
+      { color: "rgb(0, 255, 255)" },
 
       { disabled: true },
 
       { color: "rgb(136, 14, 79)" },
-      { color: "rgb(194, 24, 91)" },
-      { color: "rgb(233, 30, 99)" },
-      { color: "rgb(240, 98, 146)" },
-      { color: "rgb(248, 187, 208)" }
+      { color: "rgb(255, 255 ,0)" },
+      { color: "rgb(0, 0 , 0)" },
+      { color: "rgb(153, 153, 0)" },
+      { color: "rgb(160, 160, 160)" }
     ],
-    current: null
-  })
+    current: "" ,
+  }
+ },
+ //props: ["current"]
 };
 </script>
 
 <style>
 .v-menu__content {
   min-width: 210px !important;
+  left: 278px !important;
+  /* position: fixed !important; */
 }
+
 .v-list {
   padding: 8px;
 }
@@ -80,7 +92,10 @@ export default {
 .select_item {
   width: 460px;
   height: 50px;
-  margin-bottom: 50px;
+  margin-bottom: 20px;
+  padding-top: 12px;
+  margin-top: 4px;
 }
+
 </style>
 

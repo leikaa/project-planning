@@ -48,7 +48,32 @@
                     :disabled="disableInput"
                     required
                   ></v-text-field>
-                  <color-picker />
+                  
+                  <!-- <color-picker 
+                  v-model="current" 
+                  /> -->
+
+                  <!--ColorPicker-->
+                  <div class="select_item">
+                    <v-select 
+                    v-model="current"
+                    :items="colors" 
+                    solo chips 
+                    label="Выберите цвет" 
+                    clearable 
+                    item-text="color"	                 
+                    item-value="color"
+                    >
+                      <template v-slot:selection="data">
+                        <v-chip v-bind:color="data.item.color"></v-chip>
+                      </template>
+
+                      <template v-slot:item="data">
+                        <div class="item" v-bind:style="{'background-color':data.item.color}"></div>
+                      </template>
+                    </v-select>   
+                  </div>
+                  <!-- -->
                   <select v-model="selectedElement" class="select-element">
                     <option disabled value>Список участников проекта</option>
                     <option
@@ -116,7 +141,7 @@
 
 
 <script>
-import ColorPicker from "./ColorPicker";
+// import ColorPicker from "./ColorPicker";
 import VueDraggableResizable from "../vue-drag/index.js";
 import AddTaskInProject from "../button/AddTaskInProject";
 import moment from "moment";
@@ -127,7 +152,7 @@ export default {
   components: {
     VueDraggableResizable,
     AddTaskInProject,
-    ColorPicker
+    // ColorPicker
   },
 
   data() {
@@ -144,7 +169,25 @@ export default {
       selectedElement: "",
       showTask: false,
       startDate: new Date().toISOString().substr(0, 10),
-      endDate: new Date().toISOString().substr(0, 10)
+      endDate: new Date().toISOString().substr(0, 10),
+
+     //ColorPicker
+      colors: [
+      { color: "rgb(244, 67, 54)"},
+      { color: "rgb(0, 0, 250)" },
+      { color: "rgb(0, 250 , 0)" },
+      { color: "rgb(255, 128 , 0)" },
+      { color: "rgb(0, 255, 255)" },
+
+      { disabled: true },
+
+      { color: "rgb(136, 14, 79)" },
+      { color: "rgb(255, 255 ,0)" },
+      { color: "rgb(0, 0 , 0)" },
+      { color: "rgb(153, 153, 0)" },
+      { color: "rgb(160, 160, 160)" }
+    ],
+    current: "" ,
     };
   },
 
@@ -170,7 +213,8 @@ export default {
       this.startDate = this.startDate;
       this.endDate = this.endDate;
       this.y = 0;
-      this.rgb = "rgb(244,67,54)";
+      // this.rgb = "rgb(244,67,54)";
+      this.rgb = this.current;
       this.description = "";
       this.name = "";
       this.disableInput = false;
@@ -203,14 +247,15 @@ export default {
     },
 
     addTask() {
-      console.log("Задача добавлена", this.name, this.description);
+      console.log("Задача добавлена", this.name, this.description,  this.current);
       this.$store.dispatch("addTask", {
         userId: this.selectedElement,
         projectId: this.currentProjectId,
         startDate: this.startDate,
         endDate: this.endDate,
         y: this.y,
-        rgb: this.rgb,
+        // rgb: this.rgb,
+        rgb: this.current,
         description: this.description,
         name: this.name,
         dateCreate: moment().format("MMMM Do YYYY, HH:mm:ss ")
@@ -479,5 +524,60 @@ export default {
   font-size: 16px;
   margin-bottom: 15px;
   margin-top: 5px;
+  padding-top: 12px;
+}
+
+
+
+
+
+//ColorPicker
+.v-menu__content {
+  min-width: 210px !important;
+  left: 278px !important;
+  /* position: fixed !important; */
+}
+
+.v-list {
+  padding: 8px;
+}
+
+.v-chip {
+  border-radius: 2px;
+  width: 60px;
+}
+
+.v-list > div {
+  display: inline-block;
+  width: 40px;
+  height: 30px;
+  margin: 0 1px 0 0;
+  vertical-align: top;
+}
+.v-list > div.v-list--disabled {
+  display: block;
+  height: 5px;
+}
+
+.v-list__tile--link {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.v-list > div .item {
+  width: 100%;
+  height: 100%;
+  border-radius: 2px;
+}
+
+.select_item {
+  width: 460px;
+  height: 50px;
+  margin-bottom: 20px;
+  padding-top: 12px;
+  margin-top: 4px;
 }
 </style>
