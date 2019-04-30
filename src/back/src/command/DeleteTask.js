@@ -1,8 +1,8 @@
 'use strict';
 
 class DeleteTask {
-  constructor({ 
-    logger, 
+  constructor({
+    logger,
     taskModel,
   }) {
     this.logger = logger;
@@ -10,9 +10,13 @@ class DeleteTask {
   }
 
   async execute(filter) {
-    this.logger.warn('DeleteTask', filter);
-    await this.taskModel.deleteOne(filter);
-    return true;
+    try {
+      this.logger.warn('DeleteTask', filter);
+      await this.taskModel.deleteOne(filter);
+      return true
+    } catch (err) {
+      console.error(err);
+    }
   }
 }
 

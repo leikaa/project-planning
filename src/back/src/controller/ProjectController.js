@@ -1,6 +1,6 @@
 'use strict';
 
-class  ProjectController {
+class ProjectController {
   constructor({
     getProjects,
     addUser,
@@ -23,15 +23,11 @@ class  ProjectController {
     return await this.getProjects.get();
   }
 
-  async addUsers(id, userId){
-    console.log('addUser', id, userId);
-    const addUsers = await this.addUser.execute(id, userId);
-    //console.log('Ответ с commandAddUser', addUsers)
-    return addUsers;
+  async addUsers(id, userId) {
+    return await this.addUser.execute(id, userId);
   }
 
   async deleteUserFromProject(id, userId) {
-    console.log('removeUserFromProject', id, userId);
     return await this.removeUserFromProject.execute(id, userId);
   }
 
@@ -47,7 +43,7 @@ class  ProjectController {
     console.log('UpdateProject', filter, update);
     return await this.updateProject.execute(filter, update);
   }
- 
+
 }
 
 module.exports = ProjectController;

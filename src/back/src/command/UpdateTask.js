@@ -12,12 +12,16 @@ class UpdateTask {
   }
 
   async execute(filter, update) {
-    this.logger.debug('UpdateTask', filter , update);
-    const id = update.id;
-    delete(update.id);
-    await this.taskModel.findOneAndUpdate(filter, update);
-    update._id = id;
-    return true;
+    try {
+      this.logger.debug('UpdateTask', filter, update);
+      const id = update.id;
+      delete(update.id);
+      await this.taskModel.findOneAndUpdate(filter, update);
+      update._id = id;
+      return true;
+    } catch (err) {
+      console.error(err);
+    }
   }
 }
 

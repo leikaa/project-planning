@@ -17,7 +17,7 @@ class Model {
       .find(this.getFilter(filter)).project(projection);
   }
 
-  async findOne(filter, projection) {
+  async findOne(filter) {
     const result = await this.db.get()
       .collection(this.collectionName)
       .findOne(this.getFilter(filter));

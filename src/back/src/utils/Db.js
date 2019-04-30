@@ -88,7 +88,7 @@ class Db {
   removeCollection(collection) {
     return this.db.collection(collection).drop();
   }
-   //Переданый обьект будет с типом objectId , в ProjectModel используеться  
+   //Переданый обьект будет с типом objectId.
   objectId(str) {
     return new ObjectID(str);
   }

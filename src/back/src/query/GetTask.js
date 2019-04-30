@@ -1,15 +1,16 @@
 'use strict';
 
 class GetTask {
-  constructor({ logger, taskModel }) {
+  constructor({
+    logger,
+    taskModel
+  }) {
     this.logger = logger;
     this.taskModel = taskModel;
   }
 
   async get(filter, projection) {
-    // console.log('get', filter, projection);
-    const result = await this.taskModel.getList(filter, projection);
-    return result;
+    return await this.taskModel.getList(filter, projection);
   }
 }
 

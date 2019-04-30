@@ -1,8 +1,8 @@
 'use strict';
 
 class DeleteProject {
-  constructor({ 
-    logger, 
+  constructor({
+    logger,
     projectModel,
   }) {
     this.logger = logger;
@@ -10,9 +10,13 @@ class DeleteProject {
   }
 
   async execute(filter) {
-    this.logger.warn('DeleteProject', filter);
-    await this.projectModel.deleteOne(filter);
-    return true;
+    try {
+      this.logger.warn('DeleteProject', filter);
+      await this.projectModel.deleteOne(filter);
+      return true
+    } catch (err) {
+      console.error(err);
+    }
   }
 }
 

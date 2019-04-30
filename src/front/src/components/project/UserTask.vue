@@ -5,8 +5,11 @@
         v-for="(list, index) in getCoordsTaskList.users"
         :key="index"
         :data-id="index"
+        :data-name="list.name"
+        :data-userId="list.userId"
         ref="getCoordsTaskList"
         class="pole user-task task-list__item"
+        @click="getIdUserField()"
       >
         <vue-draggable-resizable
           v-for="item in list.task"
@@ -51,18 +54,19 @@
 
                   <!-- <color-picker 
                   v-model="current" 
-                  /> -->
+                  />-->
 
                   <!--ColorPicker-->
                   <div class="select_item">
-                    <v-select 
-                    v-model="current"
-                    :items="colors" 
-                    solo chips 
-                    label="Выберите цвет" 
-                    clearable 
-                    item-text="color"	                 
-                    item-value="color"
+                    <v-select
+                      v-model="current"
+                      :items="colors"
+                      solo
+                      chips
+                      label="Выберите цвет"
+                      clearable
+                      item-text="color"
+                      item-value="color"
                     >
                       <template v-slot:selection="data">
                         <v-chip v-bind:color="data.item.color"></v-chip>
@@ -71,7 +75,7 @@
                       <template v-slot:item="data">
                         <div class="item" v-bind:style="{'background-color':data.item.color}"></div>
                       </template>
-                    </v-select>   
+                    </v-select>
                   </div>
                   <!-- -->
                   <select v-model="selectedElement" class="select-element">
@@ -151,7 +155,7 @@ export default {
   name: "UserTask",
   components: {
     VueDraggableResizable,
-    AddTaskInProject,
+    AddTaskInProject
     // ColorPicker
   },
 
@@ -171,9 +175,9 @@ export default {
       startDate: new Date().toISOString().substr(0, 10),
       endDate: new Date().toISOString().substr(0, 10),
 
-     //ColorPicker
+      //ColorPicker
       colors: [
-        { color: "rgb(244, 67, 54)"},
+        { color: "rgb(244, 67, 54)" },
         { color: "rgb(25, 25, 112)" },
         { color: "rgb(0, 128, 0)" },
         { color: "rgb(255, 128 , 0)" },
@@ -185,7 +189,7 @@ export default {
         { color: "rgb(153, 153, 0)" },
         { color: "rgb(160, 160, 160)" }
       ],
-     current: "rgb(0, 0, 250)" ,
+      current: "rgb(0, 0, 250)"
     };
   },
 
@@ -245,7 +249,12 @@ export default {
     },
 
     addTask() {
-      console.log("Задача добавлена", this.name, this.description,  this.current);
+      console.log(
+        "Задача добавлена",
+        this.name,
+        this.description,
+        this.current
+      );
       this.$store.dispatch("addTask", {
         userId: this.selectedElement,
         projectId: this.currentProjectId,
@@ -281,7 +290,7 @@ export default {
       console.log("Задача удалена", this.taskId, this.userId);
       this.$store.dispatch("deleteTaskFromProject", {
         taskId: this.taskId,
-        id: this.userId,
+        id: this.userId
       });
       this.showTask = false;
       //this.sendRequestTask();
@@ -352,7 +361,7 @@ export default {
       //   console.log("Вышел за пределы")
       // }
       // console.log("top" , top)
-      
+
       return top.slice(0, -2);
     },
 
@@ -391,6 +400,14 @@ export default {
       const cordX = this.getCurrentDateCoords();
       window.scrollTo(cordX, 0);
     },
+
+    getIdUserField() {
+      const test = event.target.dataset.userid;
+      const test2 = event.currentTarget.dataset.userid;
+      console.log("test", test);
+      console.log("test2", test2);
+      return test && test2;
+    }
   },
 
   computed: {
@@ -537,7 +554,7 @@ export default {
 //ColorPicker
 .v-menu__content {
   min-width: 210px !important;
-  left: 278px !important;
+  left: 718px !important;
 }
 
 .v-list {
@@ -582,4 +599,11 @@ export default {
   padding-top: 12px;
   margin-top: 4px;
 }
+
+// @media (min-width: 1360px) and (max-width: 1600px) {
+//   .v-menu__content {
+//     min-width: 210px !important;
+//     left: 510px !important;
+//   }
+// }
 </style>

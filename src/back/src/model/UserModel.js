@@ -9,7 +9,7 @@ class UserModel extends Model {
 
   //Добавление задачи в проект.
   async addTaskToProject(id, taskId) {
-    console.log('addTaskToProject', id , taskId );
+    //console.log('addTaskToProject', id , taskId );
     const result = await this.db.get()
       .collection(this.collectionName) 
       .findOneAndUpdate(
@@ -21,15 +21,15 @@ class UserModel extends Model {
         },
       )
       .catch(err => {
-        console.log(err);
+        console.error(err);
       });
-      console.log("Результат добавления задача в проект",result);
+      //console.log("Результат добавления задача в проект",result);
     return result;
   }
 
   //Удаление задачи из проекта.
   async deleteTaskFromProject(id, taskId) {
-    console.log('deleteTaskFromProject', id, taskId);
+    //console.log('deleteTaskFromProject', id, taskId);
     const result = await this.db.get()
       .collection(this.collectionName)
       .findOneAndUpdate(
@@ -43,7 +43,7 @@ class UserModel extends Model {
         },
       )
       .catch(err => {
-        console.log(err);
+        console.error(err);
       });
       console.log(result);
     return result;

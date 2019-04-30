@@ -1,7 +1,7 @@
 'use strict';
 //Получает данные с router и отправляет с command
 
-class  TaskController {
+class TaskController {
   constructor({
     getTask,
     createTask,
@@ -19,8 +19,7 @@ class  TaskController {
   }
 
   async create(params) {
-    const test = await this.createTask.execute(params);
-    return test;
+    return await this.createTask.execute(params);
   }
 
   async delete(params) {

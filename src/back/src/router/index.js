@@ -12,8 +12,7 @@ class Routes {
     projectController,
     userController,
     taskController,
-  }) 
-  {
+  }) {
     this.logger = logger;
     this.httpServer = httpServer;
     this.config = config;
@@ -22,108 +21,214 @@ class Routes {
     this.taskController = taskController;
   }
 
-  async run () {
-
+  async run() {
     const self = this;
     this.httpServer.use('/status', (_, res) => {
       res.status(200).send('OK');
     });
 
     this.httpServer.get('/projects', async (_, res) => {
-      const data = await this.projectController.getList();
-      res.send({
-        status: 'ok',
-        data,
-      });
-    }); 
-
-   this.httpServer.post('/projects/:id/add_user/:userId', async(req, res) => {
-      //console.log('router', req);
-      await this.projectController.addUsers(req.params.id, req.params.userId);
-      res.send({ status: 'ok' });
+      try {
+        const data = await this.projectController.getList();
+        res.send({
+          status: 'ok',
+          data,
+        });
+      } catch (err) {
+        console.error(err);
+      }
     });
 
-    this.httpServer.delete('/projects/:id/users/:userId', async(req, res) => {
-       await this.projectController.deleteUserFromProject(req.params.id, req.params.userId);
-       res.send({ status: 'ok' });
-     });
+    this.httpServer.post('/projects/:id/add_user/:userId', async (req, res) => {
+      try {
+        const answer = await this.projectController.addUsers(req.params.id, req.params.userId);
+        if (answer == true) {
+          res.send({
+            status: 'ok'
+          });
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    });
+
+    this.httpServer.delete('/projects/:id/users/:userId', async (req, res) => {
+      try {
+        const answer = await this.projectController.deleteUserFromProject(req.params.id, req.params.userId);
+        if (answer == true) {
+          res.send({
+            status: 'ok'
+          });
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    });
 
     this.httpServer.delete('/projects/:id', async (req, res) => {
-      await this.projectController.delete({
-        '_id': req.params.id
-      });
-      res.send({ status: 'ok' });
+      try {
+        const answer = await this.projectController.delete({
+          '_id': req.params.id
+        });
+        if (answer == true) {
+          res.send({
+            status: 'ok'
+          });
+        }
+      } catch (err) {
+        console.error(err);
+      }
     });
 
     this.httpServer.post('/projects', bodyParser.json(), async (req, res) => {
-      await this.projectController.create(req.body);
-      res.send({ status: 'ok' });
+      try {
+        const answer = await this.projectController.create(req.body);
+        if (answer == true) {
+          res.send({
+            status: 'ok'
+          });
+        }
+      } catch (err) {
+        console.error(err);
+      }
     });
 
-    this.httpServer.delete('/users/:id/task/:taskId', async(req, res) => {
-      await this.userController.deleteTaskFromProject(req.params.id, req.params.taskId);
-      res.send({ status: 'ok' });
+    this.httpServer.delete('/users/:id/task/:taskId', async (req, res) => {
+      try {
+        const answer = await this.userController.deleteTaskFromProject(req.params.id, req.params.taskId);
+        if (answer == true) {
+          res.send({
+            status: 'ok'
+          });
+        }
+      } catch (err) {
+        console.error(err);
+      }
     });
 
-    this.httpServer.post('/projects/:id', bodyParser.json(), async(req, res) => {
-      await this.projectController.update({
-        '_id': req.params.id
-      }, req.body);
-      res.send({ status: 'ok' });
+    this.httpServer.post('/projects/:id', bodyParser.json(), async (req, res) => {
+      try {
+        const answer = await this.projectController.update({
+          '_id': req.params.id
+        }, req.body);
+        if (answer == true) {
+          res.send({
+            status: 'ok'
+          });
+        }
+      } catch (err) {
+        console.error(err);
+      }
     });
 
     this.httpServer.get('/users', async (_, res) => {
-      const data = await this.userController.getList();
-      res.send({ 
-        status: 'ok',
-        data,
-      });
-    }); 
+      try {
+        const data = await this.userController.getList();
+        res.send({
+          status: 'ok',
+          data,
+        });
+      } catch (err) {
+        console.error(err);
+      }
+    });
 
-    this.httpServer.post('/users/:id', bodyParser.json(), async(req, res) => {
-      await this.userController.update({
-        '_id': req.params.id
-      }, req.body);
-      res.send({ status: 'ok' });
+    this.httpServer.post('/users/:id', bodyParser.json(), async (req, res) => {
+      try {
+        const answer = await this.userController.update({
+          '_id': req.params.id
+        }, req.body);
+        if (answer == true) {
+          res.send({
+            status: 'ok'
+          });
+        }
+      } catch (err) {
+        console.error(err);
+      }
     });
 
     this.httpServer.delete('/users/:id', async (req, res) => {
-      await this.userController.delete({
-        '_id': req.params.id
-      });
-      res.send({ status: 'ok' });
+      try {
+        const answer = await this.userController.delete({
+          '_id': req.params.id
+        });
+        if (answer == true) {
+          res.send({
+            status: 'ok'
+          });
+        }
+      } catch (err) {
+        console.error(err);
+      }
     });
 
     this.httpServer.post('/users', bodyParser.json(), async (req, res) => {
-      await this.userController.create(req.body);
-      res.send({ status: 'ok' });
+      try {
+        const answer = await this.userController.create(req.body);
+        if (answer == true) {
+          res.send({
+            status: 'ok'
+          });
+        }
+      } catch (err) {
+        console.error(err);
+      }
     });
 
     this.httpServer.get('/tasks', async (_, res) => {
-      const data = await this.taskController.getList();
-      res.send({ 
-        status: 'ok',
-        data,
-      });
-    }); 
+      try {
+        const data = await this.taskController.getList();
+        res.send({
+          status: 'ok',
+          data,
+        });
+      } catch (err) {
+        console.error(err);
+      }
+    });
 
-    this.httpServer.post('/tasks/:id', bodyParser.json(), async(req, res) => {
-      await this.taskController.update({
-        '_id': req.params.id
-      }, req.body);
-      res.send({ status: 'ok' });
+    this.httpServer.post('/tasks/:id', bodyParser.json(), async (req, res) => {
+      try {
+        const answer = await this.taskController.update({
+          '_id': req.params.id
+        }, req.body);
+        if (answer == true) {
+          res.send({
+            status: 'ok'
+          });
+        }
+      } catch (err) {
+        console.error(err);
+      }
     });
 
     this.httpServer.delete('/task/:taskId', async (req, res) => {
-      await this.taskController.delete({
-        '_id': req.params.taskId
-      });
-      res.send({ status: 'ok' });
+      try {
+        const answer = await this.taskController.delete({
+          '_id': req.params.taskId
+        });
+        if (answer == true) {
+          res.send({
+            status: 'ok'
+          });
+        }
+      } catch (err) {
+        console.error(err);
+      }
     });
 
     this.httpServer.post('/tasks', bodyParser.json(), async (req, res) => {
-      await this.taskController.create(req.body);
-      res.send({ status: 'ok' });
+      try {
+        const answer = await this.taskController.create(req.body);
+        if (answer == true) {
+          res.send({
+            status: 'ok'
+          });
+        }
+      } catch (err) {
+        console.error(err);
+      }
     });
 
     this.httpServer.all('*', function (req, res) {

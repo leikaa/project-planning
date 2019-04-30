@@ -10,12 +10,16 @@ class UpdateProject {
   }
 
   async execute(filter, update) {
-    this.logger.debug('UpdateProject', filter , update);
-    const id = update.id;
-    delete(update.id);
-    await this.projectModel.findOneAndUpdate(filter, update);
-    update._id = id;
-    return true;
+    try {
+      this.logger.debug('UpdateProject', filter, update);
+      const id = update.id;
+      delete(update.id);
+      await this.projectModel.findOneAndUpdate(filter, update);
+      update._id = id;
+      return true;
+    } catch (err) {
+      console.error(err);
+    }
   }
 }
 

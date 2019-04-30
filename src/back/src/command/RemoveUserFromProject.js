@@ -10,9 +10,13 @@ class RemoveUserFromProject {
   }
 
   async execute(filter, update) {
-    this.logger.warn('deleteUserFromProject', filter , update);
-    await this.projectModel.deleteUserFromProject(filter, update);
-    return true;
+    try {
+      this.logger.warn('deleteUserFromProject', filter, update);
+      await this.projectModel.deleteUserFromProject(filter, update);
+      return true;
+    } catch (err) {
+      console.error(err);
+    }
   }
 }
 
