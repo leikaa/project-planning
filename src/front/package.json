@@ -60,8 +60,7 @@
 		"webpack": "^4.28.2",
 		"webpack-cli": "^3.1.2",
 		"webpack-dev-server": "^3.1.14",
-		"yargs": "^11.0.0",
-		"tar": "^4.4.2"
+		"yargs": "^11.0.0"
 	},
 	"browserslist": [
 		"> 1%",
