@@ -51,33 +51,23 @@
                     :disabled="disableInput"
                     required
                   ></v-text-field>
-
-                  <!-- <color-picker 
-                  v-model="current" 
-                  />-->
-
-                  <!--ColorPicker-->
-                  <div class="select_item">
-                    <v-select
-                      v-model="current"
-                      :items="colors"
-                      solo
-                      chips
-                      label="Выберите цвет"
-                      clearable
-                      item-text="color"
-                      item-value="color"
+                  <div class="CheckColor">
+                    <div
+                      v-for="(color, index) in colors"
+                      :key="index"
+                      class="ColorPicker"
+                      :style="`background: ${color.color}`"
                     >
-                      <template v-slot:selection="data">
-                        <v-chip v-bind:color="data.item.color"></v-chip>
-                      </template>
-
-                      <template v-slot:item="data">
-                        <div class="item" v-bind:style="{'background-color':data.item.color}"></div>
-                      </template>
-                    </v-select>
+                      <v-checkbox
+                        v-model="current"
+                        height="0px"
+                        color="white"
+                        class="CheckboxColorPicker"
+                        dark
+                        :value="`${color.color}`"
+                      ></v-checkbox>
+                    </div>
                   </div>
-                  <!-- -->
                   <select v-model="selectedElement" class="select-element">
                     <option disabled value>Список участников проекта</option>
                     <option
@@ -86,7 +76,7 @@
                       :key="item.userId"
                     >{{item.name}}</option>
                   </select>
-                  <div class="pickers">
+                  <div class="DataPicker">
                     <v-date-picker v-model="startDate" width="220"></v-date-picker>
                     <v-date-picker v-model="endDate" show-current="false" width="230"></v-date-picker>
                   </div>
@@ -145,7 +135,6 @@
 
 
 <script>
-// import ColorPicker from "./ColorPicker";
 import VueDraggableResizable from "../vue-drag/index.js";
 import AddTaskInProject from "../button/AddTaskInProject";
 import moment from "moment";
@@ -156,7 +145,6 @@ export default {
   components: {
     VueDraggableResizable,
     AddTaskInProject
-    // ColorPicker
   },
 
   data() {
@@ -174,22 +162,17 @@ export default {
       showTask: false,
       startDate: new Date().toISOString().substr(0, 10),
       endDate: new Date().toISOString().substr(0, 10),
-
-      //ColorPicker
       colors: [
-        { color: "rgb(244, 67, 54)" },
-        { color: "rgb(25, 25, 112)" },
-        { color: "rgb(0, 128, 0)" },
-        { color: "rgb(255, 128 , 0)" },
-        { color: "rgb(128, 0, 128)" },
-        { disabled: true },
-        { color: "rgb(128, 0, 0)" },
-        { color: "rgb(30, 144, 255)" },
-        { color: "rgb(0, 0 , 0)" },
-        { color: "rgb(153, 153, 0)" },
-        { color: "rgb(160, 160, 160)" }
+        { color: "rgb(244, 67, 54)"},
+        { color: "rgb(25, 25, 112)"},
+        { color: "rgb(0, 128, 0)"},
+        { color: "rgb(255, 128 , 0)"},
+        { color: "rgb(128, 0, 128)"},
+        { color: "rgb(128, 0, 0)"},
+        { color: "rgb(30, 144, 255)"},
+        { color: "rgb(153, 153, 0)"}
       ],
-      current: "rgb(0, 0, 250)"
+      current: "rgb(244, 67, 54)",
     };
   },
 
@@ -215,7 +198,6 @@ export default {
       this.startDate = this.startDate;
       this.endDate = this.endDate;
       this.y = 0;
-      // this.rgb = "rgb(244,67,54)";
       this.rgb = this.current;
       this.description = "";
       this.name = "";
@@ -528,7 +510,7 @@ export default {
   font-size: 16px;
 }
 
-.pickers {
+.DataPicker {
   display: flex;
   justify-content: space-around;
 }
@@ -551,59 +533,25 @@ export default {
   padding-top: 12px;
 }
 
-//ColorPicker
-.v-menu__content {
-  min-width: 210px !important;
-  left: 718px !important;
-}
-
-.v-list {
-  padding: 8px;
-}
-
-.v-chip {
-  border-radius: 2px;
-  width: 60px;
-}
-
-.v-list > div {
-  display: inline-block;
-  width: 40px;
-  height: 30px;
-  margin: 0 1px 0 0;
-  vertical-align: top;
-}
-.v-list > div.v-list--disabled {
-  display: block;
-  height: 5px;
-}
-
-.v-list__tile--link {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-  display: block;
-}
-
-.v-list > div .item {
-  width: 100%;
-  height: 100%;
-  border-radius: 2px;
-}
-
-.select_item {
+.CheckColor {
+  display: flex;
   width: 460px;
   height: 50px;
   margin-bottom: 20px;
   padding-top: 12px;
-  margin-top: 4px;
+  margin-top: 2px;
 }
 
-// @media (min-width: 1360px) and (max-width: 1600px) {
-//   .v-menu__content {
-//     min-width: 210px !important;
-//     left: 510px !important;
-//   }
-// }
+.ColorPicker {
+  display: flex;
+  width: 40px;
+  height: 30px;
+  margin: 0px 10px;
+  border-radius: 3px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+.CheckboxColorPicker {
+  padding-top: 0px;
+  padding-left: 6px;
+}
 </style>
