@@ -10,64 +10,78 @@ const loadStatus = ({commit}) => {
 const loadProjects = ({commit}) => {
   api.getData('get', 'projects/')
     .then(data => {
-      //console.log('data',data )
       commit('LOADED_PROJECTS', data);
     })
+    .catch(error => {
+      commit('SET_ERROR', error);
+    });
 };
 
 const addProject = ({dispatch, commit}, data) => {
   api.request('post', 'projects/', data)
-  setTimeout(() => {
-    return dispatch("loadProjects")
-    .then(
-      commit('ADDED_PROJECT', data));
-  }, 100)
+    .then( res =>{
+      if(res.status == 200){
+        commit('ADDED_PROJECT', data),
+        dispatch("loadProjects")
+      }
+    }
+  );
 };
 
 const deleteProject = ({dispatch, commit}, id) => {
   api.request('delete', `projects/${id}`)
-  setTimeout(() => {
-     return dispatch("loadProjects")
-     .then(
-        commit('DELETED_PROJECT', id));
-  }, 100)
+    .then( res =>{
+      if(res.status == 200){
+        commit('DELETED_PROJECT', id),
+        dispatch("loadProjects")
+      }
+    }
+  );
 };
 
 const saveProject = ({dispatch, commit}, data) => {
   console.log('save', data);
   api.request('post', `projects/${data.id}`, data)
-  setTimeout(() => {
-    return dispatch("loadProjects") 
-    .then(
-      commit('SAVED_PROJECT', data)
-    );
-  }, 100)
+    .then( res =>{
+      if(res.status == 200){
+        commit('SAVED_PROJECT', data),
+        dispatch("loadProjects")
+      }
+    }
+  );
 };
 
 const addUserToProject = ({dispatch,commit}, data) => {
-  console.log('save', data);
+  console.log('addUserToProject', data);
   api.request('post', `projects/${data.id}/add_user/${data.userId}`)
-  setTimeout(() => {
-    return dispatch("loadProjects")
-    .then(
-      commit('ADD_USER_TO_PROJECT', data)
-    );
-  }, 100)
+    .then( res =>{
+      if(res.status == 200){
+        commit('ADD_USER_TO_PROJECT', data),
+        dispatch("loadProjects")
+      }
+    }
+  );
 };
 
 const deleteUserFromProject = ({dispatch, commit}, data) => {
   console.log('delete', data);
   api.request('delete', `projects/${data.id}/users/${data.userId}`)
-    return dispatch("loadProjects")
-    .then(
-      commit('DELETE_USER_FROM_PROJECT', data)
-    );
+    .then( res =>{
+      if(res.status == 200){
+        commit('DELETE_USER_FROM_PROJECT', data),
+        dispatch("loadProjects")
+      }
+    }
+  );
 };
 
 const loadUsers = ({commit}) => {
   api.getData('get', 'users/')
     .then(data => {
       commit('LOADED_USERS', data);
+    })
+    .catch(error => {
+      commit('SET_ERROR', error);
     });
 };
 
@@ -80,71 +94,91 @@ const openUser = ({commit}, id) => {
 
 const addUser = ({dispatch, commit}, data) => {
   api.request('post', `users/`, data)
-  setTimeout(() => {
-    return dispatch("loadUsers")
-    .then(
-      commit('ADDED_USER', data));
-  } , 100)
+    .then( res =>{
+      if(res.status == 200){
+        commit('ADDED_USER', data),
+        dispatch("loadUsers")
+      }
+    }
+  );
 };
 
 const deleteUser = ({dispatch, commit}, id) => {
   api.request('delete', `users/${id}`)
-    return dispatch("loadUsers")
-    .then(
-      commit('DELETED_USER', id));
+    .then( res =>{
+      if(res.status == 200){
+        commit('DELETED_USER', id),
+        dispatch("loadUsers")
+      }
+    }
+  );
 };
 
 const saveUser = ({dispatch, commit}, data) => {
   api.request('post', `users/${data.id}`, data)
-  setTimeout(() => {
-    return dispatch("loadUsers")
-    .then(
-      commit('SAVED_USER', data));
-  }, 100)
+    .then( res =>{
+      if(res.status == 200){
+        commit('SAVED_USER', data),
+        dispatch("loadUsers")
+      }
+    }
+  );
 };
 
 const loadTasks = ({commit}) => {
   api.getData('get', 'tasks/')
     .then(data => {
       commit('LOADED_TASKS', data);
+    })
+    .catch(error => {
+      commit('SET_ERROR', error);
     });
 };
 
 const addTask = ({dispatch, commit}, data) => {
   api.request('post', `tasks/`, data)
-  setTimeout(() => {
-    return (dispatch("loadTasks") && dispatch("loadProjects"))
-    .then(
-      commit('ADDED_TASK', data));
-  }, 100)
+    .then( res =>{
+      if(res.status == 200){
+        console.log(res)
+        commit('ADDED_TASK', data),
+        dispatch("loadTasks"),
+        dispatch("loadProjects")
+      } 
+    }
+  );
 };
 
 const deleteTaskFromProject = ({dispatch, commit}, data) => {
   console.log('delete', data);
   api.request('delete', `users/${data.id}/task/${data.taskId}`)
-  setTimeout(() => {
-    return dispatch("loadProjects")
-    .then(
-      commit('DELETE_TASK_FROM_PROJECT', data)
-    );
-  }, 100)
+    .then( res =>{
+      if(res.status == 200){
+        commit('DELETE_TASK_FROM_PROJECT', data),
+        dispatch("loadProjects")
+      }
+    }
+  );
 
   api.request('delete', `task/${data.taskId}`)
-  setTimeout(() => {
-    return dispatch("loadTasks")
-    .then(
-      commit('DELETED_TASK', data)
-    );
-  }, 100)
+    .then( res =>{
+      if(res.status == 200){
+        commit('DELETED_TASK', data),
+        dispatch("loadTasks")
+      }
+    }
+  );
 };
 
 const saveTaskFromProject = ({dispatch, commit}, data) => {
   api.request('post', `tasks/${data.id}`, data)
-  setTimeout(() => {
-    return (dispatch("loadTasks") && dispatch("loadProjects"))
-    .then(
-      commit('SAVED_TASK', data));
-  }, 100)
+    .then( res =>{
+      if(res.status == 200){
+        commit('SAVED_TASK', data),
+        dispatch("loadTasks"),
+        dispatch("loadProjects")
+      }
+    }
+  );
 };
 
 

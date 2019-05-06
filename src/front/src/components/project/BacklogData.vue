@@ -6,7 +6,7 @@
       slot-scope="props"
       :style="`background: ${props.item.rgb}`"
     >
-      <div class="backlog-text">{{props.item.name }}</div>
+      <div class="backlog-text"><p align="center">{{props.item.name }}</p></div>
       <div class="controls">
         <v-btn
           class="mx-0"
@@ -15,7 +15,7 @@
           v-for="(control, controlIndex) in controls"
           :key="props.index + '_' + controlIndex"
         >
-          <v-icon :color="control.color">{{ control.icon }}</v-icon>
+          <v-icon :color="control.color" size="20px">{{ control.icon }}</v-icon>
         </v-btn>
       </div>
     </div>
@@ -44,9 +44,11 @@ export default {
 
 .backlog-text {
   display: flex;
-  overflow: hidden;
-  white-space: nowrap;
+  width: 230px;
+  height: 50px;
   color: white;
   font-size: 14px;
+  justify-content: center;
+  margin-right: 100px;
 }
 </style>

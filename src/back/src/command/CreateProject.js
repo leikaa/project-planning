@@ -10,14 +10,10 @@ class CreateProject {
   }
 
   async execute(params) {
-    try {
-      this.logger.debug('CreateProject', params);
-      const result = await this.projectModel.insertOne(params);
-      this.logger.debug('CreateProject result', result);
-      return true;
-    } catch (err) {
-      console.error(err);
-    }
+    this.logger.debug('CreateProject', params);
+    const project = await this.projectModel.insertOne(params);
+    this.logger.debug('CreateProject', project);
+    return true;
   }
 }
 

@@ -13,11 +13,10 @@ class CreateTask {
   }
 
   async execute(params) {
+    this.logger.debug('CreateTask', params);
+    const result = await this.taskModel.insertOne(params);
+    this.logger.debug('CreateTask 2', result);
     try {
-      this.logger.debug('CreateTask', params);
-      const result = await this.taskModel.insertOne(params);
-      this.logger.debug('CreateTask 2', result);
-
       const answerOnCommand = await this.taskModel.getLastTask();
       //console.log("Последняя добавленная задача" , answerOnCommand);
 
@@ -41,16 +40,22 @@ class CreateTask {
       //console.log("Значение ValueString", ValueString)
 
       //Тут строка превращается в массив для удобства дальнейшего присвоения.
-      //Содержит id - проекта и шd- задачи.
       var values = ValueString.split(' ', 2);
       var taskId = values[0];
       var id = values[1];
 
+      if (id == "") {
+        return result
+      }
+
       await this.userModel.addTaskToProject(id, taskId);
-      return true;
+      this.logger.debug('addTaskToProject', addTaskToProject);
+
     } catch (err) {
-      console.error(err);
+      console.error("Error create task", err);
     }
-  }
+
+    return true;
+}
 }
 module.exports = CreateTask;

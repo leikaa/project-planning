@@ -10,13 +10,9 @@ class DeleteUser {
   }
 
   async execute(filter) {
-    try {
-      this.logger.warn('DeleteTask', filter);
-      await this.userModel.deleteOne(filter);
-      return true
-    } catch (err) {
-      console.error(err);
-    }
+    this.logger.warn('DeleteTask', filter);
+    await this.userModel.deleteOne(filter);
+    return true
   }
 }
 

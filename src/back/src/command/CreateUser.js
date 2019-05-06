@@ -10,15 +10,10 @@ class CreateUser {
   }
 
   async execute(params) {
-    try {
-      this.logger.debug('CreateUser', params);
-      params.task = [];
-      const result = await this.userModel.insertOne(params);
-      this.logger.debug('CreateUser 2', result);
-      return true;
-    } catch (err) {
-      console.error(err);
-    }
+    this.logger.debug('CreateUser', params);
+    await this.userModel.insertOne(params);
+    this.logger.debug('CreateUser 2', result);
+    return true;
   }
 }
 

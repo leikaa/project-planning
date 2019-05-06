@@ -22,7 +22,7 @@ class ProjectModel extends Model {
         },
         )
       .catch(err => {
-        console.log(err);
+        console.error(err);
       });
       console.log(result);
     return result;
@@ -42,7 +42,7 @@ class ProjectModel extends Model {
         }
       )
       .catch(err => {
-        console.log(err);
+        console.error(err);
       });
       console.log(result);
     return result;
@@ -63,7 +63,7 @@ class ProjectModel extends Model {
         },
       )
       .catch(err => {
-        console.log(err);
+        console.error(err);
       });
       console.log(result);
     return result;

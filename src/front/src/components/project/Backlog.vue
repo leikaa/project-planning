@@ -72,6 +72,23 @@
                   :disabled="disableInput"
                   required
                 ></v-text-field>
+                <div class="CheckColor">
+                    <div
+                      v-for="(color, index) in colors"
+                      :key="index"
+                      class="ColorPicker"
+                      :style="`background: ${color.color}`"
+                    >
+                      <v-checkbox
+                        v-model="current"
+                        height="0px"
+                        color="white"
+                        class="CheckboxColorPicker"
+                        dark
+                        :value="`${color.color}`"
+                      ></v-checkbox>
+                    </div>
+                  </div>
                 <!-- <select v-model="selectedElement" class="select-element" >
                   <option disabled value>Выберите участника</option>
                   <option
@@ -121,6 +138,18 @@ export default {
       selectedElement: "",
       unallocated: true,
       distributed: true,
+
+      colors: [
+        { color: "rgb(244, 67, 54)"},
+        { color: "rgb(25, 25, 112)"},
+        { color: "rgb(0, 128, 0)"},
+        { color: "rgb(255, 128 , 0)"},
+        { color: "rgb(128, 0, 128)"},
+        { color: "rgb(128, 0, 0)"},
+        { color: "rgb(30, 144, 255)"},
+        { color: "rgb(153, 153, 0)"}
+      ],
+      current: "rgb(244, 67, 54)",
     };
   },
 
@@ -137,6 +166,7 @@ export default {
       this.userId = this.selectedElement;
       this.name = item.name;
       this.description = item.description;
+      this.rgb = this.current;
       this.disableInput = false;
       this.showDialog = true;
     },
@@ -173,6 +203,7 @@ export default {
         userId: this.selectedElement,
         name: this.name,
         description: this.description,
+        rgb: this.current,
       });
       this.showDialog = false;
       //this.sendRequest();
@@ -227,7 +258,7 @@ export default {
     }, 
 
     controls() {
-      return this.$store.state.ui.defaultControls;
+      return this.$store.state.ui.backlogControls;
     },
   },
 

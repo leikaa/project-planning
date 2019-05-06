@@ -5,6 +5,7 @@ export default {
 
   SET_ERROR(state, error) {
     state.error = error;
+    console.error(error);
   },
 
   LOADED_PROJECTS(state, data) { 

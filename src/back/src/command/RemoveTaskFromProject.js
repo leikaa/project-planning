@@ -10,13 +10,9 @@ class RemoveTaskFromProject {
   }
 
   async execute(filter, update) {
-    try {
-      this.logger.warn('deleteTaskFromProject', filter, update);
-      await this.userModel.deleteTaskFromProject(filter, update);
-      return true
-    } catch (err) {
-      console.error(err);
-    }
+    this.logger.warn('deleteTaskFromProject', filter, update);
+    await this.userModel.deleteTaskFromProject(filter, update);
+    return true
   }
 }
 

@@ -10,13 +10,9 @@ class DeleteProject {
   }
 
   async execute(filter) {
-    try {
-      this.logger.warn('DeleteProject', filter);
-      await this.projectModel.deleteOne(filter);
-      return true
-    } catch (err) {
-      console.error(err);
-    }
+    this.logger.warn('DeleteProject', filter);
+    await this.projectModel.deleteOne(filter);
+    return true
   }
 }
 

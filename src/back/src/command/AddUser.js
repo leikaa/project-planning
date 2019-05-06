@@ -10,13 +10,9 @@ class AddUser {
   }
 
   async execute(filter, update) {
-    try {
-      await this.projectModel.addUserToProject(filter, update);
-      await this.projectModel.sortUsersToProject(filter, update);
-      return true;
-    } catch (err) {
-      console.error(err);
-    }
+    await this.projectModel.addUserToProject(filter, update);
+    await this.projectModel.sortUsersToProject(filter, update);
+    return true;
   }
 }
 

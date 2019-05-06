@@ -10,13 +10,9 @@ class DeleteTask {
   }
 
   async execute(filter) {
-    try {
-      this.logger.warn('DeleteTask', filter);
-      await this.taskModel.deleteOne(filter);
-      return true
-    } catch (err) {
-      console.error(err);
-    }
+    this.logger.warn('DeleteTask', filter);
+    await this.taskModel.deleteOne(filter);
+    return true
   }
 }
 
