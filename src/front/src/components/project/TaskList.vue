@@ -211,7 +211,7 @@ export default {
       this.$store.dispatch("saveTaskListToUser", {
         id: this.id,
         userId: this.selectedElement,
-        //oldUserId: this.oldUserId,
+        oldUserId: this.oldUserId,
         name: this.name,
         description: this.description,
         rgb: this.current

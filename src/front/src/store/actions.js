@@ -149,7 +149,6 @@ const addTask = ({dispatch, commit}, data) => {
 };
 
 const deleteTaskFromUser = ({dispatch, commit}, data) => {
-  console.log(data)
   if(data.id == "") {
     api.request('delete', `task/${data.taskId}`)
         .then( res =>{
@@ -192,12 +191,11 @@ const saveTaskToProject = ({dispatch, commit}, data) => {
   );
 };
 
+//Рефакторить
 const saveTaskListToUser = ({dispatch, commit}, data) => {
-  console.log(data)
-  // if(data.userId === ""){
+  if(data.userId == "" || data.userId == data.oldUserId){
     api.request('post', `tasks/${data.id}`, data)
       .then( res =>{
-        //console.log(res.data)
         if(res.status == 200){
           commit('SAVED_TASK', data),
           dispatch("loadTasks"),
@@ -205,17 +203,49 @@ const saveTaskListToUser = ({dispatch, commit}, data) => {
         }
       }
     );
-  // }else {
-  //  const id = data.userId;
-  //  const taskId = data.id;
-  //   api.request('delete', `users/${id}/task/${taskId}`)
-  //     .then( res =>{
-  //       if(res.status == 200){
-  //         commit('DELETE_TASK_FROM_PROJECT', data),
-  //         dispatch("loadProjects")
-  //       }
-  //     })
-  //  } 
+  }else if(data.oldUserId == ""){
+    api.request('post', `tasks/${data.id}`, data)
+    .then( res =>{
+      if(res.status == 200){
+        commit('SAVED_TASK', data),
+        dispatch("loadTasks"),
+        dispatch("loadProjects")
+      }
+    })
+
+    api.request('post', `users/${data.userId}/add_task/${data.id}`)
+    .then( res =>{
+      if(res.status == 200){
+        commit('ADD_TASK_TO_USER', data),
+        dispatch("loadProjects")
+      }
+    })
+  }else {
+    api.request('post', `tasks/${data.id}`, data)
+      .then( res =>{
+        if(res.status == 200){
+          commit('SAVED_TASK', data),
+          dispatch("loadTasks"),
+          dispatch("loadProjects")
+        }
+      })
+
+    api.request('delete', `users/${data.oldUserId}/task/${ data.id}`)
+      .then( res =>{
+        if(res.status == 200){
+          commit('DELETE_TASK_FROM_PROJECT', data),
+          dispatch("loadProjects")
+        }
+      })
+
+    api.request('post', `users/${data.userId}/add_task/${data.id}`)
+    .then( res =>{
+      if(res.status == 200){
+        commit('ADD_TASK_TO_USER', data),
+        dispatch("loadProjects")
+      }
+    })
+  } 
 };
 
 

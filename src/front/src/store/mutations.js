@@ -89,4 +89,8 @@ export default {
   SERVERS_STATUS_LOADED(_, data) {
     console.log('SERVERS STATUSE LOADED - ', data);
   },
+
+  ADD_TASK_TO_USER(_, data) {
+    console.log('ADD USER TO PROJECT - ', data);
+  },
 };

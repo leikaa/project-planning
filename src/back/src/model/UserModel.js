@@ -7,8 +7,8 @@ class UserModel extends Model {
     super({ db, collectionName: 'user' })
   }
 
-  //Добавление задачи в проект.
-  async addTaskToProject(id, taskId) {
+  //Добавление задачи в коллекцию user.
+  async addTaskToUser(id, taskId) {
     //console.log('addTaskToProject', id , taskId );
     const result = await this.db.get()
       .collection(this.collectionName) 

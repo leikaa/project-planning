@@ -48,9 +48,8 @@ class CreateTask {
         return result
       }
 
-      await this.userModel.addTaskToProject(id, taskId);
-      this.logger.debug('addTaskToProject', addTaskToProject);
-
+      await this.userModel.addTaskToUser(id, taskId);
+    
     } catch (err) {
       console.error("Error create task", err);
     }

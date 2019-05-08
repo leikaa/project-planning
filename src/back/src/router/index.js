@@ -81,9 +81,11 @@ class Routes {
       }
     });
 
-    this.httpServer.delete('/users/:id/task/:taskId', async (req, res) => {
+    this.httpServer.post('/projects/:id', bodyParser.json(), async (req, res) => {
       try {
-        const answer = await this.userController.deleteTaskFromUser(req.params.id, req.params.taskId);
+        const answer = await this.projectController.update({
+          '_id': req.params.id
+        }, req.body);
         if (answer) {
           res.send({status: 'ok'});
         }
@@ -92,22 +94,9 @@ class Routes {
       }
     });
 
-    // this.httpServer.delete('/users/:userId/task/:id', async (req, res) => {
-    //   try {
-    //     const answer = await this.userController.deleteTaskFromUser(req.params.userId, req.params.id);
-    //     if (answer) {
-    //       res.send({status: 'ok'});
-    //     }
-    //   } catch (err) {
-    //     console.error(err);
-    //   }
-    // });
-
-    this.httpServer.post('/projects/:id', bodyParser.json(), async (req, res) => {
+    this.httpServer.delete('/users/:id/task/:taskId', async (req, res) => {
       try {
-        const answer = await this.projectController.update({
-          '_id': req.params.id
-        }, req.body);
+        const answer = await this.userController.deleteTaskFromUser(req.params.id, req.params.taskId);
         if (answer) {
           res.send({status: 'ok'});
         }
@@ -204,6 +193,17 @@ class Routes {
           res.send({status: 'ok'});
         }
       } catch (err) {
+        console.error(err);
+      }
+    });
+
+    this.httpServer.post('/users/:id/add_task/:taskId', async (req, res) => {
+      try {
+        const answer = await this.userController.addTasks(req.params.id, req.params.taskId);
+        if(answer) {
+          res.send({status: 'ok'});
+        }
+      } catch(err){
         console.error(err);
       }
     });
