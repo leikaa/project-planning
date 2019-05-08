@@ -5,7 +5,7 @@
       <calendar-header/>
        <user-task/>
     </div>
-   <backlog/> 
+   <task-list/> 
   </div>
 </template>
 
@@ -15,7 +15,7 @@ import { mapGetters } from 'vuex';
 import ChangeUsersInProjects from '../components/project/ChangeUsersInProjects';
 import CalendarHeader from '../components/calendar/CalendarHeader';
 import UserTask from '../components/project/UserTask';
-import Backlog from '../components/project/Backlog';
+import TaskList from '../components/project/TaskList';
 
 export default {
   name: 'TemplateProject',
@@ -23,7 +23,7 @@ export default {
     ChangeUsersInProjects,
     CalendarHeader,
     UserTask,
-    Backlog
+    TaskList
   },
  
 }

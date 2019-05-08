@@ -38,7 +38,6 @@ export default {
 };
 </script>
 
-
 <style lang="scss">
 .users {
   width: 54px;
@@ -70,7 +69,7 @@ export default {
 .el {
   height: 100px;
   position: absolute;
-  top: 50%;
+  padding-top: 40px;
   margin: 0;
   left: 10px;
 }

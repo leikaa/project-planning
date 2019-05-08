@@ -148,28 +148,39 @@ const addTask = ({dispatch, commit}, data) => {
   );
 };
 
-const deleteTaskFromProject = ({dispatch, commit}, data) => {
-  console.log('delete', data);
-  api.request('delete', `users/${data.id}/task/${data.taskId}`)
-    .then( res =>{
-      if(res.status == 200){
-        commit('DELETE_TASK_FROM_PROJECT', data),
-        dispatch("loadProjects")
+const deleteTaskFromUser = ({dispatch, commit}, data) => {
+  console.log(data)
+  if(data.id == "") {
+    api.request('delete', `task/${data.taskId}`)
+        .then( res =>{
+          if(res.status == 200){
+            commit('DELETED_TASK', data),
+            dispatch("loadTasks")
+          }
+        }
+      );
+  }else {
+    console.log('delete', data);
+    api.request('delete', `users/${data.id}/task/${data.taskId}`)
+      .then( res =>{
+        if(res.status == 200){
+          commit('DELETE_TASK_FROM_PROJECT', data),
+          dispatch("loadProjects")
+        }
       }
-    }
-  );
-
-  api.request('delete', `task/${data.taskId}`)
-    .then( res =>{
-      if(res.status == 200){
-        commit('DELETED_TASK', data),
-        dispatch("loadTasks")
+    );
+    api.request('delete', `task/${data.taskId}`)
+      .then( res =>{
+        if(res.status == 200){
+          commit('DELETED_TASK', data),
+          dispatch("loadTasks")
+        }
       }
-    }
-  );
+    );
+  } 
 };
 
-const saveTaskFromProject = ({dispatch, commit}, data) => {
+const saveTaskToProject = ({dispatch, commit}, data) => {
   api.request('post', `tasks/${data.id}`, data)
     .then( res =>{
       if(res.status == 200){
@@ -179,6 +190,32 @@ const saveTaskFromProject = ({dispatch, commit}, data) => {
       }
     }
   );
+};
+
+const saveTaskListToUser = ({dispatch, commit}, data) => {
+  console.log(data)
+  // if(data.userId === ""){
+    api.request('post', `tasks/${data.id}`, data)
+      .then( res =>{
+        //console.log(res.data)
+        if(res.status == 200){
+          commit('SAVED_TASK', data),
+          dispatch("loadTasks"),
+          dispatch("loadProjects")
+        }
+      }
+    );
+  // }else {
+  //  const id = data.userId;
+  //  const taskId = data.id;
+  //   api.request('delete', `users/${id}/task/${taskId}`)
+  //     .then( res =>{
+  //       if(res.status == 200){
+  //         commit('DELETE_TASK_FROM_PROJECT', data),
+  //         dispatch("loadProjects")
+  //       }
+  //     })
+  //  } 
 };
 
 
@@ -199,6 +236,7 @@ export default {
 
   loadTasks,
   addTask,
-  deleteTaskFromProject,
-  saveTaskFromProject,
+  deleteTaskFromUser,
+  saveTaskToProject,
+  saveTaskListToUser,
 };

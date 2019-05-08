@@ -9,7 +9,6 @@
         :data-userId="list.userId"
         ref="getCoordsTaskList"
         class="pole user-task task-list__item"
-        @click="getIdUserField()"
       >
         <vue-draggable-resizable
           v-for="item in list.task"
@@ -21,7 +20,7 @@
           :item="item"
           :handles="['ml', 'mr']"
           :grid="[21, 46]"
-          @mouseup.native="saveTaskFromProject(item)"
+          @mouseup.native="saveTaskToProject(item)"
           @dblclick.native="deleteItem(item)"
           maximize
         >
@@ -163,16 +162,16 @@ export default {
       startDate: new Date().toISOString().substr(0, 10),
       endDate: new Date().toISOString().substr(0, 10),
       colors: [
-        { color: "rgb(244, 67, 54)"},
-        { color: "rgb(25, 25, 112)"},
-        { color: "rgb(0, 128, 0)"},
-        { color: "rgb(255, 128 , 0)"},
-        { color: "rgb(128, 0, 128)"},
-        { color: "rgb(128, 0, 0)"},
-        { color: "rgb(30, 144, 255)"},
-        { color: "rgb(153, 153, 0)"}
+        { color: "rgb(244, 67, 54)" },
+        { color: "rgb(25, 25, 112)" },
+        { color: "rgb(0, 128, 0)" },
+        { color: "rgb(255, 128 , 0)" },
+        { color: "rgb(128, 0, 128)" },
+        { color: "rgb(128, 0, 0)" },
+        { color: "rgb(30, 144, 255)" },
+        { color: "rgb(153, 153, 0)" }
       ],
-      current: "rgb(244, 67, 54)",
+      current: "rgb(244, 67, 54)"
     };
   },
 
@@ -193,7 +192,7 @@ export default {
       this.modalTitle = "Добавить новую задачу";
       this.modalSubmitButton = "Добавить";
       this.modalAction = "Add";
-      this.userId = this.selectedElement;
+      //this.userId = this.selectedElement;
       this.projectId = "currentProjectId";
       this.startDate = this.startDate;
       this.endDate = this.endDate;
@@ -225,57 +224,46 @@ export default {
           this.addTask();
           break;
         case "Delete":
-          this.deleteTaskFromProject();
+          this.deleteTaskFromUser();
           break;
       }
     },
 
     addTask() {
-      console.log(
-        "Задача добавлена",
-        this.name,
-        this.description,
-        this.current
-      );
+      console.log("Задача добавлена", this.name, this.description, this.current);
       this.$store.dispatch("addTask", {
         userId: this.selectedElement,
         projectId: this.currentProjectId,
         startDate: this.startDate,
         endDate: this.endDate,
         y: this.y,
-        // rgb: this.rgb,
         rgb: this.current,
         description: this.description,
         name: this.name,
         dateCreate: moment().format("MMMM Do YYYY, HH:mm:ss ")
       });
       this.showDialog = false;
-      //this.sendRequestTask();
     },
 
-    saveTaskFromProject(item) {
+    saveTaskToProject(item) {
       console.log("Проект сохранен", item.taskId, this.currentProjectId);
-      this.$store.dispatch("saveTaskFromProject", {
+      this.$store.dispatch("saveTaskToProject", {
         id: item.taskId,
         projectId: this.currentProjectId,
         startDate: this.getStartDateFromCoords(),
         endDate: this.getEndDateFromCoords(),
-        // x: this.getCurrentItemXCoordinate(),
-        // w: this.getCurrentItemWCoordinate(),
         y: this.getCurrentItemYCoordinate(),
         dateUpdate: moment().format("MMMM Do YYYY, HH:mm:ss ")
       });
-      //this.sendRequestTask();
     },
 
-    deleteTaskFromProject() {
+    deleteTaskFromUser() {
       console.log("Задача удалена", this.taskId, this.userId);
-      this.$store.dispatch("deleteTaskFromProject", {
+      this.$store.dispatch("deleteTaskFromUser", {
         taskId: this.taskId,
         id: this.userId
       });
       this.showTask = false;
-      //this.sendRequestTask();
     },
 
     getFirstDay() {
@@ -350,8 +338,6 @@ export default {
     getCurrentDate() {
       //Получаем текущую дату.
       const currentDay = new Date();
-      //console.log("currentDay", currentDay);
-      //Получение текущей даты без времени.
       const dateOne = [
         currentDay.getFullYear(),
         currentDay.getMonth() + 1,
@@ -365,13 +351,11 @@ export default {
       const currentDay = this.getCurrentDate();
       //Получаем дату начала календаря.
       const FirstCalendarDay = new Date(2018, 0, 1);
-      //console.log("FirstCalendarDay", FirstCalendarDay);
 
       //Количество дней пройденных от начала.
       const numberDay =
         (currentDay - FirstCalendarDay) / 1000 / 60 / 60 / 24 + 1;
-      //console.log("numberDay", numberDay);
-
+  
       //Координата к которой будет перемещаться scroll при загрузке.
       const cordX = numberDay * 21 - 200;
       //console.log("cordX", cordX);
@@ -383,18 +367,17 @@ export default {
       window.scrollTo(cordX, 0);
     },
 
-    getIdUserField() {
-      const test = event.target.dataset.userid;
-      const test2 = event.currentTarget.dataset.userid;
-      console.log("test", test);
-      console.log("test2", test2);
-      return test && test2;
-    }
+    // getIdUserField() {
+    //   const test = event.target.dataset.userid;
+    //   const test2 = event.currentTarget.dataset.userid;
+    //   console.log("test", test);
+    //   console.log("test2", test2);
+    //   return test && test2;
+    // }
   },
 
   computed: {
     projects() {
-      //return this.$store.getters.projects;
       return this.$store.state.projects;
     },
 
@@ -528,30 +511,28 @@ export default {
   font-family: Roboto, sans-serif;
   line-height: 1.5;
   font-size: 16px;
-  margin-bottom: 15px;
-  margin-top: 5px;
+  margin: 5px 0px 20px 5px;
   padding-top: 12px;
 }
 
 .CheckColor {
   display: flex;
+  justify-content: space-around;
   width: 460px;
   height: 50px;
-  margin-bottom: 20px;
-  padding-top: 12px;
-  margin-top: 2px;
+  margin: 2px 0px 5px 5px;
+  padding-top: 5px;
 }
 
 .ColorPicker {
-  display: flex;
   width: 40px;
   height: 30px;
-  margin: 0px 10px;
+  margin: 0px 9px;
   border-radius: 3px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 .CheckboxColorPicker {
   padding-top: 0px;
-  padding-left: 6px;
+  padding-left: 8px;
 }
 </style>

@@ -15,7 +15,7 @@
           v-for="(control, controlIndex) in controls"
           :key="props.index + '_' + controlIndex"
         >
-          <v-icon :color="control.color" size="20px">{{ control.icon }}</v-icon>
+          <v-icon :color="control.color" >{{ control.icon }}</v-icon>
         </v-btn>
       </div>
     </div>
@@ -24,7 +24,7 @@
 
 <script>
 export default {
-  name: "DefaultControls",
+  name: "TaskListData",
 
   props: ["items", "controls"],
   methods: {
@@ -49,6 +49,6 @@ export default {
   color: white;
   font-size: 14px;
   justify-content: center;
-  margin-right: 100px;
+  margin-right: 65px;
 }
 </style>

@@ -6,13 +6,15 @@ class  UserController {
     updateUser,
     createUser,
     deleteUser,
-    removeTaskFromProject,
+    removeTaskFromUser,
+    // removeTaskFromuser,
   }) {
     this.getUsers = getUsers;
     this.updateUser = updateUser;
     this.createUser = createUser;
     this.deleteUser = deleteUser;
-    this.removeTaskFromProject = removeTaskFromProject;
+    this.removeTaskFromUser = removeTaskFromUser;
+    // this.removeTaskFromuser = removeTaskFromuser;
   }
 
   async getList() {
@@ -32,10 +34,15 @@ class  UserController {
     return await this.deleteUser.execute(params);
   }
 
-  async deleteTaskFromProject(id, taskId) {
-    console.log('removeTaskFromProject', id, taskId);
-    return await this.removeTaskFromProject.execute(id, taskId);
+  async deleteTaskFromUser(id, taskId) {
+    console.log('removeTaskFromUser', id, taskId);
+    return await this.removeTaskFromUser.execute(id, taskId);
   }
+
+  // async deleteTaskFromUser(userId , id){
+  //   console.log('removeTaskFromuser', userId, id);
+  //   return await this.removeTaskFromuser.execute(userId, id);
+  // }
 }
 
 module.exports = UserController;

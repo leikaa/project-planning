@@ -4,7 +4,7 @@
       <h2>Список задач проекта</h2>
     </div>
     <template v-if="unallocated">
-      <backlog-data
+      <task-list-data
         :items="unallocatedTasks"
         :controls="controls"
         @deleteItem="deleteItem"
@@ -12,7 +12,7 @@
       />
     </template>
     <template v-if="distributed">
-      <backlog-data
+      <task-list-data
         :items="distributedTasks"
         :controls="controls"
         @deleteItem="deleteItem"
@@ -24,7 +24,7 @@
     <!-- Удаление данных -->
     <v-card>
       <v-layout row align-end>
-        <v-dialog v-model="showTask" width="500">
+        <v-dialog v-model="showDeleteTask" width="500">
           <v-card>
             <v-card-title class="headline grey lighten-2" primary-title>{{ modalTitle }}</v-card-title>
             <v-card-text>
@@ -40,7 +40,7 @@
             <v-divider></v-divider>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="red" flat @click="showTask = false">Отмена</v-btn>
+              <v-btn color="red" flat @click="showDeleteTask=false">Отмена</v-btn>
               <v-btn
                 color="green"
                 flat
@@ -73,30 +73,30 @@
                   required
                 ></v-text-field>
                 <div class="CheckColor">
-                    <div
-                      v-for="(color, index) in colors"
-                      :key="index"
-                      class="ColorPicker"
-                      :style="`background: ${color.color}`"
-                    >
-                      <v-checkbox
-                        v-model="current"
-                        height="0px"
-                        color="white"
-                        class="CheckboxColorPicker"
-                        dark
-                        :value="`${color.color}`"
-                      ></v-checkbox>
-                    </div>
+                  <div
+                    v-for="(color, index) in colors"
+                    :key="index"
+                    class="ColorPicker"
+                    :style="`background: ${color.color}`"
+                  >
+                    <v-checkbox
+                      v-model="current"
+                      height="0px"
+                      color="white"
+                      class="CheckboxColorPicker"
+                      dark
+                      :value="`${color.color}`"
+                    ></v-checkbox>
                   </div>
-                <!-- <select v-model="selectedElement" class="select-element" >
-                  <option disabled value>Выберите участника</option>
+                </div>
+                <select v-model="selectedElement" class="select-element">
+                  <option disabled value >Выберите владельца задачи</option>
                   <option
                     v-for="item in currentProjectUsers"
                     :value="item.userId"
                     :key="item.userId"
                   >{{item.name}}</option>
-                </select> -->
+                </select>
               </v-form>
             </v-card-text>
             <v-divider></v-divider>
@@ -118,21 +118,22 @@
 </template>
 
 <script>
-import BacklogData from "./BacklogData";
+import TaskListData from "./TaskListData";
 export default {
-  name: "Backlog",
+  name: "TaskList",
   components: {
-    BacklogData
+    TaskListData
   },
 
   data() {
     return {
       showDialog: false,
+      showDeleteTask: false,
       formValid: false,
       disableInput: false,
+      disableNameUser: false,
       modalSubmitButton: "Добавить",
       modalTitle: "",
-      showTask: false,
       name: "",
       description: "",
       selectedElement: "",
@@ -140,16 +141,16 @@ export default {
       distributed: true,
 
       colors: [
-        { color: "rgb(244, 67, 54)"},
-        { color: "rgb(25, 25, 112)"},
-        { color: "rgb(0, 128, 0)"},
-        { color: "rgb(255, 128 , 0)"},
-        { color: "rgb(128, 0, 128)"},
-        { color: "rgb(128, 0, 0)"},
-        { color: "rgb(30, 144, 255)"},
-        { color: "rgb(153, 153, 0)"}
+        { color: "rgb(244, 67, 54)" },
+        { color: "rgb(25, 25, 112)" },
+        { color: "rgb(0, 128, 0)" },
+        { color: "rgb(255, 128 , 0)" },
+        { color: "rgb(128, 0, 128)" },
+        { color: "rgb(128, 0, 0)" },
+        { color: "rgb(30, 144, 255)" },
+        { color: "rgb(153, 153, 0)" }
       ],
-      current: "rgb(244, 67, 54)",
+      current: "rgb(244, 67, 54)"
     };
   },
 
@@ -163,11 +164,13 @@ export default {
       this.modalSubmitButton = "Сохранить";
       this.modalAction = "Edit";
       this.id = item._id;
-      this.userId = this.selectedElement;
       this.name = item.name;
       this.description = item.description;
       this.rgb = this.current;
+      this.oldUserId = item.userId
+      this.selectedElement = item.userId;
       this.disableInput = false;
+      this.disableNameUser= true;
       this.showDialog = true;
     },
 
@@ -179,7 +182,7 @@ export default {
       this.userId = item.userId;
       this.name = item.name;
       this.disableInput = true;
-      this.showTask = true;
+      this.showDeleteTask = true;
     },
 
     confirmModalAction() {
@@ -188,35 +191,41 @@ export default {
         default:
           break;
         case "Edit":
-          this.saveTaskFromProject();
+          this.saveTaskListToUser();
           break;
         case "Delete":
-          this.deleteTaskFromProject();
+          this.deleteTaskFromUser();
           break;
       }
     },
 
-    saveTaskFromProject() {
-      console.log("Проект сохранен", this.id, this.userId, this.name, this.description);
-      this.$store.dispatch("saveTaskFromProject", {
+    saveTaskListToUser() {
+      console.log(
+        "Проект сохранен",
+        this.id,
+        this.name,
+        this.description,
+        this.oldUserId,
+        this.selectedElement
+      );
+      this.$store.dispatch("saveTaskListToUser", {
         id: this.id,
         userId: this.selectedElement,
+        //oldUserId: this.oldUserId,
         name: this.name,
         description: this.description,
-        rgb: this.current,
+        rgb: this.current
       });
       this.showDialog = false;
-      //this.sendRequest();
     },
 
-    deleteTaskFromProject() {
+    deleteTaskFromUser() {
       console.log("Задача удалена", this.taskId, this.userId);
-      this.$store.dispatch("deleteTaskFromProject", {
+      this.$store.dispatch("deleteTaskFromUser", {
         taskId: this.taskId,
         id: this.userId
       });
-      this.showTask = false;
-      //this.sendRequest();
+      this.showDeleteTask = false;
     }
   },
 
@@ -253,18 +262,18 @@ export default {
       });
     },
 
-     currentProjectUsers() {
+    currentProjectUsers() {
       return (this.currentProject && this.currentProject.users) || [];
-    }, 
+    },
 
     controls() {
-      return this.$store.state.ui.backlogControls;
-    },
+      return this.$store.state.ui.taskListControls;
+    }
   },
 
   created() {
     this.sendRequest();
-  },
+  }
 };
 </script>
 
@@ -289,7 +298,7 @@ export default {
   }
 }
 .check {
-  margin-top: 0;
+  margin: 0px 0px 0px 0px;
 }
 .controls {
   position: absolute;

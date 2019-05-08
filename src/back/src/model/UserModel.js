@@ -28,7 +28,7 @@ class UserModel extends Model {
   }
 
   //Удаление задачи из проекта.
-  async deleteTaskFromProject(id, taskId) {
+  async deleteTaskFromUser(id, taskId) {
     //console.log('deleteTaskFromProject', id, taskId);
     const result = await this.db.get()
       .collection(this.collectionName)
