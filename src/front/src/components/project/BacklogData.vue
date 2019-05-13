@@ -24,8 +24,7 @@
 
 <script>
 export default {
-  name: "TaskListData",
-
+  name: "BacklogData",
   props: ["items", "controls"],
   methods: {
     emit(emit, item) {

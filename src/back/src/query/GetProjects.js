@@ -17,38 +17,48 @@ class GetProjects {
     const projectList = await this.projectModel.getList();
     const usersList = await this.userModel.getList();
 
-    const usersNameMap = {};
-    usersList.forEach(item => {
-      usersNameMap[item._id] = item.name;
-    });
+    const joinProjectAndUser = await this.projectModel.JoinProjectAndUser();
 
-    const usersTaskMap = {};
-    usersList.forEach(item => {
-      usersTaskMap[item._id] = item.task;
-    });
+    //Старая рабочая функция!
+    // const usersNameMap = {};
+    // usersList.forEach(item => {
+    //   usersNameMap[item._id] = item.name;
+    // });
 
-    const joinProjectAndUser = projectList.map(item => {
-      if (item.users === undefined) {
-        return item;
-      }
-      item.users.map(elem => {
-        if (usersNameMap[elem.userId]) {
-          elem.name = usersNameMap[elem.userId];
-          elem.task = usersTaskMap[elem.userId]
-        }
-        //console.log('Это elem ', elem)
-        return elem;
-      });
-      //console.log('Это item ', item)
-      return item;
-    });
+    // const usersTaskMap = {};
+    // usersList.forEach(item => {
+    //   usersTaskMap[item._id] = item.task;
+    // });
+
+    // const joinProjectAndUser = projectList.map(item => {
+    //   if (item.users === undefined) {
+    //     return item;
+    //   }
+    //   item.users.map(elem => {
+    //     if (usersNameMap[elem.userId]) {
+    //       elem.name = usersNameMap[elem.userId];
+    //       elem.task = usersTaskMap[elem.userId]
+    //     }
+    //     //console.log('Это старый js elem ', elem)
+    //     return elem;
+    //   });
+    //   //console.log('Это item ', item)
+    //   return item;
+    // });
+
     return joinProjectAndUser
   }
+
+
+  
 
   async get() {
     const taskList = await this.taskModel.getList();
     const joinProjectAndUser = await this.joinProjectAndUser();
 
+    const joinUserAndTaskList = await this.userModel.JoinUserAndTaskList();
+    
+  
     const taskMapName = {};
     taskList.forEach(item => {
       taskMapName[item._id] = item.name;
@@ -85,7 +95,8 @@ class GetProjects {
       taskProjectId[item._id] = item.projectId;
     });
 
-    //Обновление свойств объектов в массиве users.
+
+    // Обновление свойств объектов в массиве users.
     const result = joinProjectAndUser.map(item => {
       if (item.users === undefined) {
         return item;
@@ -102,6 +113,7 @@ class GetProjects {
               el.endDate = taskMapEndDate[el.taskId];
               el.y = taskMapY[el.taskId];
             }
+            //console.log("ELEM",elem)
           return el  
           })
         }

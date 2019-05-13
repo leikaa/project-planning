@@ -68,5 +68,24 @@ class ProjectModel extends Model {
       console.log(result);
     return result;
   }
+
+  //Соеденение коллекции проектов и участников
+  async JoinProjectAndUser() {
+    const result = await this.db.get()
+    .collection(this.collectionName)
+    .aggregate([
+      {
+        $lookup:
+        {
+          from: "user",
+          localField: "users.userId",
+          foreignField: "_id",
+          as: "users"
+        }
+      }
+    ]).toArray();
+    return result
+  }
+
 }
 module.exports = ProjectModel;

@@ -41,12 +41,12 @@
                     v-model="name"
                     label="Название новой задачи"
                     :disabled="disableInput"
+                    :rules="nameRules"
                     required
                   ></v-text-field>
                   <v-text-field
                     v-model="description"
                     label="Описание задачи"
-                    :rules="nameRules"
                     :disabled="disableInput"
                     required
                   ></v-text-field>
@@ -71,8 +71,8 @@
                     <option disabled value>Список участников проекта</option>
                     <option
                       v-for="item in currentProjectUsers"
-                      :value="item.userId"
-                      :key="item.userId"
+                      :value="item._id"
+                      :key="item._id"
                     >{{item.name}}</option>
                   </select>
                   <div class="DataPicker">

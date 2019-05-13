@@ -4,7 +4,7 @@
       <h2>Список задач проекта</h2>
     </div>
     <template v-if="unallocated">
-      <task-list-data
+      <backlog-data
         :items="unallocatedTasks"
         :controls="controls"
         @deleteItem="deleteItem"
@@ -12,7 +12,7 @@
       />
     </template>
     <template v-if="distributed">
-      <task-list-data
+      <backlog-data
         :items="distributedTasks"
         :controls="controls"
         @deleteItem="deleteItem"
@@ -93,8 +93,8 @@
                   <option disabled value >Выберите владельца задачи</option>
                   <option
                     v-for="item in currentProjectUsers"
-                    :value="item.userId"
-                    :key="item.userId"
+                    :value="item._id"
+                    :key="item._id"
                   >{{item.name}}</option>
                 </select>
               </v-form>
@@ -118,11 +118,11 @@
 </template>
 
 <script>
-import TaskListData from "./TaskListData";
+import BacklogData from "./BacklogData";
 export default {
   name: "TaskList",
   components: {
-    TaskListData
+    BacklogData
   },
 
   data() {
