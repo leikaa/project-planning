@@ -192,7 +192,6 @@ export default {
       this.modalTitle = "Добавить новую задачу";
       this.modalSubmitButton = "Добавить";
       this.modalAction = "Add";
-      //this.userId = this.selectedElement;
       this.projectId = "currentProjectId";
       this.startDate = this.startDate;
       this.endDate = this.endDate;
@@ -221,7 +220,7 @@ export default {
         default:
           break;
         case "Add":
-          this.addTask();
+          this.createTask();
           break;
         case "Delete":
           this.deleteTaskFromUser();
@@ -229,9 +228,9 @@ export default {
       }
     },
 
-    addTask() {
+    createTask() {
       console.log("Задача добавлена", this.name, this.description, this.current);
-      this.$store.dispatch("addTask", {
+      this.$store.dispatch("createTask", {
         userId: this.selectedElement,
         projectId: this.currentProjectId,
         startDate: this.startDate,
@@ -326,12 +325,10 @@ export default {
     getCurrentItemYCoordinate() {
       const top = event.currentTarget.style.top;
       const le = top.slice(0, -2);
-
       // if((+le < 0)||(+le > 92)){
       //   console.log("Вышел за пределы")
       // }
       // console.log("top" , top)
-
       return top.slice(0, -2);
     },
 
@@ -435,7 +432,7 @@ export default {
         });
       });
       return this.currentProject;
-    }
+    },
   },
   created() {
     this.sendRequestUser();

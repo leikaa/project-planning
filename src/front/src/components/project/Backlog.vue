@@ -120,7 +120,7 @@
 <script>
 import BacklogData from "./BacklogData";
 export default {
-  name: "TaskList",
+  name: "Backlog",
   components: {
     BacklogData
   },

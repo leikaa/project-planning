@@ -73,7 +73,7 @@ class Routes {
     this.httpServer.post('/projects', bodyParser.json(), async (req, res) => {
       try {
         const answer = await this.projectController.create(req.body);
-        if (answer) {
+        if (answer == true) {
           res.send({status: 'ok'});
         }
       } catch (err) {

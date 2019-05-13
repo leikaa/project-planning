@@ -6,7 +6,7 @@
     no-data-text="Нет данных">
     <template v-slot:item="props"> 
       <div class="user users__item user-task">
-        <div class="user__name pi">{{props.item.name }}</div>
+        <div class="user__name pi" align="center">{{props.item.name }}</div>
         <div class="el">
           <v-btn
             class="mx-0"
@@ -40,7 +40,7 @@ export default {
 
 <style lang="scss">
 .users {
-  width: 54px;
+  width: 65px;
   z-index: 10;
   background: #fafafa;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
@@ -71,6 +71,6 @@ export default {
   position: absolute;
   padding-top: 40px;
   margin: 0;
-  left: 10px;
+  left: 14px;
 }
 </style>

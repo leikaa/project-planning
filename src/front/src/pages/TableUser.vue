@@ -72,7 +72,7 @@
 import DataTable from "../components/DataTable";
 import moment from "moment";
 export default {
-  name: "User",
+  name: "TableUser",
   data() {
     return {
       showDialog: false,
@@ -149,16 +149,15 @@ export default {
 
     addUser() {
       console.log("Участник добавлен", this.name);
-      this.$store.dispatch("addUser", { name: this.name });
+      this.$store.dispatch("createUser", { name: this.name })
       this.showDialog = false;
-      //this.sendRequest();
+     
     },
 
     deleteUser() {
       console.log("Участник удалён", this.name, this.id);
       this.$store.dispatch("deleteUser", this.id);
       this.showDialog = false;
-      //this.sendRequest();
     },
 
     saveUser() {
@@ -169,7 +168,6 @@ export default {
         UpdateDate: this.UpdateDate
       });
       this.showDialog = false;
-      //this.sendRequest();
     }
   },
   computed: {
@@ -182,12 +180,10 @@ export default {
     },
 
     users() {
-      //return this.$store.getters.users;
       return this.$store.state.users;
     },
 
     projects() {
-      //return this.$store.getters.projects;
       return this.$store.state.projects;
     },
 
@@ -207,20 +203,6 @@ export default {
   created() {
     this.sendRequest();
   },
-
-  mounted() {
-    document.addEventListener("keydown", e => {
-      if (this.showDialog === true && e.keyCode === 27) {
-        this.showDialog = false;
-      } else if (
-        this.showDialog === true &&
-        this.formValid === true &&
-        e.keyCode === 13
-      ) {
-        this.confirmModalAction();
-      }
-    });
-  }
 };
 </script>
 

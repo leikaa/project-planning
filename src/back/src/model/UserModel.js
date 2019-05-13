@@ -49,25 +49,26 @@ class UserModel extends Model {
     return result;
   }
 
-  async JoinUserAndTaskList() {
-    const result = await this.db.get()
-    .collection(this.collectionName)
-    .aggregate([
-      {
-        $lookup:
-        {
-          from: "TaskList",
-          localField: "task.taskId",
-          foreignField: "_id",
-          as: "task"
-        }
-      }
-    ]).toArray()
-    .catch(err => {
-      console.error(err);
-    });
-    return result
-  }
+  //Соеденение коллекции участников и задач.
+  // async JoinUserAndTaskList() {
+  //   const result = await this.db.get()
+  //   .collection(this.collectionName)
+  //   .aggregate([
+  //     {
+  //       $lookup:
+  //       {
+  //         from: "TaskList",
+  //         localField: "task.taskId",
+  //         foreignField: "_id",
+  //         as: "task"
+  //       }
+  //     }
+  //   ]).toArray()
+  //   .catch(err => {
+  //     console.error(err);
+  //   });
+  //   return result
+  // }
 }
 
 module.exports = UserModel;

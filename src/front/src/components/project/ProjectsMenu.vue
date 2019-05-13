@@ -127,7 +127,7 @@ export default {
 
     addProject() {
       console.log("Проект добавлен", this.name, this.CreationDate);
-      this.$store.dispatch("addProject", {
+      this.$store.dispatch("createProject", {
         name: this.name,
         CreationDate: this.CreationDate
       });

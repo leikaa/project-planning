@@ -121,7 +121,7 @@ export default {
       this.modalTitle = "Удалить участника из проекта";
       this.modalSubmitButton = "Удалить";
       this.modalAction = "Delete";
-      this.userId = item.userId;
+      this.userId = item._id;
       this.name = item.name;
       this.id = this.currentProjectId;
       this.disableInput = true;
@@ -143,13 +143,12 @@ export default {
     },
 
     saveProject() {
-      console.log("Участник сохранен", this.userId, this.id);
+      console.log("Участник добавлен в проект", this.userId, this.id);
       this.$store.dispatch("addUserToProject", {
         userId: this.selectedElement,
         id: this.currentProjectId
       });
       this.showDialog = false;
-      //this.sendRequest();
     },
 
     deleteUserFromProject() {
@@ -159,7 +158,6 @@ export default {
         userId: this.userId
       });
       this.UsersDialog = false;
-     // this.sendRequest();
     },
   },
   computed: {
@@ -168,12 +166,10 @@ export default {
     },
 
     users() {
-      //return this.$store.getters.users;
       return this.$store.state.users;
     },
 
     projects() {
-      //return this.$store.getters.projects;
       return this.$store.state.projects;
     },
 
@@ -204,12 +200,6 @@ export default {
 
 <style lang="scss">
 .button_user {
-  &__name {
-    background: #ccc;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto;
-  }
+  left: 5px;
 }
 </style>

@@ -19,8 +19,8 @@ export default {
     state.currentProject = data;
   },
 
-  ADDED_PROJECT(_, data) {
-    console.log('ADDED PROJECT - ', data);
+  CREATE_PROJECT(_, data) {
+    console.log('CREATE PROJECT - ', data);
   },
 
   DELETED_PROJECT(_, data) {
@@ -46,13 +46,8 @@ export default {
     });
   },
 
-  // OPENED_USERS(state, data) {
-  //   console.log('OPENED_PROJECT', data);
-  //   state.currentUsers = data;
-  // },
-
-  ADDED_USER(_, data) {
-    console.log('ADDED USER - ', data);
+  CREATE_USER(_, data) {
+    console.log('CREATE USER - ', data);
   },
 
   DELETED_USER(_, data) {
@@ -70,8 +65,8 @@ export default {
     });
   },
 
-  ADDED_TASK(_, data) {
-    console.log('ADDED TASK - ', data);
+  CREATE_TASK(_, data) {
+    console.log('CREATE TASK - ', data);
   },
 
   DELETE_TASK_FROM_PROJECT(_, data) {

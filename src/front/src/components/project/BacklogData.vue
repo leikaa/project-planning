@@ -48,6 +48,7 @@ export default {
   color: white;
   font-size: 14px;
   justify-content: center;
-  margin-right: 65px;
+  margin-right: 65px;  
+  align-items: center; 
 }
 </style>

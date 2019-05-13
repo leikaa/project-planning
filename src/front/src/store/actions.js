@@ -17,11 +17,11 @@ const loadProjects = ({commit}) => {
     });
 };
 
-const addProject = ({dispatch, commit}, data) => {
+const createProject = ({dispatch, commit}, data) => {
   api.request('post', 'projects/', data)
     .then( res =>{
       if(res.status == 200){
-        commit('ADDED_PROJECT', data),
+        commit('CREATE_PROJECT', data),
         dispatch("loadProjects")
       }
     }
@@ -52,7 +52,6 @@ const saveProject = ({dispatch, commit}, data) => {
 };
 
 const addUserToProject = ({dispatch,commit}, data) => {
-  console.log('addUserToProject', data);
   api.request('post', `projects/${data.id}/add_user/${data.userId}`)
     .then( res =>{
       if(res.status == 200){
@@ -92,11 +91,11 @@ const openUser = ({commit}, id) => {
     });
 };
 
-const addUser = ({dispatch, commit}, data) => {
+const createUser = ({dispatch, commit}, data) => {
   api.request('post', `users/`, data)
     .then( res =>{
       if(res.status == 200){
-        commit('ADDED_USER', data),
+        commit('CREATE_USER', data),
         dispatch("loadUsers")
       }
     }
@@ -135,12 +134,12 @@ const loadTasks = ({commit}) => {
     });
 };
 
-const addTask = ({dispatch, commit}, data) => {
+const createTask = ({dispatch, commit}, data) => {
   api.request('post', `tasks/`, data)
     .then( res =>{
       if(res.status == 200){
         console.log(res)
-        commit('ADDED_TASK', data),
+        commit('CREATE_TASK', data),
         dispatch("loadTasks"),
         dispatch("loadProjects")
       } 
@@ -252,7 +251,7 @@ const saveTaskListToUser = ({dispatch, commit}, data) => {
 export default {
   loadStatus,
   loadProjects,
-  addProject,
+  createProject,
   deleteProject,
   saveProject,
   addUserToProject,
@@ -260,12 +259,12 @@ export default {
 
   loadUsers,
   openUser,
-  addUser,
+  createUser,
   deleteUser,
   saveUser,
 
   loadTasks,
-  addTask,
+  createTask,
   deleteTaskFromUser,
   saveTaskToProject,
   saveTaskListToUser,

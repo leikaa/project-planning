@@ -1,5 +1,4 @@
 'use strict';
-//Получает данные с controller, отправляет данные на модель и ждет получения данных назад.
 
 class CreateTask {
   constructor({
@@ -20,7 +19,6 @@ class CreateTask {
       const answerOnCommand = await this.taskModel.getLastTask();
       //console.log("Последняя добавленная задача" , answerOnCommand);
 
-      //Тут полученый массив превращаеться в обьект.
       const ParseAnswerOnCommand = answerOnCommand.reduce(function (obj, item) {
         for (var i = 0; i < 2; i++) {
           var key = Object.keys(item)[i];
@@ -28,7 +26,7 @@ class CreateTask {
         }
         return obj;
       }, {});
-      //console.log("Обьект c последней добавленой задачей" , ParseAnswerOnCommand);
+      console.log("Обьект c последней добавленой задачей" , ParseAnswerOnCommand);
 
       //Тут обьект превращается в строку.
       var ValueString = ('');
@@ -39,19 +37,20 @@ class CreateTask {
       };
       //console.log("Значение ValueString", ValueString)
 
-      //Тут строка превращается в массив для удобства дальнейшего присвоения.
+      //Тут строка превращается в массив для удобс//this.userId = this.selectedElement;тва дальнейшего присвоения.
       var values = ValueString.split(' ', 2);
       var taskId = values[0];
       var id = values[1];
+     
 
       if (id == "") {
         return result
-      }
+      } 
 
       await this.userModel.addTaskToUser(id, taskId);
     
     } catch (err) {
-      console.error("Error create task", err);
+      console.error("Error create task: ", err);
     }
 
     return true;

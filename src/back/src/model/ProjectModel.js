@@ -83,7 +83,10 @@ class ProjectModel extends Model {
           as: "users"
         }
       }
-    ]).toArray();
+    ]).toArray()
+    .catch(err => {
+      console.error(err);
+    });
     return result
   }
 

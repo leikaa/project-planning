@@ -26,7 +26,6 @@
       </div>
       </div>
     </template>
-    <!-- </div> -->
   </v-data-iterator>
 </template>
  
