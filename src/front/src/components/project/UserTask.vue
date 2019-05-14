@@ -171,12 +171,12 @@ export default {
       this.$store.dispatch("loadProjects");
     },
 
-    sendRequestUser() {
-      this.$store.dispatch("loadUsers");
-    },
-
     sendRequestTask() {
       this.$store.dispatch("loadTasks");
+    },
+
+    sendRequestUser() {
+      this.$store.dispatch("loadUsers");
     },
 
     // addItem() {
@@ -361,18 +361,13 @@ export default {
       // console.log("test", test);
       // console.log("test2", test2);
       // return test && test2;
-      const left = event.currentTarget.style;
-    }
+    },
   },
 
   computed: {
     projects() {
       return this.$store.state.projects;
     },
-
-    // colors() {
-    //   return this.$store.state.colors;
-    // },
 
     currentProjectId() {
       return this.$route.params.id;
@@ -384,18 +379,17 @@ export default {
       });
     },
 
-    currentProjectUsers() {
+    currentProjectUsers() { 
       return (this.currentProject && this.currentProject.users) || [];
     },
 
     filterTaskListUsers() {
-      const test = this.currentProjectUsers.map(item => {
-        item.task = item.task.filter(el => {
-          return el.projectId == this.currentProjectId;
-        });
+        return this.currentProjectUsers.map(item => {
+          item.task = item.task.filter(el => {
+            return el.projectId == this.currentProjectId;
+          });
         return item;
       });
-      return test;
     },
 
     getCoordsTaskList() {

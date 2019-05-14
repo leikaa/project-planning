@@ -59,7 +59,6 @@
           :transforms="transforms"
           :hide-actions="false"
           :controls="controls"
-          @click="clickItem"
           @editItem="editItem"
           @deleteItem="deleteItem"
         />
@@ -92,12 +91,6 @@ export default {
   methods: {
     sendRequest() {
       this.$store.dispatch("loadUsers");
-    },
-
-    clickItem(Item) {
-      console.log("clicked on", Item);
-      // this.$store.dispatch('openProject', item._id);
-      document.location.href = `/users/${Item._id}`;
     },
 
     addItem() {

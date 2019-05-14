@@ -1,9 +1,10 @@
 <template>
   <div class="calendar">
     <month
-      v-for="item in getMonthWithDays()" 
-      v-bind:key="item.name"
-      v-bind:item="item"
+      v-for="(item, index) in getMonthWithDays()" 
+      :key="item.name"
+      :item="item"
+      :data-index="index"
     />
   </div>
 </template>

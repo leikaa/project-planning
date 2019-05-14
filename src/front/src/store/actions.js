@@ -84,13 +84,6 @@ const loadUsers = ({commit}) => {
     });
 };
 
-const openUser = ({commit}, id) => {
-  api.getData('get', `users/${id}`)
-    .then(data => {
-      commit('OPENED_USERS', data);
-    });
-};
-
 const createUser = ({dispatch, commit}, data) => {
   api.request('post', `users/`, data)
     .then( res =>{
@@ -257,7 +250,6 @@ export default {
   deleteUserFromProject,
 
   loadUsers,
-  openUser,
   createUser,
   deleteUser,
   saveUser,
