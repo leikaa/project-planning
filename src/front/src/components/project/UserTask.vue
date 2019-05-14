@@ -9,6 +9,7 @@
         :data-userId="list.userId"
         ref="getCoordsTaskList"
         class="pole user-task task-list__item"
+        @click="getIdUserField()"
       >
         <vue-draggable-resizable
           v-for="item in list.task"
@@ -30,7 +31,7 @@
         </vue-draggable-resizable>
       </div>
       <!-- Добавление задач -->
-      <v-card>
+      <!-- <v-card>
         <v-layout row align-end>
           <v-dialog v-model="showDialog" width="500">
             <v-card>
@@ -95,7 +96,7 @@
             </v-card>
           </v-dialog>
         </v-layout>
-      </v-card>
+      </v-card> -->
     </div>
     <!--Удаление задач -->
     <v-card>
@@ -128,14 +129,14 @@
         </v-dialog>
       </v-layout>
     </v-card>
-    <add-task-in-project @addItem="addItem"/>
+    <!-- <add-task-in-project @addItem="addItem"/> -->
   </div>
 </template>
 
 
 <script>
 import VueDraggableResizable from "../vue-drag/index.js";
-import AddTaskInProject from "../button/AddTaskInProject";
+// import AddTaskInProject from "../button/AddTaskInProject";
 import moment from "moment";
 
 let step = 21;
@@ -143,14 +144,14 @@ export default {
   name: "UserTask",
   components: {
     VueDraggableResizable,
-    AddTaskInProject
+    // AddTaskInProject
   },
 
   data() {
     return {
       showDialog: false,
       formValid: false,
-      nameRules: [v => !!v || "Описание обязательно"],
+      // nameRules: [v => !!v || "Описание обязательно"],
       disableInput: false,
       modalSubmitButton: "Добавить",
       modalTitle: "",
@@ -159,19 +160,9 @@ export default {
       description: "",
       selectedElement: "",
       showTask: false,
-      startDate: new Date().toISOString().substr(0, 10),
-      endDate: new Date().toISOString().substr(0, 10),
-      colors: [
-        { color: "rgb(244, 67, 54)" },
-        { color: "rgb(25, 25, 112)" },
-        { color: "rgb(0, 128, 0)" },
-        { color: "rgb(255, 128 , 0)" },
-        { color: "rgb(128, 0, 128)" },
-        { color: "rgb(128, 0, 0)" },
-        { color: "rgb(30, 144, 255)" },
-        { color: "rgb(153, 153, 0)" }
-      ],
-      current: "rgb(244, 67, 54)"
+      // startDate: new Date().toISOString().substr(0, 10),
+      // endDate: new Date().toISOString().substr(0, 10),
+      // current: "rgb(244, 67, 54)"
     };
   },
 
@@ -188,20 +179,20 @@ export default {
       this.$store.dispatch("loadTasks");
     },
 
-    addItem() {
-      this.modalTitle = "Добавить новую задачу";
-      this.modalSubmitButton = "Добавить";
-      this.modalAction = "Add";
-      this.projectId = "currentProjectId";
-      this.startDate = this.startDate;
-      this.endDate = this.endDate;
-      this.y = 0;
-      this.rgb = this.current;
-      this.description = "";
-      this.name = "";
-      this.disableInput = false;
-      this.showDialog = true;
-    },
+    // addItem() {
+    //   this.modalTitle = "Добавить новую задачу";
+    //   this.modalSubmitButton = "Добавить";
+    //   this.modalAction = "Add";
+    //   this.projectId = "currentProjectId";
+    //   this.startDate = this.startDate;
+    //   this.endDate = this.endDate;
+    //   this.y = 0;
+    //   this.rgb = this.current;
+    //   this.description = "";
+    //   this.name = "";
+    //   this.disableInput = false;
+    //   this.showDialog = true;
+    // },
 
     deleteItem(item) {
       this.modalTitle = "Удалить задачу";
@@ -219,30 +210,30 @@ export default {
       switch (action) {
         default:
           break;
-        case "Add":
-          this.createTask();
-          break;
+        // case "Add":
+        //   this.createTask();
+        //   break;
         case "Delete":
           this.deleteTaskFromUser();
           break;
       }
     },
 
-    createTask() {
-      console.log("Задача добавлена", this.name, this.description, this.current);
-      this.$store.dispatch("createTask", {
-        userId: this.selectedElement,
-        projectId: this.currentProjectId,
-        startDate: this.startDate,
-        endDate: this.endDate,
-        y: this.y,
-        rgb: this.current,
-        description: this.description,
-        name: this.name,
-        dateCreate: moment().format("MMMM Do YYYY, HH:mm:ss ")
-      });
-      this.showDialog = false;
-    },
+    // createTask() {
+    //   console.log("Задача добавлена", this.name, this.description, this.current);
+    //   this.$store.dispatch("createTask", {
+    //     userId: this.selectedElement,
+    //     projectId: this.currentProjectId,
+    //     startDate: this.startDate,
+    //     endDate: this.endDate,
+    //     y: this.y,
+    //     rgb: this.current,
+    //     description: this.description,
+    //     name: this.name,
+    //     dateCreate: moment().format("MMMM Do YYYY, HH:mm:ss ")
+    //   });
+    //   this.showDialog = false;
+    // },
 
     saveTaskToProject(item) {
       console.log("Проект сохранен", item.taskId, this.currentProjectId);
@@ -354,7 +345,7 @@ export default {
         (currentDay - FirstCalendarDay) / 1000 / 60 / 60 / 24 + 1;
   
       //Координата к которой будет перемещаться scroll при загрузке.
-      const cordX = numberDay * 21 - 200;
+      const cordX = numberDay * 21 - 880;
       //console.log("cordX", cordX);
       return cordX;
     },
@@ -364,19 +355,24 @@ export default {
       window.scrollTo(cordX, 0);
     },
 
-    // getIdUserField() {
-    //   const test = event.target.dataset.userid;
-    //   const test2 = event.currentTarget.dataset.userid;
-    //   console.log("test", test);
-    //   console.log("test2", test2);
-    //   return test && test2;
-    // }
+    getIdUserField() {
+      // const test = event.target.dataset.name;
+      // const test2 = event.currentTarget.dataset.id;
+      // console.log("test", test);
+      // console.log("test2", test2);
+      // return test && test2;
+      const left = event.currentTarget.style;
+    }
   },
 
   computed: {
     projects() {
       return this.$store.state.projects;
     },
+
+    // colors() {
+    //   return this.$store.state.colors;
+    // },
 
     currentProjectId() {
       return this.$route.params.id;
@@ -533,3 +529,5 @@ export default {
   padding-left: 8px;
 }
 </style>
+
+

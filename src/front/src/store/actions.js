@@ -190,7 +190,6 @@ const saveTaskToProject = ({dispatch, commit}, data) => {
   );
 };
 
-//Рефакторить
 const saveTaskListToUser = ({dispatch, commit}, data) => {
   if(data.userId == "" || data.userId == data.oldUserId){
     api.request('post', `tasks/${data.id}`, data)

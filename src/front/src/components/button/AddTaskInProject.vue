@@ -19,12 +19,14 @@ export default {
 .button_add_task_in_project {
   display: flex;
   height: 50px;
-  width: 100%;
+  /* width: 100%; */
   background: rgba(255, 255, 255, 0);
-  position: fixed;
+  /* position: absolute; */
+  /* position: fixed;
   bottom: 0;
-  z-index: 11;
+  z-index: 20; */
   justify-content: center;
-}
+  margin: 5px;
+} 
 </style>
 
