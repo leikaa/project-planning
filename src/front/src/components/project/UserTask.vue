@@ -2,7 +2,7 @@
   <div>
     <div class="task-list">
       <div
-        v-for="(list, index) in getCoordsTaskList.users"
+        v-for="(list, index) in filterTaskListUsers"
         :key="index"
         :data-id="index"
         :data-name="list.name"
@@ -392,37 +392,37 @@ export default {
       });
     },
 
-    getCoordsTaskList() {
-      if (this.filterTaskListUsers === undefined) {
-        return this.filterTaskListUsers;
-      }
-      this.filterTaskListUsers.map(item => {
-        item.task.map(el => {
-          const startDate = el.startDate;
-          const endDate = el.endDate;
+    // getCoordsTaskList() {
+    //   if (this.filterTaskListUsers === undefined) {
+    //     return this.filterTaskListUsers;
+    //   }
+    //   this.filterTaskListUsers.map(item => {
+    //     item.task.map(el => {
+    //       const startDate = el.startDate;
+    //       const endDate = el.endDate;
 
-          const dateOne = startDate.split("-");
-          const dateTwo = endDate.split("-");
+    //       const dateOne = startDate.split("-");
+    //       const dateTwo = endDate.split("-");
 
-          const OneDate = new Date(dateOne[0], dateOne[1] - 1, dateOne[2]);
-          const TwoDate = new Date(dateTwo[0], dateTwo[1] - 1, dateTwo[2]);
-          const resultDate = (TwoDate - OneDate) / 1000 / 60 / 60 / 24 + 1;
+    //       const OneDate = new Date(dateOne[0], dateOne[1] - 1, dateOne[2]);
+    //       const TwoDate = new Date(dateTwo[0], dateTwo[1] - 1, dateTwo[2]);
+    //       const resultDate = (TwoDate - OneDate) / 1000 / 60 / 60 / 24 + 1;
 
-          const W = resultDate * 21;
-          const StartDate = new Date(2018, 0, 1);
+    //       const W = resultDate * 21;
+    //       const StartDate = new Date(2018, 0, 1);
 
-          const dateX = (OneDate - StartDate) / 1000 / 60 / 60 / 24;
-          const X = dateX * 21;
-          const H = 46;
+    //       const dateX = (OneDate - StartDate) / 1000 / 60 / 60 / 24;
+    //       const X = dateX * 21;
+    //       const H = 46;
 
-          this.$set(el, "x", X);
-          this.$set(el, "w", W);
-          this.$set(el, "h", H);
-          // console.log("el",el)
-        });
-      });
-      return this.currentProject;
-    },
+    //       this.$set(el, "x", X);
+    //       this.$set(el, "w", W);
+    //       this.$set(el, "h", H);
+    //       // console.log("el",el)
+    //     });
+    //   });
+    //   return this.currentProject;
+    // },
   },
   created() {
     this.sendRequestUser();
