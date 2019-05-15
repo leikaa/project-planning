@@ -1,29 +1,35 @@
 <template>
   <div id="app">
-     <div class="menu">
-        <router-link to="/Home" class="ButtonNavigation">
-          <button class="ButtonNavigation">
-           Выбор проекта
-          </button>
-         </router-link>
-        <router-link to="/User" class="ButtonNavigation">
-          <button class="ButtonNavigation">
-           Участники системы 
-          </button>
-         </router-link>
-     </div> 
-    <router-view :key="$route.fullPath"></router-view>
+    <div class="menu">
+      <router-link
+        to="/Home"
+        class="ButtonNavigation"
+      >
+        <button class="ButtonNavigation">
+          Выбор проекта
+        </button>
+      </router-link>
+      <router-link
+        to="/User"
+        class="ButtonNavigation"
+      >
+        <button class="ButtonNavigation">
+          Участники системы
+        </button>
+      </router-link>
+    </div>
+    <router-view :key="$route.fullPath" />
   </div>
 </template>
 
 <script>
 export default {
   name: 'App',
-}
+};
 </script>
 
 <style>
-html { 
+html {
   overflow-y: auto;
   overflow-x: auto;
 }
@@ -49,7 +55,7 @@ html {
   background: rgb(64,199,129);
   box-shadow: 0 -3px rgb(53,167,110) inset;
   align-items: center;
-  justify-content: center;  
+  justify-content: center;
   color: white;
   text-decoration: none;
 }

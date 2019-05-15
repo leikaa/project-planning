@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+/* eslint-disable no-param-reassign */
 export default {
   STATUS_LOADED(state, payload) {
     state.appStatus = payload;
@@ -5,20 +7,19 @@ export default {
 
   SET_ERROR(state, error) {
     state.error = error;
-    console.error(error);
   },
 
-  LOADED_PROJECTS(state, data) { 
+  LOADED_PROJECTS(state, data) {
     console.log('LOADED_PROJECTS', data);
-    state.projects = data.map(elements => { 
-      elements.users.map(elem =>{
-        elem.task.map(el =>{
-          const startDate = el.startDate;
-          const endDate = el.endDate;
-  
-          const dateOne = startDate.split("-");
-          const dateTwo = endDate.split("-");
-  
+    state.projects = data.map((elements) => {
+      elements.users.map((elem) => {
+        elem.task.map((el) => {
+          const { startDate } = el;
+          const { endDate } = el;
+
+          const dateOne = startDate.split('-');
+          const dateTwo = endDate.split('-');
+
           const OneDate = new Date(dateOne[0], dateOne[1] - 1, dateOne[2]);
           const TwoDate = new Date(dateTwo[0], dateTwo[1] - 1, dateTwo[2]);
           const resultDate = (TwoDate - OneDate) / 1000 / 60 / 60 / 24 + 1;
@@ -33,9 +34,9 @@ export default {
           el.w = W;
           el.h = H;
           return el;
-        })
-        return elem
-      })
+        });
+        return elem;
+      });
       return elements;
     });
   },
@@ -60,11 +61,9 @@ export default {
     console.log('SAVED PROJECT - ', data);
   },
 
-  LOADED_USERS(state, data) { 
+  LOADED_USERS(state, data) {
     console.log('LOADED_USERS', data);
-    state.users = data.map(elem => {
-      return elem;
-    });
+    state.users = data.map(elem => elem);
   },
 
   CREATE_USER(_, data) {
@@ -79,11 +78,9 @@ export default {
     console.log('SAVED USER - ', data);
   },
 
-  LOADED_TASKS(state, data) { 
+  LOADED_TASKS(state, data) {
     console.log('LOADED_TASKS', data);
-    state.tasks = data.map(elem => {
-      return elem;
-    });
+    state.tasks = data.map(elem => elem);
   },
 
   CREATE_TASK(_, data) {
@@ -101,7 +98,7 @@ export default {
   SAVED_TASK(_, data) {
     console.log('SAVED TASK - ', data);
   },
-  
+
   SERVERS_STATUS_LOADED(_, data) {
     console.log('SERVERS STATUSE LOADED - ', data);
   },
