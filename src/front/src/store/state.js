@@ -40,5 +40,15 @@ export default {
     { color: 'rgb(30, 144, 255)' },
     { color: 'rgb(153, 153, 0)' },
   ],
-  formFields: {},
+  formFields: {
+    modalSubmitButton: '',
+    modalTitle: '',
+    name: '',
+    description: '',
+    selectedElement: '',
+    rgb: '',
+    oldUser: '',
+    current: 'rgb(244, 67, 54)',
+    nameRules: [v => !!v || 'Описание обязательно'],
+  },
 };

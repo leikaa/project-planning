@@ -35,101 +35,76 @@
         row
         align-end
       >
-        <v-dialog
-          v-model="createTaskDialog"
-          width="500"
+        <modal
+          :show-dialog="showCreateTask"
+          :modal-title="formFields.modalTitle"
+          :modal-submit-button="formFields.modalSubmitButton"
+
+          @modalConfirm="confirmModalAction"
+          @falseDialog="showCreateTask=false"
         >
-          <v-card>
-            <v-card-title
-              class="headline grey lighten-2"
-              primary-title
+          <template v-slot:body>
+            <v-text-field
+              v-model="formFields.name"
+              label="Название новой задачи"
+              :disabled="disableInput"
+              :rules="formFields.nameRules"
+              required
+            />
+            <v-text-field
+              v-model="formFields.description"
+              label="Описание задачи"
+              :disabled="disableInput"
+              required
+            />
+            <div class="CheckColor">
+              <div
+                v-for="(color, index) in colors"
+                :key="index"
+                class="ColorPicker"
+                :style="`background: ${color.color}`"
+              >
+                <v-checkbox
+                  v-model="formFields.current"
+                  height="0px"
+                  color="white"
+                  class="CheckboxColorPicker"
+                  dark
+                  :value="`${color.color}`"
+                />
+              </div>
+            </div>
+            <select
+              v-model="formFields.selectedElement"
+              class="select-element"
             >
-              {{ modalTitle }}
-            </v-card-title>
-            <v-card-text>
-              <v-form v-model="formValid">
-                <v-text-field
-                  v-model="name"
-                  label="Название новой задачи"
-                  :disabled="disableInput"
-                  :rules="nameRules"
-                  required
-                />
-                <v-text-field
-                  v-model="description"
-                  label="Описание задачи"
-                  :disabled="disableInput"
-                  required
-                />
-                <div class="CheckColor">
-                  <div
-                    v-for="(color, index) in colors"
-                    :key="index"
-                    class="ColorPicker"
-                    :style="`background: ${color.color}`"
-                  >
-                    <v-checkbox
-                      v-model="current"
-                      height="0px"
-                      color="white"
-                      class="CheckboxColorPicker"
-                      dark
-                      :value="`${color.color}`"
-                    />
-                  </div>
-                </div>
-                <select
-                  v-model="selectedElement"
-                  class="select-element"
-                >
-                  <option
-                    disabled
-                    value
-                  >
-                    Список участников проекта
-                  </option>
-                  <option
-                    v-for="item in currentProjectUsers"
-                    :key="item._id"
-                    :value="item._id"
-                  >
-                    {{ item.name }}
-                  </option>
-                </select>
-                <div class="DataPicker">
-                  <v-date-picker
-                    v-model="startDate"
-                    width="220"
-                  />
-                  <v-date-picker
-                    v-model="endDate"
-                    show-current="false"
-                    width="230"
-                  />
-                </div>
-              </v-form>
-            </v-card-text>
-            <v-divider />
-            <v-card-actions>
-              <v-spacer />
-              <v-btn
-                color="red"
-                flat
-                @click="createTaskDialog = false"
+              <option
+                disabled
+                value
               >
-                Отмена
-              </v-btn>
-              <v-btn
-                color="green"
-                flat
-                :disabled="!formValid"
-                @click="confirmModalAction"
+                Список участников проекта
+              </option>
+              <option
+                v-for="item in currentProjectUsers"
+                :key="item._id"
+                :value="item._id"
               >
-                {{ modalSubmitButton }}
-              </v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
+                {{ item.name }}
+              </option>
+            </select>
+            <div class="DataPicker">
+              <v-date-picker
+                v-model="startDate"
+                width="220"
+              />
+              <v-date-picker
+                v-model="endDate"
+                show-current="false"
+                width="230"
+              />
+            </div>
+          </template>
+        </modal>
       </v-layout>
     </v-card>
     <!-- Удаление данных -->
@@ -138,65 +113,32 @@
         row
         align-end
       >
-        <v-dialog
-          v-model="showDeleteTask"
-          width="500"
+        <one-field-modal
+          :show-dialog="showDeleteTask"
+          :modal-title="formFields.modalTitle"
+          :modal-submit-button="formFields.modalSubmitButton"
+          @modalConfirm="confirmModalAction"
+          @falseDialog="showDeleteTask=false"
         >
-          <v-card>
-            <v-card-title
-              class="headline grey lighten-2"
-              primary-title
-            >
-              {{ modalTitle }}
-            </v-card-title>
-            <v-card-text>
-              <v-form v-model="formValid">
-                <v-text-field
-                  v-model="name"
-                  :disabled="disableInput"
-                  label="Удаление задачи"
-                  required
-                />
-              </v-form>
-            </v-card-text>
-            <v-divider />
-            <v-card-actions>
-              <v-spacer />
-              <v-btn
-                color="red"
-                flat
-                @click="showDeleteTask=false"
-              >
-                Отмена
-              </v-btn>
-              <v-btn
-                color="green"
-                flat
-                :disabled="!formValid"
-                @click="confirmModalAction"
-              >
-                {{ modalSubmitButton }}
-              </v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
+          <template v-slot:body />
+        </one-field-modal>
       </v-layout>
     </v-card>
-    <!-- Изменение данных !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+    <!-- Изменение данных -->
     <v-card>
       <v-layout
         row
         align-end
       >
         <modal
-          :show-dialog="showDialog1"
-          modal-title="test"
-          activator-text="qqq"
-          modal-submit-button="blabla"
-          @toggleModal="toggleModal"
-          @modalConfirm="submit()"
+          :show-dialog="ShowEditTask"
+          :modal-title="formFields.modalTitle"
+          :modal-submit-button="formFields.modalSubmitButton"
+
+          @modalConfirm="confirmModalAction"
+          @falseDialog="ShowEditTask=false"
         >
-          <template slot="body">
+          <template v-slot:body>
             <v-text-field
               v-model="formFields.name"
               :disabled="disableInput"
@@ -209,91 +151,43 @@
               :disabled="disableInput"
               required
             />
+            <div class="CheckColor">
+              <div
+                v-for="(color, index) in colors"
+                :key="index"
+                class="ColorPicker"
+                :style="`background: ${color.color}`"
+              >
+                <v-checkbox
+                  v-model="formFields.rgb"
+                  height="0px"
+                  color="white"
+                  class="CheckboxColorPicker"
+                  dark
+                  :value="`${color.color}`"
+                />
+              </div>
+            </div>
+            <select
+              v-model="formFields.selectedElement"
+              class="select-element"
+            >
+              <option
+                disabled
+                value
+              >
+                Выберите владельца задачи
+              </option>
+              <option
+                v-for="item in currentProjectUsers"
+                :key="item._id"
+                :value="item._id"
+              >
+                {{ item.name }}
+              </option>
+            </select>
           </template>
         </modal>
-        <v-dialog
-          v-model="showDialog"
-          width="500"
-        >
-          <v-card>
-            <v-card-title
-              class="headline grey lighten-2"
-              primary-title
-            >
-              {{ modalTitle }}
-            </v-card-title>
-            <v-card-text>
-              <v-form v-model="formValid">
-                <v-text-field
-                  v-model="name"
-                  :disabled="disableInput"
-                  label="Название задачи"
-                  required
-                />
-                <v-text-field
-                  v-model="description"
-                  label="Описание задачи"
-                  :disabled="disableInput"
-                  required
-                />
-                <div class="CheckColor">
-                  <div
-                    v-for="(color, index) in colors"
-                    :key="index"
-                    class="ColorPicker"
-                    :style="`background: ${color.color}`"
-                  >
-                    <v-checkbox
-                      v-model="rgb"
-                      height="0px"
-                      color="white"
-                      class="CheckboxColorPicker"
-                      dark
-                      :value="`${color.color}`"
-                    />
-                  </div>
-                </div>
-                <select
-                  v-model="selectedElement"
-                  class="select-element"
-                >
-                  <option
-                    disabled
-                    value
-                  >
-                    Выберите владельца задачи
-                  </option>
-                  <option
-                    v-for="item in currentProjectUsers"
-                    :key="item._id"
-                    :value="item._id"
-                  >
-                    {{ item.name }}
-                  </option>
-                </select>
-              </v-form>
-            </v-card-text>
-            <v-divider />
-            <v-card-actions>
-              <v-spacer />
-              <v-btn
-                color="red"
-                flat
-                @click="showDialog = false"
-              >
-                Отмена
-              </v-btn>
-              <v-btn
-                color="green"
-                flat
-                :disabled="!formValid"
-                @click="confirmModalAction"
-              >
-                {{ modalSubmitButton }}
-              </v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
       </v-layout>
     </v-card>
   </div>
@@ -301,39 +195,36 @@
 
 <script>
 import moment from 'moment';
+// eslint-disable-next-line import/no-unresolved
 import BacklogData from './BacklogData';
+// eslint-disable-next-line import/no-unresolved
 import Modal from '../common/Modal';
+// eslint-disable-next-line import/no-unresolved
+import OneFieldModal from '../common/OneFieldModal ';
+// eslint-disable-next-line import/no-unresolved
 import AddTaskInProject from '../button/AddTaskInProject';
 
 export default {
   name: 'Backlog',
   components: {
     BacklogData,
-    AddTaskInProject,
     Modal,
+    OneFieldModal,
+    AddTaskInProject,
   },
 
   data() {
     return {
-      createTaskDialog: false,
+      showCreateTask: false,
       showDialog: false,
-      showDialog1: false,
+      ShowEditTask: false,
       showDeleteTask: false,
-      formValid: false,
       disableInput: false,
       disableNameUser: false,
-      modalSubmitButton: 'Добавить',
-      modalTitle: '',
-      name: '',
-      description: '',
-      selectedElement: '',
       unallocated: true,
       distributed: true,
-      nameRules: [v => !!v || 'Описание обязательно'],
-      rgb: '',
       startDate: new Date().toISOString().substr(0, 10),
       endDate: new Date().toISOString().substr(0, 10),
-      current: 'rgb(244, 67, 54)',
     };
   },
 
@@ -383,50 +274,46 @@ export default {
   },
 
   methods: {
-    toggleModal() {
-      this.showDialog1 = !this.showDialog1;
-    },
     sendRequest() {
       this.$store.dispatch('loadTasks');
     },
 
     addItem() {
-      this.modalTitle = 'Добавить новую задачу';
-      this.modalSubmitButton = 'Добавить';
+      this.formFields.modalTitle = 'Добавить новую задачу';
+      this.formFields.modalSubmitButton = 'Добавить';
       this.modalAction = 'Add';
       this.projectId = 'currentProjectId';
       this.startDate = this.startDate;
       this.endDate = this.endDate;
       this.y = 0;
-      this.rgb = this.current;
-      this.description = '';
-      this.name = '';
+      this.formFields.rgb = this.current;
+      this.formFields.description = '';
+      this.formFields.name = '';
       this.disableInput = false;
-      this.createTaskDialog = true;
+      this.showCreateTask = true;
     },
 
     editItem(item) {
-      this.modalTitle = 'Редактирование задачи';
-      this.modalSubmitButton = 'Сохранить';
+      this.formFields.modalTitle = 'Редактирование задачи';
+      this.formFields.modalSubmitButton = 'Сохранить';
       this.modalAction = 'Edit';
       this.id = item._id;
-      this.name = item.name;
-      this.description = item.description;
-      this.rgb = item.rgb;
-      this.oldUserId = item.userId;
-      this.selectedElement = item.userId;
+      this.formFields.name = item.name;
+      this.formFields.description = item.description;
+      this.formFields.rgb = item.rgb;
+      this.formFields.oldUserId = item.userId;
+      this.formFields.selectedElement = item.userId;
       this.disableInput = false;
-      this.disableNameUser = true;
-      this.showDialog = true;
+      this.ShowEditTask = true;
     },
 
     deleteItem(item) {
-      this.modalTitle = 'Удалить задачу';
-      this.modalSubmitButton = 'Удалить';
+      this.formFields.modalTitle = 'Удалить задачу';
+      this.formFields.modalSubmitButton = 'Удалить';
       this.modalAction = 'Delete';
       this.taskId = item._id;
       this.userId = item.userId;
-      this.name = item.name;
+      this.formFields.name = item.name;
       this.disableInput = true;
       this.showDeleteTask = true;
     },
@@ -451,38 +338,38 @@ export default {
     createTask() {
       console.log('Задача добавлена', this.name, this.description, this.current);
       this.$store.dispatch('createTask', {
-        userId: this.selectedElement,
+        userId: this.formFields.selectedElement,
         projectId: this.currentProjectId,
         startDate: this.startDate,
         endDate: this.endDate,
         y: this.y,
-        rgb: this.current,
-        description: this.description,
-        name: this.name,
+        rgb: this.formFields.current,
+        description: this.formFields.description,
+        name: this.formFields.name,
         dateCreate: moment().format('MMMM Do YYYY, HH:mm:ss '),
       });
-      this.createTaskDialog = false;
+      this.showCreateTask = false;
     },
 
     saveTaskListToUser() {
       console.log(
         'Проект сохранен',
         this.id,
-        this.name,
-        this.description,
-        this.oldUserId,
-        this.selectedElement,
-        this.rgb,
+        this.formFields.name,
+        this.formFields.description,
+        this.formFields.oldUserId,
+        this.formFields.selectedElement,
+        this.formFields.rgb,
       );
       this.$store.dispatch('saveTaskListToUser', {
         id: this.id,
-        userId: this.selectedElement,
-        oldUserId: this.oldUserId,
-        name: this.name,
-        description: this.description,
-        rgb: this.rgb,
+        userId: this.formFields.selectedElement,
+        oldUserId: this.formFields.oldUserId,
+        name: this.formFields.name,
+        description: this.formFields.description,
+        rgb: this.formFields.rgb,
       });
-      this.showDialog = false;
+      this.ShowEditTask = false;
     },
 
     deleteTaskFromUser() {

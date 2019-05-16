@@ -14,6 +14,12 @@
       <v-card-text>
         <v-form v-model="formValid">
           <slot name="body" />
+          <v-text-field
+            v-model="formFields.name"
+            :disabled="disableInput"
+            label="Удаление задачи"
+            required
+          />
         </v-form>
       </v-card-text>
       <v-divider />
@@ -46,6 +52,8 @@ export default {
   data() {
     return {
       formValid: false,
+      disableInput: false,
+      disableNameUser: false,
     };
   },
   computed: {
