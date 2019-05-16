@@ -1,19 +1,19 @@
 <template>
   <div class="calendar__day">
-    {{dayInName}}
-    {{dayInWeek}}
+    {{ dayInName }}
+    {{ dayInWeek }}
   </div>
 </template>
 
 <script>
-  export default {
-    props: {
-      dayInWeek: {
-        type: Number,
+export default {
+  props: {
+    dayInWeek: {
+      type: Number,
+    },  
+    dayInName: {
+      type: String,
     },
-      dayInName: {
-        type: String,
-    }
-  }  
-}
+  },
+};
 </script>

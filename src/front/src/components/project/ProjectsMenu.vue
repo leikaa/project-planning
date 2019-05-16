@@ -7,44 +7,21 @@
         @editItem="editItem"
         @deleteItem="deleteItem"
       />
+      <create-button
+        post-title="Добавить проект"
+        @addItem="addItem"
+      />
       <v-card class="projects">
-        <v-layout row align-end>
-          <v-dialog v-model="showDialog" width="500">
-            <template v-slot:activator="click">
-              <v-btn
-                color="green  accent-3"
-                @click="addItem"
-                class="button_create"
-                dark
-              >Добавить проект</v-btn>
-            </template>
-            <v-card>
-              <v-card-title class="headline grey lighten-2" primary-title>{{ modalTitle }}</v-card-title>
-              <v-card-text>
-                <v-form v-model="formValid">
-                  <v-text-field
-                    v-model="name"
-                    label="Название нового проекта"
-                    :rules="nameRules"
-                    :disabled="disableInput"
-                    required
-                  ></v-text-field>
-                </v-form>
-              </v-card-text>
-              <v-divider></v-divider>
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="red" flat @click="showDialog = false">Отмена</v-btn>
-                <v-btn
-                  color="green"
-                  flat
-                  @click="confirmModalAction"
-                  :disabled="!formValid"
-                >{{ modalSubmitButton }}</v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
-        </v-layout>
+        <one-field-modal
+          :show-dialog="showDialogProject"
+          :modal-title="formFields.modalTitle"
+          :label="formFields.label"
+          :modal-submit-button="formFields.modalSubmitButton"
+          @modalConfirm="confirmModalAction"
+          @falseDialog="showDialogProject=false"
+        >
+          <template v-slot:body />
+        </one-field-modal>
       </v-card>
     </v-app>
   </div>
@@ -52,106 +29,26 @@
 
 
 <script>
-import ProjectData from "./ProjectData";
-import moment from "moment";
+import moment from 'moment';
+// eslint-disable-next-line import/no-unresolved
+import OneFieldModal from '../common/OneFieldModal ';
+// eslint-disable-next-line import/no-unresolved
+import ProjectData from './ProjectData';
+// eslint-disable-next-line import/no-unresolved
+import CreateButton from '../button/CreateButton';
+
 export default {
-  name: "Project",
+  name: 'Project',
+  components: {
+    OneFieldModal,
+    ProjectData,
+    CreateButton,
+  },
   data() {
     return {
-      showDialog: false,
-      formValid: false,
-      id: "",
-      name: "",
-      nameRules: [v => !!v || "Название обязательно"],
+      showDialogProject: false,
       disableInput: false,
-      modalTitle: "Добавить новый проект",
-      modalSubmitButton: "Добавить",
-      modalAction: ""
     };
-  },
-  components: {
-    ProjectData
-  },
-  methods: {
-    sendRequest() {
-      this.$store.dispatch("loadProjects");
-    },
-
-    addItem() {
-      this.modalTitle = "Добавить новый проект";
-      this.modalSubmitButton = "Добавить";
-      this.modalAction = "Add";
-      this.name = "";
-      this.CreationDate = moment().format("MMMM Do YYYY, HH:mm:ss ");
-      this.disableInput = false;
-      this.showDialog = true;
-    },
-
-    editItem(item) {
-      this.modalTitle = "Редактировать информацию о проекте";
-      this.modalSubmitButton = "Сохранить";
-      this.modalAction = "Edit";
-      this.id = item._id;
-      this.name = item.name;
-      this.Date = moment().format("MMMM Do YYYY, HH:mm:ss ");
-      this.disableInput = false;
-      this.showDialog = true;
-    },
-
-    deleteItem(item) {
-      this.modalTitle = "Удалить проект";
-      this.modalSubmitButton = "Удалить";
-      this.modalAction = "Delete";
-      this.id = item._id;
-      this.name = item.name;
-      this.disableInput = true;
-      this.showDialog = true;
-    },
-
-    confirmModalAction() {
-      const action = this.modalAction;
-      switch (action) {
-        default:
-          break;
-        case "Add":
-          this.addProject();
-          break;
-        case "Edit":
-          this.saveProject();
-          break;
-        case "Delete":
-          this.deleteProject();
-          break;
-      }
-    },
-
-    addProject() {
-      console.log("Проект добавлен", this.name, this.CreationDate);
-      this.$store.dispatch("createProject", {
-        name: this.name,
-        CreationDate: this.CreationDate
-      });
-      this.showDialog = false;
-      //this.sendRequest();
-    },
-
-    deleteProject() {
-      console.log("Проект удалён", this.name, this.id);
-      this.$store.dispatch("deleteProject", this.id);
-      this.showDialog = false;
-      //this.sendRequest();
-    },
-
-    saveProject() {
-      console.log("Проект сохранен", this.id, this.name, this.Date);
-      this.$store.dispatch("saveProject", {
-        name: this.name,
-        id: this.id,
-        Date: this.Date
-      });
-      this.showDialog = false;
-      //this.sendRequest();
-    }
   },
   computed: {
     controls() {
@@ -159,23 +56,100 @@ export default {
     },
 
     projects() {
-      //return this.$store.getters.projects;
       return this.$store.state.projects;
-    }
-  },
+    },
 
+    formFields() {
+      return this.$store.state.formFields;
+    },
+  },
   created() {
     this.sendRequest();
-  }
+  },
+  methods: {
+    sendRequest() {
+      this.$store.dispatch('loadProjects');
+    },
+
+    addItem() {
+      this.formFields.modalTitle = 'Добавить новый проект';
+      this.formFields.modalSubmitButton = 'Добавить';
+      this.formFields.label = 'Название проекта';
+      this.modalAction = 'Add';
+      this.formFields.name = '';
+      this.CreationDate = moment().format('MMMM Do YYYY, HH:mm:ss ');
+      this.formFields.disableInput = false;
+      this.showDialogProject = true;
+    },
+
+    editItem(item) {
+      this.formFields.modalTitle = 'Редактировать информацию о проекте';
+      this.formFields.label = 'Название проекта';
+      this.formFields.modalSubmitButton = 'Сохранить';
+      this.modalAction = 'Edit';
+      this.id = item._id;
+      this.formFields.name = item.name;
+      this.Date = moment().format('MMMM Do YYYY, HH:mm:ss ');
+      this.formFields.disableInput = false;
+      this.showDialogProject = true;
+    },
+
+    deleteItem(item) {
+      this.formFields.modalTitle = 'Удалить проект';
+      this.formFields.label = 'Название проекта';
+      this.formFields.modalSubmitButton = 'Удалить';
+      this.modalAction = 'Delete';
+      this.id = item._id;
+      this.formFields.name = item.name;
+      this.formFields.disableInput = true;
+      this.showDialogProject = true;
+    },
+
+    confirmModalAction() {
+      const action = this.modalAction;
+      switch (action) {
+        default:
+          break;
+        case 'Add':
+          this.addProject();
+          break;
+        case 'Edit':
+          this.saveProject();
+          break;
+        case 'Delete':
+          this.deleteProject();
+          break;
+      }
+    },
+
+    addProject() {
+      console.log('Проект добавлен', this.formFields.name, this.CreationDate);
+      this.$store.dispatch('createProject', {
+        name: this.formFields.name,
+        CreationDate: this.CreationDate,
+      });
+      this.showDialogProject = false;
+    },
+
+    deleteProject() {
+      console.log('Проект удалён', this.formFields.name, this.id);
+      this.$store.dispatch('deleteProject', this.id);
+      this.showDialogProject = false;
+    },
+
+    saveProject() {
+      console.log('Проект сохранен', this.id, this.formFields.name, this.Date);
+      this.$store.dispatch('saveProject', {
+        name: this.formFields.name,
+        id: this.id,
+        Date: this.Date,
+      });
+      this.showDialogProject = false;
+    },
+  },
 };
 </script>
 
 <style>
-.button_create {
-  text-decoration: none;
-  margin: 5px;
-  box-sizing: border-box;
-  max-width: 150px;
-  height: 150px;
-}
+
 </style>
