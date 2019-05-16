@@ -16,8 +16,8 @@
           <slot name="body" />
           <v-text-field
             v-model="formFields.name"
-            :disabled="disableInput"
-            label="Удаление задачи"
+            :disabled="formFields.disableInput"
+            :label="formFields.label"
             required
           />
         </v-form>
@@ -48,11 +48,12 @@
 <script>
 export default {
   name: 'Modal',
-  props: ['showDialog', 'modalTitle', 'activatorText', 'modalSubmitButton'],
+  // eslint-disable-next-line vue/require-prop-types
+  props: ['showDialog', 'modalTitle', 'modalSubmitButton', 'label'],
   data() {
     return {
       formValid: false,
-      disableInput: false,
+      // disableInput: false,
       disableNameUser: false,
     };
   },

@@ -3,7 +3,10 @@
     <div class="backlog__item">
       <h2>Список задач проекта</h2>
     </div>
-    <add-task-in-project @addItem="addItem" />
+    <create-button
+      post-title="Добавить новую задачу"
+      @addItem="addItem"
+    />
     <template v-if="unallocated">
       <backlog-data
         :items="unallocatedTasks"
@@ -30,166 +33,144 @@
       label="Распределенные задачи"
       class="check"
     />
-    <v-card>
-      <v-layout
-        row
-        align-end
-      >
-        <modal
-          :show-dialog="showCreateTask"
-          :modal-title="formFields.modalTitle"
-          :modal-submit-button="formFields.modalSubmitButton"
-
-          @modalConfirm="confirmModalAction"
-          @falseDialog="showCreateTask=false"
+    <modal
+      :show-dialog="showCreateTask"
+      :modal-title="formFields.modalTitle"
+      :modal-submit-button="formFields.modalSubmitButton"
+      @modalConfirm="confirmModalAction"
+      @falseDialog="showCreateTask=false"
+    >
+      <template v-slot:body>
+        <v-text-field
+          v-model="formFields.name"
+          label="Название новой задачи"
+          :disabled="disableInput"
+          :rules="formFields.nameRules"
+          required
+        />
+        <v-text-field
+          v-model="formFields.description"
+          label="Описание задачи"
+          :disabled="disableInput"
+          required
+        />
+        <div class="CheckColor">
+          <div
+            v-for="(color, index) in colors"
+            :key="index"
+            class="ColorPicker"
+            :style="`background: ${color.color}`"
+          >
+            <v-checkbox
+              v-model="formFields.current"
+              height="0px"
+              color="white"
+              class="CheckboxColorPicker"
+              dark
+              :value="`${color.color}`"
+            />
+          </div>
+        </div>
+        <select
+          v-model="formFields.selectedElement"
+          class="select-element"
         >
-          <template v-slot:body>
-            <v-text-field
-              v-model="formFields.name"
-              label="Название новой задачи"
-              :disabled="disableInput"
-              :rules="formFields.nameRules"
-              required
-            />
-            <v-text-field
-              v-model="formFields.description"
-              label="Описание задачи"
-              :disabled="disableInput"
-              required
-            />
-            <div class="CheckColor">
-              <div
-                v-for="(color, index) in colors"
-                :key="index"
-                class="ColorPicker"
-                :style="`background: ${color.color}`"
-              >
-                <v-checkbox
-                  v-model="formFields.current"
-                  height="0px"
-                  color="white"
-                  class="CheckboxColorPicker"
-                  dark
-                  :value="`${color.color}`"
-                />
-              </div>
-            </div>
-            <select
-              v-model="formFields.selectedElement"
-              class="select-element"
-            >
-              <option
-                disabled
-                value
-              >
-                Список участников проекта
-              </option>
-              <option
-                v-for="item in currentProjectUsers"
-                :key="item._id"
-                :value="item._id"
-              >
-                {{ item.name }}
-              </option>
-            </select>
-            <div class="DataPicker">
-              <v-date-picker
-                v-model="startDate"
-                width="220"
-              />
-              <v-date-picker
-                v-model="endDate"
-                show-current="false"
-                width="230"
-              />
-            </div>
-          </template>
-        </modal>
-      </v-layout>
-    </v-card>
+          <option
+            disabled
+            value
+          >
+            Список участников проекта
+          </option>
+          <option
+            v-for="item in currentProjectUsers"
+            :key="item._id"
+            :value="item._id"
+          >
+            {{ item.name }}
+          </option>
+        </select>
+        <div class="DataPicker">
+          <v-date-picker
+            v-model="startDate"
+            width="220"
+          />
+          <v-date-picker
+            v-model="endDate"
+            show-current="false"
+            width="230"
+          />
+        </div>
+      </template>
+    </modal>
     <!-- Удаление данных -->
-    <v-card>
-      <v-layout
-        row
-        align-end
-      >
-        <one-field-modal
-          :show-dialog="showDeleteTask"
-          :modal-title="formFields.modalTitle"
-          :modal-submit-button="formFields.modalSubmitButton"
-          @modalConfirm="confirmModalAction"
-          @falseDialog="showDeleteTask=false"
-        >
-          <template v-slot:body />
-        </one-field-modal>
-      </v-layout>
-    </v-card>
+    <one-field-modal
+      :show-dialog="showDeleteTask"
+      :modal-title="formFields.modalTitle"
+      :modal-submit-button="formFields.modalSubmitButton"
+      @modalConfirm="confirmModalAction"
+      @falseDialog="showDeleteTask=false"
+    >
+      <template v-slot:body />
+    </one-field-modal>
     <!-- Изменение данных -->
-    <v-card>
-      <v-layout
-        row
-        align-end
-      >
-        <modal
-          :show-dialog="ShowEditTask"
-          :modal-title="formFields.modalTitle"
-          :modal-submit-button="formFields.modalSubmitButton"
+    <modal
+      :show-dialog="ShowEditTask"
+      :modal-title="formFields.modalTitle"
+      :modal-submit-button="formFields.modalSubmitButton"
 
-          @modalConfirm="confirmModalAction"
-          @falseDialog="ShowEditTask=false"
+      @modalConfirm="confirmModalAction"
+      @falseDialog="ShowEditTask=false"
+    >
+      <template v-slot:body>
+        <v-text-field
+          v-model="formFields.name"
+          :disabled="disableInput"
+          label="Название задачи"
+          required
+        />
+        <v-text-field
+          v-model="formFields.description"
+          label="Описание задачи"
+          :disabled="disableInput"
+          required
+        />
+        <div class="CheckColor">
+          <div
+            v-for="(color, index) in colors"
+            :key="index"
+            class="ColorPicker"
+            :style="`background: ${color.color}`"
+          >
+            <v-checkbox
+              v-model="formFields.rgb"
+              height="0px"
+              color="white"
+              class="CheckboxColorPicker"
+              dark
+              :value="`${color.color}`"
+            />
+          </div>
+        </div>
+        <select
+          v-model="formFields.selectedElement"
+          class="select-element"
         >
-          <template v-slot:body>
-            <v-text-field
-              v-model="formFields.name"
-              :disabled="disableInput"
-              label="Название задачи"
-              required
-            />
-            <v-text-field
-              v-model="formFields.description"
-              label="Описание задачи"
-              :disabled="disableInput"
-              required
-            />
-            <div class="CheckColor">
-              <div
-                v-for="(color, index) in colors"
-                :key="index"
-                class="ColorPicker"
-                :style="`background: ${color.color}`"
-              >
-                <v-checkbox
-                  v-model="formFields.rgb"
-                  height="0px"
-                  color="white"
-                  class="CheckboxColorPicker"
-                  dark
-                  :value="`${color.color}`"
-                />
-              </div>
-            </div>
-            <select
-              v-model="formFields.selectedElement"
-              class="select-element"
-            >
-              <option
-                disabled
-                value
-              >
-                Выберите владельца задачи
-              </option>
-              <option
-                v-for="item in currentProjectUsers"
-                :key="item._id"
-                :value="item._id"
-              >
-                {{ item.name }}
-              </option>
-            </select>
-          </template>
-        </modal>
-      </v-layout>
-    </v-card>
+          <option
+            disabled
+            value
+          >
+            Выберите владельца задачи
+          </option>
+          <option
+            v-for="item in currentProjectUsers"
+            :key="item._id"
+            :value="item._id"
+          >
+            {{ item.name }}
+          </option>
+        </select>
+      </template>
+    </modal>
   </div>
 </template>
 
@@ -202,7 +183,7 @@ import Modal from '../common/Modal';
 // eslint-disable-next-line import/no-unresolved
 import OneFieldModal from '../common/OneFieldModal ';
 // eslint-disable-next-line import/no-unresolved
-import AddTaskInProject from '../button/AddTaskInProject';
+import CreateButton from '../button/CreateButton';
 
 export default {
   name: 'Backlog',
@@ -210,13 +191,12 @@ export default {
     BacklogData,
     Modal,
     OneFieldModal,
-    AddTaskInProject,
+    CreateButton,
   },
 
   data() {
     return {
       showCreateTask: false,
-      showDialog: false,
       ShowEditTask: false,
       showDeleteTask: false,
       disableInput: false,
@@ -336,7 +316,7 @@ export default {
     },
 
     createTask() {
-      console.log('Задача добавлена', this.name, this.description, this.current);
+      console.log('Задача добавлена', this.formFields.name, this.formFields.description, this.formFields.current);
       this.$store.dispatch('createTask', {
         userId: this.formFields.selectedElement,
         projectId: this.currentProjectId,

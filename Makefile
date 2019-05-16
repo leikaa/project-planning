@@ -21,6 +21,9 @@ help: ## Show this help
 		Usage example:\n\
 	    	make up"
 
+
+init: back-npm front-npm build-all ## init project
+
 build: ## rebuild all containers
 	$(docker_compose_bin) build
 
@@ -35,5 +38,19 @@ restart: build down up ## rebuild and restart all containers
 stop: ## stop all containers
 	@$(docker_bin) ps -aq | xargs $(docker_bin) stop
 
-build-front: ## build front
+# --- [ Front ] -------------------------------------------------------------------------------------------------
+build-all: front-build ## build all scripts from source
+
+front-build: ## build front
 	cd src/front && npm run build
+
+front-dev: ## run dev server
+	cd ./src/front && npm run dev
+
+front-npm: ##npm install front
+	@cd ./src/front && npm install
+  
+# # --- [ Backend ] -------------------------------------------------------------------------------------------------
+
+back-npm: ## npm install for webserver
+	@cd ./src/back && npm install

@@ -7,69 +7,23 @@
           row
           align-end
         >
-          <v-flex xs6>
-            <v-dialog
-              v-model="showDialog"
-              width="500"
-            >
-              <template v-slot:activator="click">
-                <v-btn
-                  color="green lighten-2"
-                  class="mb15"
-                  dark
-                  @click="addItem"
-                >
-                  Добавить
-                </v-btn>
-              </template>
-              <v-card>
-                <v-card-title
-                  class="headline grey lighten-2"
-                  primary-title
-                >
-                  {{ modalTitle }}
-                </v-card-title>
-                <v-card-text>
-                  <v-form v-model="formValid">
-                    <v-text-field
-                      v-model="name"
-                      label="ФИО участника"
-                      :rules="nameRules"
-                      :disabled="disableInput"
-                      required
-                    />
-                  </v-form>
-                </v-card-text>
-                <v-divider />
-                <v-card-actions>
-                  <v-spacer />
-                  <v-btn
-                    color="red"
-                    flat
-                    @click="showDialog = false"
-                  >
-                    Отмена
-                  </v-btn>
-                  <v-btn
-                    color="green"
-                    flat
-                    :disabled="!formValid"
-                    @click="confirmModalAction"
-                  >
-                    {{ modalSubmitButton }}
-                  </v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
-            <v-btn
-              color="blue lighten-2"
-              class="mb15"
-              dark
-              @click="sendRequest"
-            >
-              Обновить
-            </v-btn>
-          </v-flex>
+          <one-field-modal
+            :show-dialog="showDialogUsers"
+            :modal-title="formFields.modalTitle"
+            :label="formFields.label"
+            :modal-submit-button="formFields.modalSubmitButton"
+            @modalConfirm="confirmModalAction"
+            @falseDialog="showDialogUsers=false"
+          >
+            <template v-slot:body />
+          </one-field-modal>
+          <create-button
+            post-title="Добавить проект"
+            @addItem="addItem"
+          />
+          <update-status-button
+            @sendRequest="sendRequest"
+          />
         </v-layout>
         <data-table
           v-if="isShow"
@@ -89,29 +43,34 @@
 
 <script>
 import moment from 'moment';
+// eslint-disable-next-line import/no-unresolved
 import DataTable from '../components/DataTable';
+// eslint-disable-next-line import/no-unresolved
+import OneFieldModal from '../components/common/OneFieldModal ';
+// eslint-disable-next-line import/no-unresolved
+import CreateButton from '../components/button/CreateButton';
+import UpdateStatusButton from '../components/button/UpdateStatusButton';
 
 export default {
   name: 'TableUser',
   components: {
     DataTable,
+    OneFieldModal,
+    CreateButton,
+    UpdateStatusButton,
   },
   data() {
     return {
-      showDialog: false,
-      formValid: false,
-      id: '',
-      name: '',
-      nameRules: [v => !!v || 'Название обязательно'],
-      disableInput: false,
-      modalTitle: 'Добавить нового участника',
-      modalSubmitButton: 'Добавить',
-      modalAction: '',
+      showDialogUsers: false,
     };
   },
   computed: {
     controls() {
       return this.$store.state.ui.defaultControls;
+    },
+
+    formFields() {
+      return this.$store.state.formFields;
     },
 
     isShow() {
@@ -148,33 +107,36 @@ export default {
     },
 
     addItem() {
-      this.modalTitle = 'Добавить нового участника';
-      this.modalSubmitButton = 'Добавить';
+      this.formFields.modalTitle = 'Добавить нового участника';
+      this.formFields.modalSubmitButton = 'Добавить';
+      this.formFields.label = 'ФИО участника';
       this.modalAction = 'Add';
-      this.name = '';
-      this.disableInput = false;
-      this.showDialog = true;
+      this.formFields.name = '';
+      this.formFields.disableInput = false;
+      this.showDialogUsers = true;
     },
 
     editItem(item) {
-      this.modalTitle = 'Редактировать информацию об участнике';
-      this.modalSubmitButton = 'Сохранить';
+      this.formFields.modalTitle = 'Редактировать информацию об участнике';
+      this.formFields.modalSubmitButton = 'Сохранить';
+      this.formFields.label = 'ФИО участника';
       this.modalAction = 'Edit';
       this.id = item._id;
-      this.name = item.name;
+      this.formFields.name = item.name;
       this.UpdateDate = moment().format('MMMM Do YYYY, HH:mm:ss ');
-      this.disableInput = false;
-      this.showDialog = true;
+      this.formFields.disableInput = false;
+      this.showDialogUsers = true;
     },
 
     deleteItem(item) {
-      this.modalTitle = 'Удалить участника';
-      this.modalSubmitButton = 'Удалить';
+      this.formFields.modalTitle = 'Удалить участника';
+      this.formFields.modalSubmitButton = 'Удалить';
+      this.formFields.label = 'ФИО участника';
       this.modalAction = 'Delete';
       this.id = item._id;
-      this.name = item.name;
-      this.disableInput = true;
-      this.showDialog = true;
+      this.formFields.name = item.name;
+      this.formFields.disableInput = true;
+      this.showDialogUsers = true;
     },
 
     confirmModalAction() {
@@ -195,45 +157,34 @@ export default {
     },
 
     addUser() {
-      console.log('Участник добавлен', this.name);
-      this.$store.dispatch('createUser', { name: this.name });
-      this.showDialog = false;
+      console.log('Участник добавлен', this.formFields.name);
+      this.$store.dispatch('createUser', { name: this.formFields.name });
+      this.showDialogUsers = false;
     },
 
     deleteUser() {
-      console.log('Участник удалён', this.name, this.id);
+      console.log('Участник удалён', this.formFields.name, this.id);
       this.$store.dispatch('deleteUser', this.id);
-      this.showDialog = false;
+      this.showDialogUsers = false;
     },
 
     saveUser() {
-      console.log('Участник сохранен', this.id, this.name, this.UpdateDate);
+      console.log('Участник сохранен', this.id, this.formFields.name, this.UpdateDate);
       this.$store.dispatch('saveUser', {
-        name: this.name,
+        name: this.formFields.name,
         id: this.id,
         UpdateDate: this.UpdateDate,
       });
-      this.showDialog = false;
+      this.showDialogUsers = false;
     },
   },
 };
 </script>
 
 <style>
-.mb15 {
-  margin-bottom: 15px;
-  text-decoration: none;
-  margin: 5px;
-  box-sizing: border-box;
-  max-width: 150px;
-  font-size: 100%;
-  text-align: center;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  border-radius: 3px;
-  background: rgb(149, 248, 18);
-  box-shadow: 0 -3px rgb(149, 248, 18) inset;
+.test {
+  display: flex;
+  flex-flow: row nowrap;
 }
 .content {
   margin: 70px auto;

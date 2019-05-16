@@ -43,10 +43,13 @@ export default {
   formFields: {
     modalSubmitButton: '',
     modalTitle: '',
+    label: '',
+    disableInput: false,
     name: '',
     description: '',
     selectedElement: '',
     rgb: '',
+    userId: '',
     oldUser: '',
     current: 'rgb(244, 67, 54)',
     nameRules: [v => !!v || 'Описание обязательно'],

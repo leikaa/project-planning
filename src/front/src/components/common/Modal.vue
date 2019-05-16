@@ -42,6 +42,7 @@
 <script>
 export default {
   name: 'Modal',
+  // eslint-disable-next-line vue/require-prop-types
   props: ['showDialog', 'modalTitle', 'activatorText', 'modalSubmitButton'],
   data() {
     return {
