@@ -53,7 +53,7 @@ export default {
         for (let i = 0; i < numWeeksInMonth; i++) {
           el.weeks[i] = [];
           for (let j = 0; j < NUM_DAYS_IN_WEEK; j++) {
-            if (numAddedDays == el.numDays) {
+            if (numAddedDays === el.numDays) {
               isAllDays = true;
             }
             numAddedDays = numAddedDays < el.numDays ? ++numAddedDays : 1;

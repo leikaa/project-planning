@@ -1,48 +1,54 @@
 <template>
-<v-app>
-  <v-data-table
-    :headers="headers"
-    :items="items"
-    :loading="true"
-    :rows-per-page-items="defaultPagination"
-    @update:pagination="$emit('update:pagination', $event)"
-    class="elevation-1"
-    :total-items="totalItems"
-    :disable-initial-sort="disableInitialSort"
-    :hide-actions="hideActions"
-    no-data-text="Нет данных">
-  >
-  <template v-slot:progress>
-    <v-progress-linear
-      color="blue"
-      indeterminate
-      :active="loading"
-    />
-  </template>
-    <template v-slot:items="props">
-      <td
-        v-for="(field, index) in visibleHeaders"
-        :key="props.index + '_' + index"
-        :data-key="props.index + '_' + index"
-        :class="getClassName(field)"
-        @click="click(props)"
+  <v-app>
+    <v-data-table
+      :headers="headers"
+      :items="items"
+      :loading="true"
+      :rows-per-page-items="defaultPagination"
+      class="elevation-1"
+      :total-items="totalItems"
+      :disable-initial-sort="disableInitialSort"
+      :hide-actions="hideActions"
+      no-data-text="Нет данных"
+      @update:pagination="$emit('update:pagination', $event)"
+    >
       >
-        {{ getTransformedValue(field.value, props.item[field.value]) }}
-      </td>
-      <td class="justify-center layout px-0s table-controls" :class="{invisible: !showControls}">
-        <v-btn
-          class="mx-0"
-          icon
-          @click="emit(control.emit, props.item)"
-          v-for="(control, controlIndex) in controls"
-          :key="props.index + '_' + controlIndex"
+      <template v-slot:progress>
+        <v-progress-linear
+          color="blue"
+          indeterminate
+          :active="loading"
+        />
+      </template>
+      <template v-slot:items="props">
+        <td
+          v-for="(field, index) in visibleHeaders"
+          :key="props.index + '_' + index"
+          :data-key="props.index + '_' + index"
+          :class="getClassName(field)"
+          @click="click(props)"
         >
-          <v-icon :color="control.color">{{ control.icon }}</v-icon>
-        </v-btn>
-      </td>
-    </template>
-  </v-data-table>
-</v-app>
+          {{ getTransformedValue(field.value, props.item[field.value]) }}
+        </td>
+        <td
+          class="justify-center layout px-0s table-controls"
+          :class="{invisible: !showControls}"
+        >
+          <v-btn
+            v-for="(control, controlIndex) in controls"
+            :key="props.index + '_' + controlIndex"
+            class="mx-0"
+            icon
+            @click="emit(control.emit, props.item)"
+          >
+            <v-icon :color="control.color">
+              {{ control.icon }}
+            </v-icon>
+          </v-btn>
+        </td>
+      </template>
+    </v-data-table>
+  </v-app>
 </template>
 
 <script>
@@ -88,7 +94,7 @@ export default {
       return value;
     },
 
-   click(props) {
+    click(props) {
       this.$emit('click', props.item, props.index);
     },
   },

@@ -4,6 +4,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
+
 const distPath = path.resolve(__dirname, 'dist');
 
 module.exports = (env, argv) => {
@@ -15,13 +16,13 @@ module.exports = (env, argv) => {
     output: {
       filename: 'bundle.js',
       path: distPath,
-      publicPath: "/",
+      publicPath: '/',
     },
     module: {
       rules: [
         {
           test: /\.html$/,
-          use: 'html-loader'
+          use: 'html-loader',
         },
         {
           test: /\.js$/,
@@ -36,12 +37,12 @@ module.exports = (env, argv) => {
             {
               loader: 'css-loader',
               options: {
-               // minimize: isProduction
-              }
+                // minimize: isProduction
+              },
             },
             'sass-loader',
-            'resolve-url-loader'
-          ]
+            'resolve-url-loader',
+          ],
         },
         {
           test: /\.sass$/,
@@ -66,17 +67,17 @@ module.exports = (env, argv) => {
             {
               loader: 'file-loader',
               options: {
-                name: 'images/[name][hash].[ext]'
-              }
+                name: 'images/[name][hash].[ext]',
+              },
             },
             {
               loader: 'image-webpack-loader',
               options: {
                 mozjpeg: {
                   progressive: true,
-                  quality: 70
-                }
-              }
+                  quality: 70,
+                },
+              },
             },
           ],
         },
@@ -85,8 +86,8 @@ module.exports = (env, argv) => {
           use: {
             loader: 'file-loader',
             options: {
-              name: 'fonts/[name][hash].[ext]'
-            }
+              name: 'fonts/[name][hash].[ext]',
+            },
           },
         },
         {
@@ -100,18 +101,18 @@ module.exports = (env, argv) => {
                 'css-loader',
                 'sass-loader?indentedSyntax',
               ],
-            }
-          }
-        }
+            },
+          },
+        },
       ],
     },
     plugins: [
       new VueLoaderPlugin(),
       new MiniCssExtractPlugin({
         filename: '[name].css',
-        chunkFilename: '[id].css'
+        chunkFilename: '[id].css',
       }),
-      //new ExtractTextPlugin('[name].css'),
+      // new ExtractTextPlugin('[name].css'),
       new HtmlWebpackPlugin({
         template: './src/index.html',
       }),
@@ -130,10 +131,10 @@ module.exports = (env, argv) => {
     },
     resolve: {
       alias: {
-        'vue$': 'vue/dist/vue.esm.js'
+        vue$: 'vue/dist/vue.esm.js',
       },
       modules: ['node_modules', path.resolve(__dirname, 'src')],
-      extensions: ['*', '.js', '.vue', '.css' , '.json']
-    }
+      extensions: ['*', '.js', '.vue', '.css', '.json'],
+    },
   };
-}
+};
