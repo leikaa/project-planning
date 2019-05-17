@@ -1,11 +1,11 @@
 <template>
-	<div class="wrap">
-    <change-users-in-projects/>
+  <div class="wrap">
+    <change-users-in-projects />
     <div class="calendar-task">
-      <calendar-header/>
-       <user-task/>
+      <calendar-header />
+      <user-task />
     </div>
-   <backlog/> 
+    <backlog />
   </div>
 </template>
 
@@ -23,10 +23,10 @@ export default {
     ChangeUsersInProjects,
     CalendarHeader,
     UserTask,
-    Backlog
+    Backlog,
   },
- 
-}
+
+};
 
 </script>
 <style lang="scss">
@@ -39,5 +39,4 @@ body{
   width: 24000px;
   display: flex;
 }
-
 </style>

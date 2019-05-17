@@ -6,45 +6,50 @@
     content-class="projects"
     no-data-text="Нет данных"
   >
-    <template v-slot:item="props"> 
+    <template v-slot:item="props">
       <div>
-      <router-link :to="{name :'Project', params: {id: props.item._id}}" class="project_name">
-        <div>
-          <h4>{{ props.item.name }}</h4>
-        </div>
-      </router-link>
-      <div class="elem">
-        <v-btn
-          class="mx-0"
-          icon
-          @click="emit(control.emit, props.item)"
-          v-for="(control, controlIndex) in controls"
-          :key="props.index + '_' + controlIndex"
+        <router-link
+          :to="{name :'Project', params: {id: props.item._id}}"
+          class="project_name"
         >
-          <v-icon :color="control.color">{{ control.icon }}</v-icon>
-        </v-btn>
-      </div>
+          <div>
+            <h4>{{ props.item.name }}</h4>
+          </div>
+        </router-link>
+        <div class="elem">
+          <v-btn
+            v-for="(control, controlIndex) in controls"
+            :key="props.index + '_' + controlIndex"
+            class="mx-0"
+            icon
+            @click="emit(control.emit, props.item)"
+          >
+            <v-icon :color="control.color">
+              {{ control.icon }}
+            </v-icon>
+          </v-btn>
+        </div>
       </div>
     </template>
   </v-data-iterator>
 </template>
- 
- 
- <script>
+
+
+<script>
 export default {
-  name: "ProjectData",
-  props: ["items", "controls"],
+  name: 'ProjectData',
+  props: ['items', 'controls'],
   computed: {
     showControls() {
       return this.$props.controls && this.$props.controls.length;
-    }
+    },
   },
   methods: {
     emit(emit, item) {
-      console.log("emit", emit, item);
+      // console.log('emit', emit, item);
       this.$emit(emit, item);
-    }
-  }
+    },
+  },
 };
 </script>
 

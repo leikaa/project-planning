@@ -1,25 +1,33 @@
 <template>
   <div class="users">
-    <v-data-iterator 
-    :items="items" 
-    hide-actions 
-    no-data-text="Нет данных">
-    <template v-slot:item="props"> 
-      <div class="user users__item user-task">
-        <div class="user__name pi" align="center">{{props.item.name }}</div>
-        <div class="el">
-          <v-btn
-            class="mx-0"
-            icon
-            @click="emit(control.emit, props.item)"
-            v-for="(control, controlIndex) in controls"
-            :key="props.index + '_' + controlIndex"
+    <v-data-iterator
+      :items="items"
+      hide-actions
+      no-data-text="Нет данных"
+    >
+      <template v-slot:item="props">
+        <div class="user users__item user-task">
+          <div
+            class="user__name pi"
+            align="center"
           >
-            <v-icon :color="control.color">{{ control.icon }}</v-icon>
-          </v-btn>
+            {{ props.item.name }}
+          </div>
+          <div class="el">
+            <v-btn
+              v-for="(control, controlIndex) in controls"
+              :key="props.index + '_' + controlIndex"
+              class="mx-0"
+              icon
+              @click="emit(control.emit, props.item)"
+            >
+              <v-icon :color="control.color">
+                {{ control.icon }}
+              </v-icon>
+            </v-btn>
+          </div>
         </div>
-      </div>
-    </template>
+      </template>
     </v-data-iterator>
   </div>
 </template>
@@ -27,14 +35,14 @@
 
 <script>
 export default {
-  name: "User",
-  props: ["items", "controls"],
+  name: 'User',
+  props: ['items', 'controls'],
   methods: {
     emit(emit, item) {
-      console.log("emit", emit, item);
+      console.log('emit', emit, item);
       this.$emit(emit, item);
-    }
-  }
+    },
+  },
 };
 </script>
 

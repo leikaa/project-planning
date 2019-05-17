@@ -1,34 +1,35 @@
 <template>
   <div class="calendar">
     <month
-      v-for="item in getMonthWithDays()" 
-      v-bind:key="item.name"
-      v-bind:item="item"
+      v-for="(item, index) in getMonthWithDays()"
+      :key="item.name"
+      :item="item"
+      :data-index="index"
     />
   </div>
 </template>
 
 <script>
-import moment from 'moment';  
-import Month from './Month.vue'; 
+import moment from 'moment';
+import Month from './Month.vue';
 
-const NUM_ALL_MONTH = 36,
-      NUM_DAYS_IN_WEEK = 7,
-      CUR_YEAR = moment().format('2018'); 
+const NUM_ALL_MONTH = 36;
+const NUM_DAYS_IN_WEEK = 7;
+const CUR_YEAR = moment().format('2018');
 
 export default {
   name: 'CalendarHeader',
   components: {
-    Month, 
+    Month,
   },
   data() {
     return {
-      months: [] 
-    }
+      months: [],
+    };
   },
   methods: {
     getMonthWithDays() {
-      let months = []; 
+      const months = [];
       this.setMonths(months);
       this.setWeeks(months);
       return months;
@@ -38,29 +39,29 @@ export default {
         months.push({
           numDays: new Date(CUR_YEAR, i + 1, 0).getDate(),
           name: moment([2018]).month(i).format('MMMM - YYYY'),
-          nextMonthName: moment([2018]).month(i + 1).format('MMMM - YYYY'), 
-          weeks: [], 
+          nextMonthName: moment([2018]).month(i + 1).format('MMMM - YYYY'),
+          weeks: [],
         });
       }
     },
     setWeeks(months) {
       let numAddedDays = 0;
-      
-      months.forEach((el, numMonth) => { 
-        let numWeeksInMonth = Math.ceil(el.numDays / NUM_DAYS_IN_WEEK);
-        let isAllDays = false; 
-        for (let i = 0; i < numWeeksInMonth; i++) { 
-          el.weeks[i] = [];   
+
+      months.forEach((el, numMonth) => {
+        const numWeeksInMonth = Math.ceil(el.numDays / NUM_DAYS_IN_WEEK);
+        let isAllDays = false;
+        for (let i = 0; i < numWeeksInMonth; i++) {
+          el.weeks[i] = [];
           for (let j = 0; j < NUM_DAYS_IN_WEEK; j++) {
-            if (numAddedDays == el.numDays) {
+            if (numAddedDays === el.numDays) {
               isAllDays = true;
             }
-            numAddedDays = numAddedDays < el.numDays ? ++numAddedDays : 1; 
+            numAddedDays = numAddedDays < el.numDays ? ++numAddedDays : 1;
 
-             let curDay = new Date(CUR_YEAR, numMonth, numAddedDays);
+            const curDay = new Date(CUR_YEAR, numMonth, numAddedDays);
 
             el.weeks[i].push({
-              name: moment(curDay).weekday(j+1).format('dd'),
+              name: moment(curDay).weekday(j + 1).format('dd'),
               num: numAddedDays,
             });
           }
@@ -69,11 +70,10 @@ export default {
             break;
           }
         }
-
       });
     },
   },
-}
+};
 </script>
 <style lang="scss">
 .calendar{
