@@ -32,7 +32,7 @@ export default {
   },
   methods: {
     getMonthName(weeks, index) {
-      //console.log(weeks);
+      // console.log(weeks);
       if (index !== weeks.length - 1) {
         return this.item.name;
       }

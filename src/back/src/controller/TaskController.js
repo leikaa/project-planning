@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 class TaskController {
   constructor({
     getTask,
@@ -12,20 +13,39 @@ class TaskController {
   }
 
   async getList() {
-    return await this.getTask.get();
+    try {
+      return await this.getTask.get();
+    } catch (err) {
+      console.error(err);
+      return false;
+    }
   }
 
   async create(params) {
-    return await this.createTask.execute(params);
+    try {
+      return await this.createTask.execute(params);
+    } catch (err) {
+      console.error(err);
+      return false;
+    }
   }
 
   async delete(params) {
-    return await this.deleteTask.execute(params);
+    try {
+      return await this.deleteTask.execute(params);
+    } catch (err) {
+      console.error(err);
+      return false;
+    }
   }
 
   async update(filter, update) {
-    console.log('UpdateTask', filter, update);
-    return await this.updateTask.execute(filter, update);
+    try {
+      return await this.updateTask.execute(filter, update);
+    } catch (err) {
+      console.error(err);
+      return false;
+    }
   }
 }
 

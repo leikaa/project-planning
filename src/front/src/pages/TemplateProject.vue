@@ -81,7 +81,7 @@ export default {
       } else {
         monday.setDate(currentDay.getDate() + 1);
       }
-      console.log(monday)
+      // console.log(monday)
       return monday;
     },
     getCurrentWeekCords() {
