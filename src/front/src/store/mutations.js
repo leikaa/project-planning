@@ -41,69 +41,69 @@ export default {
     });
   },
 
-  CREATE_PROJECT(_, data) {
-    console.log('CREATE PROJECT - ', data);
-  },
+  // CREATE_PROJECT(_, data) {
+  //   console.log('CREATE PROJECT - ', data);
+  // },
 
-  DELETED_PROJECT(_, data) {
-    console.log('DELETED PROJECT - ', data);
-  },
+  // DELETED_PROJECT(_, data) {
+  //   console.log('DELETED PROJECT - ', data);
+  // },
 
-  ADD_USER_TO_PROJECT(_, data) {
-    console.log('ADD USER TO PROJECT - ', data);
-  },
+  // ADD_USER_TO_PROJECT(_, data) {
+  //   console.log('ADD USER TO PROJECT - ', data);
+  // },
 
-  DELETE_USER_FROM_PROJECT(_, data) {
-    console.log('DELETE USER FROM PROJECT - ', data);
-  },
+  // DELETE_USER_FROM_PROJECT(_, data) {
+  //   console.log('DELETE USER FROM PROJECT - ', data);
+  // },
 
-  SAVED_PROJECT(_, data) {
-    console.log('SAVED PROJECT - ', data);
-  },
+  // SAVED_PROJECT(_, data) {
+  //   console.log('SAVED PROJECT - ', data);
+  // },
 
   LOADED_USERS(state, data) {
     console.log('LOADED_USERS', data);
     state.users = data.map(elem => elem);
   },
 
-  CREATE_USER(_, data) {
-    console.log('CREATE USER - ', data);
-  },
+  // CREATE_USER(_, data) {
+  //   console.log('CREATE USER - ', data);
+  // },
 
-  DELETED_USER(_, data) {
-    console.log('DELETED USER - ', data);
-  },
+  // DELETED_USER(_, data) {
+  //   console.log('DELETED USER - ', data);
+  // },
 
-  SAVED_USER(_, data) {
-    console.log('SAVED USER - ', data);
-  },
+  // SAVED_USER(_, data) {
+  //   console.log('SAVED USER - ', data);
+  // },
 
   LOADED_TASKS(state, data) {
     console.log('LOADED_TASKS', data);
     state.tasks = data.map(elem => elem);
   },
 
-  CREATE_TASK(_, data) {
-    console.log('CREATE TASK - ', data);
-  },
+  // CREATE_TASK(_, data) {
+  //   console.log('CREATE TASK - ', data);
+  // },
 
-  DELETE_TASK_FROM_PROJECT(_, data) {
-    console.log('DELETE TASK FROM PROJECT - ', data);
-  },
+  // DELETE_TASK_FROM_PROJECT(_, data) {
+  //   console.log('DELETE TASK FROM PROJECT - ', data);
+  // },
 
-  DELETED_TASK(_, data) {
-    console.log('DELETED TASK - ', data);
-  },
+  // DELETED_TASK(_, data) {
+  //   console.log('DELETED TASK - ', data);
+  // },
 
-  SAVED_TASK(_, data) {
-    console.log('SAVED TASK - ', data);
-  },
+  // SAVED_TASK(_, data) {
+  //   console.log('SAVED TASK - ', data);
+  // },
 
-  SERVERS_STATUS_LOADED(_, data) {
-    console.log('SERVERS STATUSE LOADED - ', data);
-  },
+  // SERVERS_STATUS_LOADED(_, data) {
+  //   console.log('SERVERS STATUSE LOADED - ', data);
+  // },
 
-  ADD_TASK_TO_USER(_, data) {
-    console.log('ADD USER TO PROJECT - ', data);
-  },
+  // ADD_TASK_TO_USER(_, data) {
+  //   console.log('ADD USER TO PROJECT - ', data);
+  // },
 };
