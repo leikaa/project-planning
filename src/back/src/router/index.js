@@ -1,10 +1,8 @@
-'use strict';
-//Отправляет данные с клиента на сервер.
+/* eslint-disable no-console */
 
 const bodyParser = require('body-parser');
 
 class Routes {
-
   constructor({
     logger,
     httpServer,
@@ -38,21 +36,22 @@ class Routes {
     this.httpServer.post('/projects/:id/add_user/:userId', async (req, res) => {
       try {
         const answer = await this.projectController.addUsers(req.params.id, req.params.userId);
-        if(answer) {
-          res.send({status: 'ok'});
+        if (answer) {
+          res.send({ status: 'ok' });
         }
-      } catch(err){
+      } catch (err) {
         console.error(err);
       }
     });
 
     this.httpServer.delete('/projects/:id/users/:userId', async (req, res) => {
-      try{
-        const answer = await this.projectController.deleteUserFromProject(req.params.id, req.params.userId);
-        if(answer) {
-          res.send({status: 'ok'});
+      try {
+        const answer = await this.projectController
+          .deleteUserFromProject(req.params.id, req.params.userId);
+        if (answer) {
+          res.send({ status: 'ok' });
         }
-      } catch(err){
+      } catch (err) {
         console.error(err);
       }
     });
@@ -60,10 +59,10 @@ class Routes {
     this.httpServer.delete('/projects/:id', async (req, res) => {
       try {
         const answer = await this.projectController.delete({
-          '_id': req.params.id
+          _id: req.params.id,
         });
         if (answer) {
-          res.send({status: 'ok'});
+          res.send({ status: 'ok' });
         }
       } catch (err) {
         console.error(err);
@@ -73,8 +72,8 @@ class Routes {
     this.httpServer.post('/projects', bodyParser.json(), async (req, res) => {
       try {
         const answer = await this.projectController.create(req.body);
-        if (answer == true) {
-          res.send({status: 'ok'});
+        if (answer === true) {
+          res.send({ status: 'ok' });
         }
       } catch (err) {
         console.error(err);
@@ -84,10 +83,10 @@ class Routes {
     this.httpServer.post('/projects/:id', bodyParser.json(), async (req, res) => {
       try {
         const answer = await this.projectController.update({
-          '_id': req.params.id
+          _id: req.params.id,
         }, req.body);
         if (answer) {
-          res.send({status: 'ok'});
+          res.send({ status: 'ok' });
         }
       } catch (err) {
         console.error(err);
@@ -96,9 +95,10 @@ class Routes {
 
     this.httpServer.delete('/users/:id/task/:taskId', async (req, res) => {
       try {
-        const answer = await this.userController.deleteTaskFromUser(req.params.id, req.params.taskId);
+        const answer = await this.userController
+          .deleteTaskFromUser(req.params.id, req.params.taskId);
         if (answer) {
-          res.send({status: 'ok'});
+          res.send({ status: 'ok' });
         }
       } catch (err) {
         console.error(err);
@@ -108,7 +108,7 @@ class Routes {
     this.httpServer.get('/users', async (_, res) => {
       try {
         const data = await this.userController.getList();
-        res.send({status: 'ok', data});
+        res.send({ status: 'ok', data });
       } catch (err) {
         console.error(err);
       }
@@ -117,10 +117,10 @@ class Routes {
     this.httpServer.post('/users/:id', bodyParser.json(), async (req, res) => {
       try {
         const answer = await this.userController.update({
-          '_id': req.params.id
+          _id: req.params.id,
         }, req.body);
         if (answer) {
-          res.send({status: 'ok'});
+          res.send({ status: 'ok' });
         }
       } catch (err) {
         console.error(err);
@@ -130,10 +130,10 @@ class Routes {
     this.httpServer.delete('/users/:id', async (req, res) => {
       try {
         const answer = await this.userController.delete({
-          '_id': req.params.id
+          _id: req.params.id,
         });
         if (answer) {
-          res.send({status: 'ok'});
+          res.send({ status: 'ok' });
         }
       } catch (err) {
         console.error(err);
@@ -144,7 +144,7 @@ class Routes {
       try {
         const answer = await this.userController.create(req.body);
         if (answer) {
-          res.send({status: 'ok'});
+          res.send({ status: 'ok' });
         }
       } catch (err) {
         console.error(err);
@@ -154,7 +154,7 @@ class Routes {
     this.httpServer.get('/tasks', async (_, res) => {
       try {
         const data = await this.taskController.getList();
-        res.send({status: 'ok', data});
+        res.send({ status: 'ok', data });
       } catch (err) {
         console.error(err);
       }
@@ -163,10 +163,10 @@ class Routes {
     this.httpServer.post('/tasks/:id', bodyParser.json(), async (req, res) => {
       try {
         const answer = await this.taskController.update({
-          '_id': req.params.id
+          _id: req.params.id,
         }, req.body);
         if (answer) {
-          res.send({status: 'ok'});
+          res.send({ status: 'ok' });
         }
       } catch (err) {
         console.error(err);
@@ -176,10 +176,10 @@ class Routes {
     this.httpServer.delete('/task/:taskId', async (req, res) => {
       try {
         const answer = await this.taskController.delete({
-          '_id': req.params.taskId
+          _id: req.params.taskId,
         });
         if (answer) {
-          res.send({status: 'ok'});
+          res.send({ status: 'ok' });
         }
       } catch (err) {
         console.error(err);
@@ -190,7 +190,7 @@ class Routes {
       try {
         const answer = await this.taskController.create(req.body);
         if (answer) {
-          res.send({status: 'ok'});
+          res.send({ status: 'ok' });
         }
       } catch (err) {
         console.error(err);
@@ -200,26 +200,26 @@ class Routes {
     this.httpServer.post('/users/:id/add_task/:taskId', async (req, res) => {
       try {
         const answer = await this.userController.addTasks(req.params.id, req.params.taskId);
-        if(answer) {
-          res.send({status: 'ok'});
+        if (answer) {
+          res.send({ status: 'ok' });
         }
-      } catch(err){
+      } catch (err) {
         console.error(err);
       }
     });
 
-    this.httpServer.all('*', function (req, res) {
+    this.httpServer.all('*', (req, res) => {
       self.logger.error('Bad request', req.params);
       res.status(400).send('Bad request');
     });
 
     this.httpServer.listen(this.config.port, (err) => {
       if (err) {
-        self.logger.error(`Server error`, err);
+        self.logger.error('Server error', err);
         return;
       }
       self.logger.info(`Server is listening on ${this.config.port}`);
-    })
+    });
   }
 }
 

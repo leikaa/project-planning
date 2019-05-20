@@ -1,5 +1,3 @@
-'use strict';
-
 class ProjectController {
   constructor({
     getProjects,
@@ -40,10 +38,8 @@ class ProjectController {
   }
 
   async update(filter, update) {
-    console.log('UpdateProject', filter, update);
     return await this.updateProject.execute(filter, update);
   }
-
 }
 
 module.exports = ProjectController;

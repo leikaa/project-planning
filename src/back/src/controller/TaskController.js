@@ -1,6 +1,3 @@
-'use strict';
-//Получает данные с router и отправляет с command
-
 class TaskController {
   constructor({
     getTask,
@@ -30,7 +27,6 @@ class TaskController {
     console.log('UpdateTask', filter, update);
     return await this.updateTask.execute(filter, update);
   }
-
 }
 
 module.exports = TaskController;

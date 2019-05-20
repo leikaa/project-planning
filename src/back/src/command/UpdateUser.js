@@ -1,4 +1,6 @@
-'use strict';
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-param-reassign */
+// 'use strict';
 
 class UpdateUser {
   constructor({
@@ -10,12 +12,12 @@ class UpdateUser {
   }
 
   async execute(filter, update) {
-      this.logger.debug('UpdateUser', filter, update);
-      const id = update.id;
-      delete(update.id);
-      await this.userModel.findOneAndUpdate(filter, update);
-      update._id = id;
-      return true;
+    this.logger.debug('UpdateUser', filter, update);
+    const id = update;
+    delete update.id;
+    await this.userModel.findOneAndUpdate(filter, update);
+    update._id = id;
+    return true;
   }
 }
 

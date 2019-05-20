@@ -1,6 +1,5 @@
-'use strict';
-
-class  UserController {
+/* eslint-disable no-console */
+class UserController {
   constructor({
     getUsers,
     updateUser,

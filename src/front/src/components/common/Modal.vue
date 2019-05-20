@@ -1,6 +1,7 @@
 <template>
   <v-dialog
     v-model="showDialog"
+    persistent
     width="500"
   >
     <template v-slot:activator="click" />
@@ -42,7 +43,6 @@
 <script>
 export default {
   name: 'Modal',
-  // eslint-disable-next-line vue/require-prop-types
   props: ['showDialog', 'modalTitle', 'activatorText', 'modalSubmitButton'],
   data() {
     return {
@@ -53,6 +53,17 @@ export default {
     formFields() {
       return this.$store.state.formFields;
     },
+    // test: {
+    //   get() {
+    //     return this.showDialog;
+    //   },
+    //   set(newValue) {
+    //     this.showDialog = newValue;
+    //   },
+    // },
+    // // test() {
+    // //   return this.showDialog;
+    // // },
   },
   methods: {
     toggleModal() {

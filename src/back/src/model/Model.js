@@ -1,12 +1,11 @@
-'use strict';
-//Определяеться порядок записи в базу
+/* eslint-disable no-console */
 class Model {
-  constructor({ db, collectionName, logger, }) {
+  constructor({ db, collectionName, logger }) {
     this.db = db;
     this.collectionName = collectionName;
     this.logger = logger;
   }
-  
+
   async getList() {
     return this.find().toArray();
   }
@@ -30,15 +29,15 @@ class Model {
       .collection(this.collectionName)
       .findOneAndUpdate(
         this.getFilter(filter), {
-          $set: update 
-        }, 
-        params
+          $set: update,
+        },
+        params,
       )
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
         this.logger.error('Error', err);
       });
-      console.log("Результат обновления", result)
+    console.log('Результат обновления', result);
     return result;
   }
 

@@ -1,4 +1,5 @@
 const { transports, format, createLogger } = require('winston');
+
 const { printf } = format;
 const colors = require('colors/safe');
 const util = require('util');
@@ -130,9 +131,9 @@ class Log {
 
   /**
    * Логгирование с учетом исключаемых элементов
-   * @param {*} level 
-   * @param {*} msg 
-   * @param {*} context 
+   * @param {*} level
+   * @param {*} msg
+   * @param {*} context
    */
   log(level, msg, context) {
     if (!msg.includes) {
@@ -145,7 +146,7 @@ class Log {
         this.logger.log(level, msg, context);
       }
       return;
-    } 
+    }
     this.logger.log(level, msg, context);
   }
 }

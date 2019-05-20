@@ -1,4 +1,6 @@
-'use strict';
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-param-reassign */
+// 'use strict';
 
 class UpdateTask {
   constructor({
@@ -13,8 +15,8 @@ class UpdateTask {
 
   async execute(filter, update) {
     this.logger.debug('UpdateTask', filter, update);
-    const id = update.id;
-    delete(update.id);
+    const id = update;
+    delete (update.id);
     await this.taskModel.findOneAndUpdate(filter, update);
     update._id = id;
     return true;

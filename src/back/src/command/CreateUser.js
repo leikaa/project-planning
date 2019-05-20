@@ -1,4 +1,5 @@
-'use strict';
+/* eslint-disable no-param-reassign */
+// 'use strict';
 
 class CreateUser {
   constructor({
@@ -14,7 +15,7 @@ class CreateUser {
     params.task = [];
     const result = await this.userModel.insertOne(params);
     this.logger.debug('CreateUser 2', result);
-    return true
+    return true;
   }
 }
 
