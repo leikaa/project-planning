@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-
 const bodyParser = require('body-parser');
 
 class Routes {

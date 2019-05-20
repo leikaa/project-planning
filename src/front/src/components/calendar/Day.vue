@@ -10,7 +10,7 @@ export default {
   props: {
     dayInWeek: {
       type: Number,
-    },  
+    },
     dayInName: {
       type: String,
     },

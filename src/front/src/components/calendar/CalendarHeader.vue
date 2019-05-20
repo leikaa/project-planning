@@ -17,6 +17,7 @@ const NUM_ALL_MONTH = 36;
 const NUM_DAYS_IN_WEEK = 7;
 const CUR_YEAR = moment().format('2018');
 
+
 export default {
   name: 'CalendarHeader',
   components: {
@@ -35,17 +36,21 @@ export default {
       return months;
     },
     setMonths(months) {
-      for (let i = 0; i < NUM_ALL_MONTH; i++) {
+      for (let i = 0; i < NUM_ALL_MONTH; i += 1) {
         months.push({
           numDays: new Date(CUR_YEAR, i + 1, 0).getDate(),
           name: moment([2018]).month(i).format('MMMM - YYYY'),
           nextMonthName: moment([2018]).month(i + 1).format('MMMM - YYYY'),
+          index: i,
           weeks: [],
         });
       }
+      // console.log('months', months.week);
     },
     setWeeks(months) {
       let numAddedDays = 0;
+
+      // console.log('months', months);
 
       months.forEach((el, numMonth) => {
         const numWeeksInMonth = Math.ceil(el.numDays / NUM_DAYS_IN_WEEK);
@@ -57,8 +62,10 @@ export default {
               isAllDays = true;
             }
             numAddedDays = numAddedDays < el.numDays ? ++numAddedDays : 1;
+            // console.log(numAddedDays)
 
             const curDay = new Date(CUR_YEAR, numMonth, numAddedDays);
+            // console.log(numMonth)
 
             el.weeks[i].push({
               name: moment(curDay).weekday(j + 1).format('dd'),
@@ -66,10 +73,14 @@ export default {
             });
           }
 
-          if (isAllDays && el.weeks[i].length == NUM_DAYS_IN_WEEK) {
+          if (isAllDays && el.weeks[i].length === NUM_DAYS_IN_WEEK) {
             break;
           }
         }
+        // const test = el.weeks.map((elem) => {
+        //   // var a = elem.length
+        //   console.log(elem)
+        // });
       });
     },
   },

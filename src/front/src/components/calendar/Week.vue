@@ -54,6 +54,7 @@ export default {
   text-align: center;
   position: relative;
   display: flex;
+  padding-top: 18px;
   &__month-info{
     display: flex;
     position: absolute;

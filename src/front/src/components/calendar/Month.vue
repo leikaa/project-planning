@@ -1,9 +1,12 @@
 <template>
   <div class="month calendar__month">
+    <div class="month__month-inf">
+      {{ monthName }}
+    </div>
     <week
       v-for="(days, index) in item.weeks"
       :key="index"
-      :monthName="getMonthName(item.weeks, index)"
+      :month-name="getMonthName(item.weeks, index)"
       :days="days"
     />
   </div>
@@ -11,39 +14,51 @@
 
 <script>
 import Week from './Week.vue';
+
 export default {
   name: 'Month',
+  components: {
+    Week,
+  },
   props: {
     item: {
       type: Object,
     },
   },
-  components: {
-    Week, 
-  },
   computed: {
     monthName() {
-      return this.item.name; 
+      return this.item.name;
     },
   },
   methods: {
     getMonthName(weeks, index) {
-      if (index != weeks.length - 1) {
+      //console.log(weeks);
+      if (index !== weeks.length - 1) {
         return this.item.name;
       }
-      let lastDaysInMonth = [28, 29, 30, 31]; 
-      let lastWeek = weeks[weeks.length - 1];
-      let numLastDayInWeek = lastWeek[lastWeek.length - 1].num;
-      return lastDaysInMonth.includes(numLastDayInWeek) ? this.item.name : this.item.nextMonthName;
+      const lastDaysInMonth = [28, 29, 30, 31];
+      const lastWeek = weeks[weeks.length - 1];
+      const numLastDayInWeek = lastWeek[lastWeek.length - 1].num;
+      const test = lastDaysInMonth.includes(numLastDayInWeek) ? this.item.name : this.item.nextMonthName;
+      // console.log(test);
+      return test;
     },
   },
-}
+};
 </script>
 <style lang="scss">
 .month{
   position: relative;
   display: flex;
-  height: 54px;
+  height: 70px;
   background: #fff;
+   &__month-inf{
+    display: flex;
+    position: absolute;
+    width: 100%;
+    justify-content:center;
+    pointer-events: none;
+    border: 1px solid gray;
+  }
 }
 </style>
