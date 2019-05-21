@@ -1,6 +1,7 @@
 <template>
   <v-dialog
     v-model="showDialog"
+    persistent
     width="500"
   >
     <template v-slot:activator="click" />
@@ -42,7 +43,6 @@
 <script>
 export default {
   name: 'Modal',
-  // eslint-disable-next-line vue/require-prop-types
   props: ['showDialog', 'modalTitle', 'activatorText', 'modalSubmitButton'],
   data() {
     return {
@@ -55,9 +55,6 @@ export default {
     },
   },
   methods: {
-    toggleModal() {
-      this.$emit('toggleModal');
-    },
     confirmModalAction() {
       this.$emit('modalConfirm');
     },

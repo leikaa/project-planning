@@ -4,4 +4,4 @@ module.exports = {
     url: 'mongodb://mongo',
     name: 'ProjectDB',
   },
-}
+};

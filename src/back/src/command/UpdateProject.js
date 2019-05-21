@@ -1,4 +1,6 @@
-'use strict';
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-param-reassign */
+// 'use strict';
 
 class UpdateProject {
   constructor({
@@ -11,8 +13,8 @@ class UpdateProject {
 
   async execute(filter, update) {
     this.logger.debug('UpdateProject', filter, update);
-    const id = update.id;
-    delete(update.id);
+    const id = update;
+    delete (update.id);
     await this.projectModel.findOneAndUpdate(filter, update);
     update._id = id;
     return true;

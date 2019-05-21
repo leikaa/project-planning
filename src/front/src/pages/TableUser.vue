@@ -43,11 +43,8 @@
 
 <script>
 import moment from 'moment';
-// eslint-disable-next-line import/no-unresolved
 import DataTable from '../components/DataTable';
-// eslint-disable-next-line import/no-unresolved
 import OneFieldModal from '../components/common/OneFieldModal ';
-// eslint-disable-next-line import/no-unresolved
 import CreateButton from '../components/button/CreateButton';
 import UpdateStatusButton from '../components/button/UpdateStatusButton';
 

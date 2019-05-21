@@ -1,55 +1,54 @@
-'use strict';
-
-const Model = require('./Model')
+/* eslint-disable no-console */
+const Model = require('./Model');
 
 class UserModel extends Model {
   constructor({ db }) {
-    super({ db, collectionName: 'user' })
+    super({ db, collectionName: 'user' });
   }
 
-  //Добавление задачи в коллекцию user.
+  // Добавление задачи в коллекцию user.
   async addTaskToUser(id, taskId) {
-    //console.log('addTaskToProject', id , taskId );
+    // console.log('addTaskToProject', id , taskId );
     const result = await this.db.get()
-      .collection(this.collectionName) 
+      .collection(this.collectionName)
       .findOneAndUpdate(
         {
           _id: this.db.objectId(id),
         },
         {
-          $push: { task: { taskId: this.db.objectId(taskId)}}
+          $push: { task: { taskId: this.db.objectId(taskId) } },
         },
       )
-      .catch(err => {
+      .catch((err) => {
         console.error(err);
       });
-      //console.log("Результат добавления задача в проект",result);
+      // console.log("Результат добавления задача в проект",result);
     return result;
   }
 
-  //Удаление задачи из проекта.
+  // Удаление задачи из проекта.
   async deleteTaskFromUser(id, taskId) {
-    //console.log('deleteTaskFromProject', id, taskId);
+    // console.log('deleteTaskFromProject', id, taskId);
     const result = await this.db.get()
       .collection(this.collectionName)
       .findOneAndUpdate(
         {
-          _id: this.db.objectId(id)
+          _id: this.db.objectId(id),
         },
         {
-         $pull: {
-           "task" : { taskId: this.db.objectId(taskId)}
-        }
+          $pull: {
+            task: { taskId: this.db.objectId(taskId) },
+          },
         },
       )
-      .catch(err => {
+      .catch((err) => {
         console.error(err);
       });
-      console.log(result);
+    console.log(result);
     return result;
   }
 
-  //Соеденение коллекции участников и задач.
+  // Соеденение коллекции участников и задач.
   // async JoinUserAndTaskList() {
   //   const result = await this.db.get()
   //   .collection(this.collectionName)
