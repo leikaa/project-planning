@@ -1,4 +1,4 @@
-'use strict';
+// 'use strict';
 
 class DeleteUser {
   constructor({
@@ -12,8 +12,7 @@ class DeleteUser {
   async execute(filter) {
     this.logger.warn('DeleteTask', filter);
     await this.userModel.deleteOne(filter);
-    return true
+    return true;
   }
 }
-
 module.exports = DeleteUser;

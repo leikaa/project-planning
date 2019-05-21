@@ -1,6 +1,6 @@
 <template>
   <div class="backlog">
-    <div class="backlog__item">
+    <div class="titel">
       <h2>Список задач проекта</h2>
     </div>
     <create-button
@@ -366,7 +366,6 @@ export default {
 
 <style lang="scss">
 .backlog {
-  position: sticky;
   right: 0;
   top: 0;
   width: 300px;
@@ -377,18 +376,23 @@ export default {
   padding: 10px;
   &__item {
     display: flex;
-    // width: 280px;
     height: 50px;
     margin-bottom: 10px;
     justify-content: center;
     align-items: center;
+    border-radius: 5px;
   }
 }
 .check {
   margin: 0px 0px 0px 0px;
 }
 .controls {
-  position: absolute;
+  display: flex;
   right: 10px;
+}
+.titel{
+  display: flex;
+  justify-content: center;
+  margin: 50px 0 0 0;
 }
 </style>

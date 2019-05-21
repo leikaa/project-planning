@@ -160,7 +160,7 @@ export default {
     },
 
     saveProject() {
-      console.log('Участник добавлен в проект', this.userId, this.id);
+      console.log('Участник добавлен в проект', this.formFields.selectedElement, this.id);
       this.$store.dispatch('addUserToProject', {
         userId: this.formFields.selectedElement,
         id: this.currentProjectId,

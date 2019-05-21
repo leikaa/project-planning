@@ -22,19 +22,11 @@ export default {
     Day,
   },
   props: {
-    item: {
-      type: Object,
-    },
     days: {
       type: Array,
     },
     monthName: {
       type: String,
-    },
-  },
-  computed: {
-    dayInWeek() {
-      return this.days.num;
     },
   },
   methods: {
@@ -54,6 +46,7 @@ export default {
   text-align: center;
   position: relative;
   display: flex;
+  padding-top: 18px;
   &__month-info{
     display: flex;
     position: absolute;

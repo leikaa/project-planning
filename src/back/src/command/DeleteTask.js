@@ -1,4 +1,4 @@
-'use strict';
+// 'use strict';
 
 class DeleteTask {
   constructor({
@@ -12,7 +12,7 @@ class DeleteTask {
   async execute(filter) {
     this.logger.warn('DeleteTask', filter);
     await this.taskModel.deleteOne(filter);
-    return true
+    return true;
   }
 }
 

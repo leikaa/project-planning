@@ -6,7 +6,8 @@ const router = require('./router');
 const config = require('./config');
 
 const IoC = require('./IoC');
-const ioc = new IoC;
+
+const ioc = new IoC();
 
 ioc.register({
   excludes: asValue([]),
@@ -25,8 +26,8 @@ const container = ioc.loadModules([
   'command/*.js',
 ], {
   resolverOptions: {
-    lifetime: Lifetime.SINGLETON
-  }
+    lifetime: Lifetime.SINGLETON,
+  },
 });
 
 module.exports = container;

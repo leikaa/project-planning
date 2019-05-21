@@ -1,4 +1,4 @@
-'use strict';
+// 'use strict';
 
 class App {
   constructor({ logger, db, router }) {
@@ -9,9 +9,9 @@ class App {
 
   run() {
     this.db.connect().then(() => {
-      this.logger.info(`Server started`);
+      this.logger.info('Server started');
       this.router.run();
-    })
+    });
   }
 }
 
