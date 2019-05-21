@@ -4,16 +4,44 @@
     <div class="calendar-task">
       <calendar-header />
       <div
-        class="highlightWeek"
+        class="currentWeek"
         :style="{ left: week + 'px' }"
       />
       <div
-        class="highlightDate"
+        class="currentDate"
         :style="{ left: left + 'px' }"
       />
       <user-task />
     </div>
-    <backlog />
+    <v-container
+      class="backlogButton"
+    >
+      <v-layout
+        class="backlogButton"
+      >
+        <v-btn
+          small
+          fab
+          dark
+          color="green lighten-2"
+          class="buttonBacklog"
+          @click.stop="drawer = !drawer"
+        >
+          <v-icon dark>
+            list
+          </v-icon>
+        </v-btn>
+      </v-layout>
+    </v-container>
+    <v-navigation-drawer
+      v-model="drawer"
+      fixed
+      temporary
+      hide-overlay
+      right
+    >
+      <backlog />
+    </v-navigation-drawer>
   </div>
 </template>
 
@@ -37,18 +65,9 @@ export default {
     return {
       left: 0,
       week: 0,
+      drawer: null,
     };
   },
-  // computed: {
-  //   getMondey() {
-  //     const date = new Date();
-  //     const m = new Date();
-  //     if (date.getDay()) {
-  //       m.setDate(date.getDate() + 1 - date.getDay());
-  //     } else { m.setDate(date.getDate() + 1); }
-  //     return m;
-  //   },
-  // },
   mounted() {
     const cordX = this.getCurrentDateCords();
     const cordWeek = this.getCurrentWeekCords();
@@ -74,21 +93,16 @@ export default {
       return cordX;
     },
     getMondey() {
-      const currentDay = new Date();
-      const monday = new Date();
-      if (currentDay.getDay()) {
-        monday.setDate(currentDay.getDate() + 1 - currentDay.getDay());
-      } else {
-        monday.setDate(currentDay.getDate() + 1);
-      }
-      // console.log(monday)
-      return monday;
+      const currentDay = this.getCurrentDate();
+      const numDay = currentDay.getDay();
+      const diff = currentDay.getDate() - numDay + (numDay === 0 ? -6 : 1);
+      return new Date(currentDay.setDate(diff));
     },
     getCurrentWeekCords() {
       const currentMondey = this.getMondey();
       const FirstCalendarDay = new Date(2018, 0, 1);
       const numberDay = (currentMondey - FirstCalendarDay) / 1000 / 60 / 60 / 24 + 1;
-      const cordWeek = numberDay * 21 - 35;
+      const cordWeek = numberDay * 21 - 20;
       return cordWeek;
     },
   },
@@ -105,21 +119,34 @@ body{
   width: 24000px;
   display: flex;
 }
-.highlightDate{
+.currentDate{
   width: 20px;
   height: 36px;
   position: absolute;
-  background: rgba(159, 8, 197, 0.4);
   top: 36px;
+  background: rgba(0, 128, 0, 0.4);
   border-radius: 3px;
+  border: 1px solid rgba(0, 128, 0, 1);
+}
+.currentWeek{
+  width: 147px;
+  height: 54px;
+  position: absolute;
+  border: 2px solid rgba(30, 144, 255, 1);
+  top: 18px;
   box-shadow: 0 0 2px rgba(0, 0, 0, 1);
 }
-.highlightWeek{
-  width: 147px;
-  height: 50px;
-  position: absolute;
-  background: rgba(226, 148, 3, 0.4);
-  top: 20px;
-  box-shadow: 0 0 2px rgba(0, 0, 0, 1);
+.buttonBacklog{
+  position: sticky;
+  right: 0;
+  top: 0;
+  z-index: 11;
+}
+.backlogButton{
+  position: fixed;
+  right: 0px;
+  top: 0;
+  z-index: 11;
+  width: auto;
 }
 </style>

@@ -53,17 +53,6 @@ export default {
     formFields() {
       return this.$store.state.formFields;
     },
-    // test: {
-    //   get() {
-    //     return this.showDialog;
-    //   },
-    //   set(newValue) {
-    //     this.showDialog = newValue;
-    //   },
-    // },
-    // // test() {
-    // //   return this.showDialog;
-    // // },
   },
   methods: {
     toggleModal() {

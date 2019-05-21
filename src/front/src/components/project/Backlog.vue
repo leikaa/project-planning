@@ -366,7 +366,7 @@ export default {
 
 <style lang="scss">
 .backlog {
-  position: sticky;
+  // position: sticky;
   right: 0;
   top: 0;
   width: 300px;
@@ -377,7 +377,6 @@ export default {
   padding: 10px;
   &__item {
     display: flex;
-    // width: 280px;
     height: 50px;
     margin-bottom: 10px;
     justify-content: center;
@@ -388,7 +387,7 @@ export default {
   margin: 0px 0px 0px 0px;
 }
 .controls {
-  position: absolute;
+  display: flex;
   right: 10px;
 }
 </style>

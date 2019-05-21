@@ -3,7 +3,7 @@
     <div class="menu">
       <router-link
         to="/Home"
-        class="ButtonNavigation"
+        class="routerLink"
       >
         <button class="ButtonNavigation">
           Выбор проекта
@@ -11,7 +11,7 @@
       </router-link>
       <router-link
         to="/User"
-        class="ButtonNavigation"
+        class="routerLink"
       >
         <button class="ButtonNavigation">
           Участники системы
@@ -39,6 +39,7 @@ html {
   width: 100%;
   background:#fff;
   position: fixed;
+  justify-content: center;
   top: 0;
   z-index: 11;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
@@ -47,16 +48,16 @@ html {
   display: flex;
   width: 200px;
   height: 40px;
-  margin: auto;
   font-weight: 700;
   font-size: 15px;
-  color: white;
   border-radius: 3px;
   background: rgb(64,199,129);
   box-shadow: 0 -3px rgb(53,167,110) inset;
-  align-items: center;
   justify-content: center;
   color: white;
+}
+.routerLink{
+  margin: 5px 10px 0 10px;
   text-decoration: none;
 }
 </style>
