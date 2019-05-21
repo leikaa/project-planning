@@ -2,11 +2,11 @@ const awilix = require('awilix');
 const path = require('path');
 
 class IoC {
-  constructor () {
+  constructor() {
     this.container = awilix.createContainer();
   }
 
-  loadModules (glob, opts) {
+  loadModules(glob, opts) {
     opts = Object.assign({
       formatName: 'camelCase',
       injectionMode: awilix.InjectionMode.PROXY,
@@ -17,7 +17,7 @@ class IoC {
     return this.container;
   }
 
-  register (obj) {
+  register(obj) {
     this.container.register(obj);
   }
 }

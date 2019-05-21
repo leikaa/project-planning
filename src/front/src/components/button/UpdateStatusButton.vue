@@ -1,17 +1,20 @@
 <template v-slot:activator>
   <div class="button_add_task_in_project">
-      <v-btn
-        color="green  accent-3"
-        @click="$emit('addItem')"
-        dark
-      >Добавить задачу в проект
-      </v-btn>
+    <v-btn
+      color="blue lighten-2"
+      dark
+      @click="$emit('sendRequest')"
+    >
+      <h3>Обновить</h3>
+    </v-btn>
   </div>
 </template>
 
 <script>
 export default {
-  name: "AddTaskInProject"
+  name: 'CreateButton',
+  // eslint-disable-next-line vue/require-prop-types
+  props: ['postTitle'],
 };
 </script>
 
@@ -19,12 +22,8 @@ export default {
 .button_add_task_in_project {
   display: flex;
   height: 50px;
-  width: 100%;
   background: rgba(255, 255, 255, 0);
-  position: fixed;
-  bottom: 0;
-  z-index: 11;
   justify-content: center;
+  margin: 5px;
 }
 </style>
-

@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign, no-console */
 
-const LOADING_SUCCESS = state => {
+const LOADING_SUCCESS = (state) => {
   state.status.loading = false;
 };
 
@@ -37,5 +37,5 @@ export default {
 
   LOADING_SUCCESS,
 
-  
+
 };

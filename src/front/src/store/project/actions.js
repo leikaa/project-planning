@@ -1,8 +1,11 @@
+/* eslint-disable no-undef */
+/* eslint-disable no-console */
+/* eslint-disable import/no-cycle */
 import api from '../../api';
 
-const loadEntitiesFromBackend = store => {
+const loadEntitiesFromBackend = (store) => {
   api.getData('get', 'project/all/')
-    .then(data => {
+    .then((data) => {
       store.commit('LOADED_ALL', data);
     });
 };
@@ -11,11 +14,11 @@ const loadEntitiesFromBackend = store => {
  * Load menus, entities
  * @param {store} store
  */
-const loadAll = store => {
+const loadAll = (store) => {
   console.log('loadAll', store, store.state.loadFromBackend);
   if (store.state.loadFromBackend) {
     loadEntitiesFromBackend(store);
-  } 
+  }
 };
 
 /**
@@ -24,11 +27,11 @@ const loadAll = store => {
  * @param {Object} payload
  */
 
- 
+
 const loadEntity = (store, { entityName }) => {
   // console.log('loadEntity', store.state, payload);
   api.getData('get', entity.getApiPathByEntityName(store.state, entityName))
-    .then(data => {
+    .then((data) => {
       // console.log('resolve', data);
       store.commit('LOADED_ENTITY', { data, entityName });
     });

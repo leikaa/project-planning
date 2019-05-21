@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 'use strict';
 
 const { MongoClient, ObjectID } = require('mongodb');
@@ -9,7 +10,7 @@ const config = require('../config');
  * записи для которых истек таймаут теряются.
  */
 class Db {
-  constructor ({logger}) {
+  constructor({ logger }) {
     this.logger = logger;
     this.db = null;
     this.client = null;
@@ -27,7 +28,7 @@ class Db {
         connectTimeoutMS: config.db.timeout || 1500,
         reconnectInterval: config.db.timeout || 1500,
         reconnectTries: 1,
-        useNewUrlParser: true
+        useNewUrlParser: true,
       };
       this.client = await MongoClient.connect(config.db.url, options);
       this.client.on('close', () => {
@@ -70,8 +71,7 @@ class Db {
         Object.assign({
           created: Date.now(),
         },
-        data,
-        ),
+        data),
       ).then(() => {
         // this.logger.debug('DB adding success');
       }).catch((err) => {
@@ -88,7 +88,7 @@ class Db {
   removeCollection(collection) {
     return this.db.collection(collection).drop();
   }
-   //Переданый обьект будет с типом objectId.
+  // Переданый обьект будет с типом objectId.
   objectId(str) {
     return new ObjectID(str);
   }

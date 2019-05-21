@@ -2,13 +2,14 @@
   <div>
     <div class="task-list">
       <div
-        v-for="(list, index) in getCoordsTaskList.users"
+        v-for="(list, index) in filterTaskListUsers"
         :key="index"
+        ref="getCoordsTaskList"
         :data-id="index"
         :data-name="list.name"
         :data-userId="list.userId"
-        ref="getCoordsTaskList"
         class="pole user-task task-list__item"
+        @click="getIdUserField()"
       >
         <vue-draggable-resizable
           v-for="item in list.task"
@@ -20,198 +21,116 @@
           :item="item"
           :handles="['ml', 'mr']"
           :grid="[21, 46]"
+          maximize
           @mouseup.native="saveTaskToProject(item)"
           @dblclick.native="deleteItem(item)"
-          maximize
         >
-          <div class="user-task__item" :style="`background: ${item.rgb}`">
-            <div class="task-text">{{item.name}}</div>
+          <div
+            class="user-task__item"
+            :style="`background: ${item.rgb}`"
+          >
+            <div class="task-text">
+              {{ item.name }}
+            </div>
           </div>
         </vue-draggable-resizable>
       </div>
-      <!-- Добавление задач -->
-      <v-card>
-        <v-layout row align-end>
-          <v-dialog v-model="showDialog" width="500">
-            <v-card>
-              <v-card-title class="headline grey lighten-2" primary-title>{{ modalTitle }}</v-card-title>
-              <v-card-text>
-                <v-form v-model="formValid">
-                  <v-text-field
-                    v-model="name"
-                    label="Название новой задачи"
-                    :disabled="disableInput"
-                    :rules="nameRules"
-                    required
-                  ></v-text-field>
-                  <v-text-field
-                    v-model="description"
-                    label="Описание задачи"
-                    :disabled="disableInput"
-                    required
-                  ></v-text-field>
-                  <div class="CheckColor">
-                    <div
-                      v-for="(color, index) in colors"
-                      :key="index"
-                      class="ColorPicker"
-                      :style="`background: ${color.color}`"
-                    >
-                      <v-checkbox
-                        v-model="current"
-                        height="0px"
-                        color="white"
-                        class="CheckboxColorPicker"
-                        dark
-                        :value="`${color.color}`"
-                      ></v-checkbox>
-                    </div>
-                  </div>
-                  <select v-model="selectedElement" class="select-element">
-                    <option disabled value>Список участников проекта</option>
-                    <option
-                      v-for="item in currentProjectUsers"
-                      :value="item._id"
-                      :key="item._id"
-                    >{{item.name}}</option>
-                  </select>
-                  <div class="DataPicker">
-                    <v-date-picker v-model="startDate" width="220"></v-date-picker>
-                    <v-date-picker v-model="endDate" show-current="false" width="230"></v-date-picker>
-                  </div>
-                </v-form>
-              </v-card-text>
-              <v-divider></v-divider>
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="red" flat @click="showDialog = false">Отмена</v-btn>
-                <v-btn
-                  color="green"
-                  flat
-                  @click="confirmModalAction"
-                  :disabled="!formValid"
-                >{{ modalSubmitButton }}</v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
-        </v-layout>
-      </v-card>
     </div>
-    <!--Удаление задач -->
-    <v-card>
-      <v-layout row align-end>
-        <v-dialog v-model="showTask" width="500">
-          <v-card>
-            <v-card-title class="headline grey lighten-2" primary-title>{{ modalTitle }}</v-card-title>
-            <v-card-text>
-              <v-form v-model="formValid">
-                <v-text-field
-                  v-model="name"
-                  :disabled="disableInput"
-                  label="Удаление задачи"
-                  required
-                ></v-text-field>
-              </v-form>
-            </v-card-text>
-            <v-divider></v-divider>
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn color="red" flat @click="showTask = false">Отмена</v-btn>
-              <v-btn
-                color="green"
-                flat
-                @click="confirmModalAction"
-                :disabled="!formValid"
-              >{{ modalSubmitButton }}</v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
-      </v-layout>
-    </v-card>
-    <add-task-in-project @addItem="addItem"/>
+    <one-field-modal
+      :show-dialog="showDeleteTask"
+      :modal-title="formFields.modalTitle"
+      :label="formFields.label"
+      :modal-submit-button="formFields.modalSubmitButton"
+      @modalConfirm="confirmModalAction"
+      @falseDialog="showDeleteTask=false"
+    >
+      <template v-slot:body />
+    </one-field-modal>
   </div>
 </template>
 
 
 <script>
-import VueDraggableResizable from "../vue-drag/index.js";
-import AddTaskInProject from "../button/AddTaskInProject";
-import moment from "moment";
+import moment from 'moment';
+// eslint-disable-next-line import/extensions
+import VueDraggableResizable from '../vue-drag/index.js';
+// eslint-disable-next-line import/no-unresolved
+import OneFieldModal from '../common/OneFieldModal ';
 
-let step = 21;
+// const step = 21;
 export default {
-  name: "UserTask",
+  name: 'UserTask',
   components: {
     VueDraggableResizable,
-    AddTaskInProject
+    OneFieldModal,
   },
 
   data() {
     return {
-      showDialog: false,
-      formValid: false,
-      nameRules: [v => !!v || "Описание обязательно"],
-      disableInput: false,
-      modalSubmitButton: "Добавить",
-      modalTitle: "",
-      modalAction: "",
-      name: "",
-      description: "",
-      selectedElement: "",
-      showTask: false,
-      startDate: new Date().toISOString().substr(0, 10),
-      endDate: new Date().toISOString().substr(0, 10),
-      colors: [
-        { color: "rgb(244, 67, 54)" },
-        { color: "rgb(25, 25, 112)" },
-        { color: "rgb(0, 128, 0)" },
-        { color: "rgb(255, 128 , 0)" },
-        { color: "rgb(128, 0, 128)" },
-        { color: "rgb(128, 0, 0)" },
-        { color: "rgb(30, 144, 255)" },
-        { color: "rgb(153, 153, 0)" }
-      ],
-      current: "rgb(244, 67, 54)"
+      showDeleteTask: false,
     };
+  },
+
+  computed: {
+    projects() {
+      return this.$store.state.projects;
+    },
+
+    formFields() {
+      return this.$store.state.formFields;
+    },
+
+    currentProjectId() {
+      return this.$route.params.id;
+    },
+
+    currentProject() {
+      return this.projects.find(item => item._id === this.currentProjectId);
+    },
+
+    currentProjectUsers() {
+      return (this.currentProject && this.currentProject.users) || [];
+    },
+
+    filterTaskListUsers() {
+      return this.currentProjectUsers.map((item) => {
+        item.task = item.task.filter(el => el.projectId === this.currentProjectId);
+        return item;
+      });
+    },
+  },
+  created() {
+    this.sendRequestUser();
+    this.sendRequestTask();
+  },
+
+  mounted() {
+    this.scrollCurrentDate();
   },
 
   methods: {
     sendRequestProject() {
-      this.$store.dispatch("loadProjects");
-    },
-
-    sendRequestUser() {
-      this.$store.dispatch("loadUsers");
+      this.$store.dispatch('loadProjects');
     },
 
     sendRequestTask() {
-      this.$store.dispatch("loadTasks");
+      this.$store.dispatch('loadTasks');
     },
 
-    addItem() {
-      this.modalTitle = "Добавить новую задачу";
-      this.modalSubmitButton = "Добавить";
-      this.modalAction = "Add";
-      this.projectId = "currentProjectId";
-      this.startDate = this.startDate;
-      this.endDate = this.endDate;
-      this.y = 0;
-      this.rgb = this.current;
-      this.description = "";
-      this.name = "";
-      this.disableInput = false;
-      this.showDialog = true;
+    sendRequestUser() {
+      this.$store.dispatch('loadUsers');
     },
 
     deleteItem(item) {
-      this.modalTitle = "Удалить задачу";
-      this.modalSubmitButton = "Удалить";
-      this.modalAction = "Delete";
+      this.formFields.modalTitle = 'Удалить задачу';
+      this.formFields.modalSubmitButton = 'Удалить';
+      this.formFields.label = 'Название задачи';
+      this.modalAction = 'Delete';
       this.taskId = item.taskId;
       this.userId = item.userId;
-      this.name = item.name;
-      this.disableInput = true;
-      this.showTask = true;
+      this.formFields.name = item.name;
+      this.formFields.disableInput = true;
+      this.showDeleteTask = true;
     },
 
     confirmModalAction() {
@@ -219,60 +138,41 @@ export default {
       switch (action) {
         default:
           break;
-        case "Add":
-          this.createTask();
-          break;
-        case "Delete":
+        case 'Delete':
           this.deleteTaskFromUser();
           break;
       }
     },
 
-    createTask() {
-      console.log("Задача добавлена", this.name, this.description, this.current);
-      this.$store.dispatch("createTask", {
-        userId: this.selectedElement,
-        projectId: this.currentProjectId,
-        startDate: this.startDate,
-        endDate: this.endDate,
-        y: this.y,
-        rgb: this.current,
-        description: this.description,
-        name: this.name,
-        dateCreate: moment().format("MMMM Do YYYY, HH:mm:ss ")
-      });
-      this.showDialog = false;
-    },
-
     saveTaskToProject(item) {
-      console.log("Проект сохранен", item.taskId, this.currentProjectId);
-      this.$store.dispatch("saveTaskToProject", {
+      console.log('Проект сохранен', item.taskId, this.currentProjectId);
+      this.$store.dispatch('saveTaskToProject', {
         id: item.taskId,
         projectId: this.currentProjectId,
         startDate: this.getStartDateFromCoords(),
         endDate: this.getEndDateFromCoords(),
         y: this.getCurrentItemYCoordinate(),
-        dateUpdate: moment().format("MMMM Do YYYY, HH:mm:ss ")
+        dateUpdate: moment().format('MMMM Do YYYY, HH:mm:ss '),
       });
     },
 
     deleteTaskFromUser() {
-      console.log("Задача удалена", this.taskId, this.userId);
-      this.$store.dispatch("deleteTaskFromUser", {
+      console.log('Задача удалена', this.taskId, this.userId);
+      this.$store.dispatch('deleteTaskFromUser', {
         taskId: this.taskId,
-        id: this.userId
+        id: this.userId,
       });
-      this.showTask = false;
+      this.showDeleteTask = false;
     },
 
     getFirstDay() {
-      //Получение пройденных дней от начала календанря.
+      // Получение пройденных дней от начала календанря.
       const NumberDaysFromStart = this.getCurrentItemXCoordinate() / 21;
 
-      //Получение секунд из пройденных дней.
+      // Получение секунд из пройденных дней.
       const NumberSecondsFromStart = NumberDaysFromStart * 24 * 60 * 60 * 1000;
 
-      //Получение даты из секунд.
+      // Получение даты из секунд.
       const getFirstDay = new Date(NumberSecondsFromStart);
 
       return getFirstDay;
@@ -283,14 +183,14 @@ export default {
       const startDate = [
         getFirstDay.getFullYear() + 48,
         getFirstDay.getMonth() + 1,
-        getFirstDay.getDate()
-      ].join("-");
-      //console.log("startDate", startDate);
+        getFirstDay.getDate(),
+      ].join('-');
+      // console.log("startDate", startDate);
       return startDate;
     },
 
     getEndDateFromCoords() {
-      //Длительность задачи.
+      // Длительность задачи.
       const TaskDuration = this.getCurrentItemWCoordinate() / 21;
 
       const startDate = this.getStartDateFromCoords();
@@ -298,7 +198,7 @@ export default {
 
       const getFirstDay = this.getFirstDay();
       const getDurationDate = getDateOne.setDate(
-        getFirstDay.getDate() + TaskDuration
+        getFirstDay.getDate() + TaskDuration,
       );
 
       const getSecondDay = new Date(getDurationDate);
@@ -306,39 +206,41 @@ export default {
       const endDate = [
         getSecondDay.getFullYear(),
         getSecondDay.getMonth() + 1,
-        getSecondDay.getDate() - 1
-      ].join("-");
-      //console.log("EndDate", endDate);
+        getSecondDay.getDate() - 1,
+      ].join('-');
+      // console.log("EndDate", endDate);
       return endDate;
     },
 
     getCurrentItemXCoordinate() {
-      const left = event.currentTarget.style.left;
+      const { left } = event.currentTarget.style;
       return left.slice(0, -2);
     },
 
     getCurrentItemWCoordinate() {
-      const width = event.currentTarget.style.width;
+      const { width } = event.currentTarget.style;
       return width.slice(0, -2);
     },
 
     getCurrentItemYCoordinate() {
-      const top = event.currentTarget.style.top;
-      const le = top.slice(0, -2);
-      // if((+le < 0)||(+le > 92)){
-      //   console.log("Вышел за пределы")
+      let { top } = event.currentTarget.style;
+      // const test = top.slice(0, -2);
+      // if ((+test < 0) || (+test > 92)) {
+      //   //console.log('Вышел за пределы');
+      //   top = 0;
+      //   return top;
       // }
-      // console.log("top" , top)
+      // console.log('top', top);
       return top.slice(0, -2);
     },
 
     getCurrentDate() {
-      //Получаем текущую дату.
+      // Получаем текущую дату.
       const currentDay = new Date();
       const dateOne = [
         currentDay.getFullYear(),
         currentDay.getMonth() + 1,
-        currentDay.getDate()
+        currentDay.getDate(),
       ];
       const OneDate = new Date(dateOne[0], dateOne[1] - 1, dateOne[2]);
       return OneDate;
@@ -346,16 +248,15 @@ export default {
 
     getCurrentDateCoords() {
       const currentDay = this.getCurrentDate();
-      //Получаем дату начала календаря.
+      // Получаем дату начала календаря.
       const FirstCalendarDay = new Date(2018, 0, 1);
 
-      //Количество дней пройденных от начала.
-      const numberDay =
-        (currentDay - FirstCalendarDay) / 1000 / 60 / 60 / 24 + 1;
-  
-      //Координата к которой будет перемещаться scroll при загрузке.
-      const cordX = numberDay * 21 - 200;
-      //console.log("cordX", cordX);
+      // Количество дней пройденных от начала.
+      const numberDay = (currentDay - FirstCalendarDay) / 1000 / 60 / 60 / 24 + 1;
+
+      // Координата к которой будет перемещаться scroll при загрузке.
+      const cordX = numberDay * 21 - 880;
+      // console.log("cordX", cordX);
       return cordX;
     },
 
@@ -364,84 +265,23 @@ export default {
       window.scrollTo(cordX, 0);
     },
 
-    // getIdUserField() {
-    //   const test = event.target.dataset.userid;
-    //   const test2 = event.currentTarget.dataset.userid;
-    //   console.log("test", test);
-    //   console.log("test2", test2);
-    //   return test && test2;
-    // }
-  },
+    getIdUserField() {
+      // var dragged = event.target;
+      // event.preventDefault();
+      console.log('test', event);
+      // if (event.target.className == 'user-task__item') {
+      //   dragged.parentNode.removeChild(dragged);
+      //   event.target.appendChild(dragged);
+      // }
 
-  computed: {
-    projects() {
-      return this.$store.state.projects;
-    },
-
-    currentProjectId() {
-      return this.$route.params.id;
-    },
-
-    currentProject() {
-      return this.projects.find(item => {
-        return item._id === this.currentProjectId;
-      });
-    },
-
-    currentProjectUsers() {
-      return (this.currentProject && this.currentProject.users) || [];
-    },
-
-    filterTaskListUsers() {
-      const test = this.currentProjectUsers.map(item => {
-        item.task = item.task.filter(el => {
-          return el.projectId == this.currentProjectId;
-        });
-        return item;
-      });
-      return test;
-    },
-
-    getCoordsTaskList() {
-      if (this.filterTaskListUsers === undefined) {
-        return this.filterTaskListUsers;
-      }
-      this.filterTaskListUsers.map(item => {
-        item.task.map(el => {
-          const startDate = el.startDate;
-          const endDate = el.endDate;
-
-          const dateOne = startDate.split("-");
-          const dateTwo = endDate.split("-");
-
-          const OneDate = new Date(dateOne[0], dateOne[1] - 1, dateOne[2]);
-          const TwoDate = new Date(dateTwo[0], dateTwo[1] - 1, dateTwo[2]);
-          const resultDate = (TwoDate - OneDate) / 1000 / 60 / 60 / 24 + 1;
-
-          const W = resultDate * 21;
-          const StartDate = new Date(2018, 0, 1);
-
-          const dateX = (OneDate - StartDate) / 1000 / 60 / 60 / 24;
-          const X = dateX * 21;
-          const H = 46;
-
-          this.$set(el, "x", X);
-          this.$set(el, "w", W);
-          this.$set(el, "h", H);
-          // console.log("el",el)
-        });
-      });
-      return this.currentProject;
+      // const test = event;
+      // const test = event.target.dataset.name;
+      // const test2 = event.currentTarget.dataset.id;
+      // console.log("test", test);
+      // console.log("test2", test2);
+      // return test && test2;
     },
   },
-  created() {
-    this.sendRequestUser();
-    this.sendRequestTask();
-  },
-
-  mounted() {
-    this.scrollCurrentDate();
-  }
 };
 </script>
 

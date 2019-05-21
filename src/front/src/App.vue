@@ -1,56 +1,54 @@
 <template>
   <div id="app">
-     <div class="menu">
-        <router-link to="/Home" class="ButtonNavigation">
-          <button class="ButtonNavigation">
-           Выбор проекта
-          </button>
-         </router-link>
-        <router-link to="/User" class="ButtonNavigation">
-          <button class="ButtonNavigation">
-           Участники системы 
-          </button>
-         </router-link>
-     </div> 
-    <router-view :key="$route.fullPath"></router-view>
+    <div class="menu">
+      <router-link
+        to="/Home"
+        class="routerLink"
+      >
+        <navigation-button
+          post-title="Выбор проекта"
+        />
+      </router-link>
+      <router-link
+        to="/User"
+        class="routerLink"
+      >
+        <navigation-button
+          post-title="Участники системы"
+        />
+      </router-link>
+    </div>
+    <router-view :key="$route.fullPath" />
   </div>
 </template>
 
 <script>
+import NavigationButton from './components/button/NavigationButton';
+
 export default {
   name: 'App',
-}
+  components: {
+    NavigationButton,
+  },
+};
 </script>
 
 <style>
-html { 
+html {
   overflow-y: auto;
   overflow-x: auto;
 }
 .menu{
   display: flex;
+  position: fixed;
   height: 50px;
   width: 100%;
   background:#fff;
-  position: fixed;
-  top: 0;
+  justify-content: center;
   z-index: 11;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
 }
-.ButtonNavigation{
-  display: flex;
-  width: 200px;
-  height: 40px;
-  margin: auto;
-  font-weight: 700;
-  font-size: 15px;
-  color: white;
-  border-radius: 3px;
-  background: rgb(64,199,129);
-  box-shadow: 0 -3px rgb(53,167,110) inset;
-  align-items: center;
-  justify-content: center;  
-  color: white;
+.routerLink{
   text-decoration: none;
 }
 </style>

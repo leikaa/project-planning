@@ -1,11 +1,9 @@
-'use strict';
-
 class GetProjects {
   constructor({
     logger,
     projectModel,
     userModel,
-    taskModel
+    taskModel,
   }) {
     this.logger = logger;
     this.projectModel = projectModel;
@@ -18,52 +16,52 @@ class GetProjects {
     const joinProjectAndUser = await this.projectModel.JoinProjectAndUser();
 
     // const joinUserAndTaskList = await this.userModel.JoinUserAndTaskList();
-    
+
     const taskMapName = {};
-    taskList.forEach(item => {
+    taskList.forEach((item) => {
       taskMapName[item._id] = item.name;
     });
 
     const taskMapRgb = {};
-    taskList.forEach(item => {
+    taskList.forEach((item) => {
       taskMapRgb[item._id] = item.rgb;
     });
 
     const taskMapStartDate = {};
-    taskList.forEach(item => {
+    taskList.forEach((item) => {
       taskMapStartDate[item._id] = item.startDate;
     });
 
     const taskMapEndDate = {};
-    taskList.forEach(item => {
+    taskList.forEach((item) => {
       taskMapEndDate[item._id] = item.endDate;
     });
 
     const taskMapY = {};
-    taskList.forEach(item => {
-      item.y = Number.parseInt(item.y)
+    taskList.forEach((item) => {
+      item.y = Number.parseInt(item.y);
       taskMapY[item._id] = item.y;
     });
 
     const taskUserId = {};
-    taskList.forEach(item => {
+    taskList.forEach((item) => {
       taskUserId[item._id] = item.userId;
     });
 
     const taskProjectId = {};
-    taskList.forEach(item => {
+    taskList.forEach((item) => {
       taskProjectId[item._id] = item.projectId;
     });
 
     // Обновление свойств объектов в массиве users.
-    const result = joinProjectAndUser.map(item => {
+    const result = joinProjectAndUser.map((item) => {
       if (item.users === undefined) {
         return item;
       }
-      item.users.map(elem => {
-        if(elem.task){
-          elem.task.map(el => {
-            if(taskMapRgb[el.taskId]){
+      item.users.map((elem) => {
+        if (elem.task) {
+          elem.task.map((el) => {
+            if (taskMapRgb[el.taskId]) {
               el.name = taskMapName[el.taskId];
               el.userId = taskUserId[el.taskId];
               el.projectId = taskProjectId[el.taskId];
@@ -72,15 +70,15 @@ class GetProjects {
               el.endDate = taskMapEndDate[el.taskId];
               el.y = taskMapY[el.taskId];
             }
-            //console.log("ELEM",elem)
-          return el  
-          })
+            // console.log("ELEM",elem)
+            return el;
+          });
         }
         return elem;
       });
       return item;
     });
-    return result
+    return result;
   }
 }
 

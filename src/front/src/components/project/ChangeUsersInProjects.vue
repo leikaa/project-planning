@@ -1,164 +1,83 @@
 <template>
-  <v-app id="inspire" class="users">
-    <v-card>
-      <v-layout row align-end>
-        <v-dialog v-model="showDialog" width="500">
-          <template v-slot:activator="click">
-            <v-btn
-              small
-              fab
-              dark
-              color="green lighten-2"
-              @click="editItem"
-              class="button_user"
-            >
-              <v-icon dark>add</v-icon>
-            </v-btn>
-          </template>
-          <v-card>
-            <v-card-title class="headline grey lighten-2" primary-title>{{ modalTitle }}</v-card-title>
-            <v-card-text>
-              <v-form v-model="formValid">
-                <select v-model="selectedElement" class="select-element">
-                  <option disabled value>Выберите участника</option>
-                  <option 
-                  v-for="item in users" 
-                  :value="item._id" 
-                  :key="item.name">
-                  {{item.name}}
-                  </option>
-                </select>
-              </v-form>
-            </v-card-text>
-            <v-divider></v-divider>
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn color="red" flat @click="showDialog = false">Отмена</v-btn>
-              <v-btn
-                color="green"
-                flat
-                @click="confirmModalAction"
-                :disabled="!formValid"
-              >{{ modalSubmitButton }}</v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
-      </v-layout>
-    </v-card>
+  <v-app
+    id="inspire"
+    class="users"
+  >
+    <modal
+      :show-dialog="showDialogSave"
+      :modal-title="formFields.modalTitle"
+      :modal-submit-button="formFields.modalSubmitButton"
+
+      @modalConfirm="confirmModalAction"
+      @falseDialog="showDialogSave=false"
+    >
+      <template v-slot:body>
+        <select
+          v-model="formFields.selectedElement"
+          class="select-element"
+        >
+          <option
+            disabled
+            value
+          >
+            Выберите участника
+          </option>
+          <option
+            v-for="item in users"
+            :key="item.name"
+            :value="item._id"
+          >
+            {{ item.name }}
+          </option>
+        </select>
+      </template>
+    </modal>
     <!--Удаление пользователя-->
-    <v-card>
-      <v-layout row align-end>
-        <v-dialog v-model="UsersDialog" width="500">
-          <v-card>
-            <v-card-title class="headline grey lighten-2" primary-title>{{ modalTitle }}</v-card-title>
-            <v-card-text>
-              <v-form v-model="DelUser">
-                <v-text-field
-                  v-model="name"
-                  :disabled="disableInput"
-                  label="Выберите участника"
-                  solo
-                  required
-                ></v-text-field>
-              </v-form>
-            </v-card-text>
-            <v-divider></v-divider>
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn color="red" flat @click="UsersDialog = false">Отмена</v-btn>
-              <v-btn
-                color="green"
-                flat
-                @click="confirmModalAction"
-                :disabled="!DelUser"
-              >{{ modalSubmitButton }}</v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
-      </v-layout>
-    </v-card>
-    <users-in-project :items="currentProjectUsers" :controls="controls" @deleteItem="deleteItem"/>
+    <one-field-modal
+      :show-dialog="showDialog"
+      :modal-title="formFields.modalTitle"
+      :label="formFields.label"
+      :modal-submit-button="formFields.modalSubmitButton"
+      @modalConfirm="confirmModalAction"
+      @falseDialog="showDialog=false"
+    >
+      <template v-slot:body />
+    </one-field-modal>
+    <round-add-button
+      @editItem="editItem"
+    />
+    <users-in-project
+      :items="currentProjectUsers"
+      :controls="controls"
+      @deleteItem="deleteItem"
+    />
   </v-app>
 </template>
 
 <script>
-import UsersInProject from "./UsersInProject";
+// eslint-disable-next-line import/no-unresolved
+import UsersInProject from './UsersInProject';
+// eslint-disable-next-line import/no-unresolved
+import OneFieldModal from '../common/OneFieldModal ';
+// eslint-disable-next-line import/no-unresolved
+import RoundAddButton from '../button/RoundAddButton';
+// eslint-disable-next-line import/no-unresolved
+import Modal from '../common/Modal';
+
+
 export default {
-  name: "ChangeProjects",
+  name: 'ChangeProjects',
+  components: {
+    UsersInProject,
+    OneFieldModal,
+    RoundAddButton,
+    Modal,
+  },
   data() {
     return {
       showDialog: false,
-      formValid: false,
-      DelUser: false,
-      UsersDialog: false,
-      disableInput: false,
-      modalTitle: "Добавить нового участника в проект",
-      modalSubmitButton: "Сохранить",
-      name: "",
-      selectedElement: ""
+      showDialogSave: false,
     };
-  },
-  components: {
-    UsersInProject
-  },
-  
-  methods: {
-    sendRequest() {
-      this.$store.dispatch("loadProjects");
-    },
-
-    editItem() {
-      this.modalTitle = "Добавить участника в проект";
-      this.modalSubmitButton = "Добавить";
-      this.modalAction = "Edit";
-      this.disableInput = false;
-      this.showDialog = true;
-      this.userId = this.selectedElement;
-      this.id = this.currentProjectId;
-    },
-
-    deleteItem(item) {
-      this.modalTitle = "Удалить участника из проекта";
-      this.modalSubmitButton = "Удалить";
-      this.modalAction = "Delete";
-      this.userId = item._id;
-      this.name = item.name;
-      this.id = this.currentProjectId;
-      this.disableInput = true;
-      this.UsersDialog = true;
-    },
-
-    confirmModalAction() {
-      const action = this.modalAction;
-      switch (action) {
-        default:
-          break;
-        case "Edit":
-          this.saveProject();
-          break;
-        case "Delete":
-          this.deleteUserFromProject();
-          break;
-      }
-    },
-
-    saveProject() {
-      console.log("Участник добавлен в проект", this.userId, this.id);
-      this.$store.dispatch("addUserToProject", {
-        userId: this.selectedElement,
-        id: this.currentProjectId
-      });
-      this.showDialog = false;
-    },
-
-    deleteUserFromProject() {
-      console.log("Участник удалён из проекта", this.userId, this.id);
-      this.$store.dispatch("deleteUserFromProject", {
-        id: this.id,
-        userId: this.userId
-      });
-      this.UsersDialog = false;
-    },
   },
   computed: {
     controls() {
@@ -173,14 +92,16 @@ export default {
       return this.$store.state.projects;
     },
 
+    formFields() {
+      return this.$store.state.formFields;
+    },
+
     currentProjectId() {
       return this.$route.params.id;
     },
 
     currentProject() {
-      return this.projects.find(item => {
-        return item._id === this.currentProjectId;
-      });
+      return this.projects.find(item => item._id === this.currentProjectId);
     },
 
     currentProjectUsers() {
@@ -189,12 +110,73 @@ export default {
 
     userOnProject() {
       return (this.currentProject && this.currentProject.userId) || [];
-    }
+    },
   },
 
   created() {
     this.sendRequest();
-  }
+  },
+
+  methods: {
+    sendRequest() {
+      this.$store.dispatch('loadProjects');
+    },
+
+    editItem() {
+      this.formFields.modalTitle = 'Добавить участника в проект';
+      this.formFields.modalSubmitButton = 'Добавить';
+      this.formFields.label = 'Выберите участника';
+      this.modalAction = 'Edit';
+      this.formFields.userId = this.selectedElement;
+      this.id = this.currentProjectId;
+      this.formFields.disableInput = false;
+      this.showDialogSave = true;
+    },
+
+    deleteItem(item) {
+      this.formFields.modalTitle = 'Удалить участника из проекта';
+      this.formFields.modalSubmitButton = 'Удалить';
+      this.formFields.label = 'Удалить участника из проекта';
+      this.modalAction = 'Delete';
+      this.userId = item._id;
+      this.formFields.name = item.name;
+      this.id = this.currentProjectId;
+      this.formFields.disableInput = true;
+      this.showDialog = true;
+    },
+
+    confirmModalAction() {
+      const action = this.modalAction;
+      switch (action) {
+        default:
+          break;
+        case 'Edit':
+          this.saveProject();
+          break;
+        case 'Delete':
+          this.deleteUserFromProject();
+          break;
+      }
+    },
+
+    saveProject() {
+      console.log('Участник добавлен в проект', this.formFields.selectedElement, this.id);
+      this.$store.dispatch('addUserToProject', {
+        userId: this.formFields.selectedElement,
+        id: this.currentProjectId,
+      });
+      this.showDialogSave = false;
+    },
+
+    deleteUserFromProject() {
+      console.log('Участник удалён из проекта', this.userId, this.id);
+      this.$store.dispatch('deleteUserFromProject', {
+        id: this.id,
+        userId: this.userId,
+      });
+      this.showDialog = false;
+    },
+  },
 };
 </script>
 
