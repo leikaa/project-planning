@@ -33,6 +33,7 @@ export default {
       const months = [];
       this.setMonths(months);
       this.setWeeks(months);
+      // console.log(months)
       return months;
     },
     setMonths(months) {
@@ -43,21 +44,19 @@ export default {
           nextMonthName: moment([2018]).month(i + 1).format('MMMM - YYYY'),
           index: i,
           weeks: [],
+          numWeek: [],
         });
       }
       // console.log('months', months.week);
     },
     setWeeks(months) {
       let numAddedDays = 0;
-
-      // console.log('months', months);
-
       months.forEach((el, numMonth) => {
         const numWeeksInMonth = Math.ceil(el.numDays / NUM_DAYS_IN_WEEK);
         let isAllDays = false;
-        for (let i = 0; i < numWeeksInMonth; i++) {
+        for (let i = 0; i < numWeeksInMonth; i += 1) {
           el.weeks[i] = [];
-          for (let j = 0; j < NUM_DAYS_IN_WEEK; j++) {
+          for (let j = 0; j < NUM_DAYS_IN_WEEK; j += 1) {
             if (numAddedDays === el.numDays) {
               isAllDays = true;
             }
@@ -70,17 +69,15 @@ export default {
             el.weeks[i].push({
               name: moment(curDay).weekday(j + 1).format('dd'),
               num: numAddedDays,
+              weeknumber: moment(curDay).isoWeek(),
             });
+            // console.log("Это j",j)
           }
-
           if (isAllDays && el.weeks[i].length === NUM_DAYS_IN_WEEK) {
             break;
           }
+          // console.log("Это i",i)
         }
-        // const test = el.weeks.map((elem) => {
-        //   // var a = elem.length
-        //   console.log(elem)
-        // });
       });
     },
   },

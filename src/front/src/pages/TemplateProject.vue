@@ -23,7 +23,7 @@
           small
           fab
           dark
-          color="green lighten-2"
+          color="green accent-3"
           class="buttonBacklog"
           @click.stop="drawer = !drawer"
         >

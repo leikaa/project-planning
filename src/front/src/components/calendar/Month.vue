@@ -6,6 +6,7 @@
     <week
       v-for="(days, index) in item.weeks"
       :key="index"
+      :data-index="index"
       :month-name="getMonthName(item.weeks, index)"
       :days="days"
     />
@@ -32,16 +33,16 @@ export default {
   },
   methods: {
     getMonthName(weeks, index) {
-      // console.log(weeks);
       if (index !== weeks.length - 1) {
         return this.item.name;
       }
       const lastDaysInMonth = [28, 29, 30, 31];
       const lastWeek = weeks[weeks.length - 1];
       const numLastDayInWeek = lastWeek[lastWeek.length - 1].num;
-      const test = lastDaysInMonth.includes(numLastDayInWeek) ? this.item.name : this.item.nextMonthName;
-      // console.log(test);
-      return test;
+      return lastDaysInMonth.includes(numLastDayInWeek) ? this.item.name : this.item.nextMonthName;
+    },
+    getDaysNum(days, index) {
+      return this.days[index].num;
     },
   },
 };

@@ -98,38 +98,6 @@ export default {
         return item;
       });
     },
-
-    // getCoordsTaskList() {
-    //   if (this.filterTaskListUsers === undefined) {
-    //     return this.filterTaskListUsers;
-    //   }
-    //   this.filterTaskListUsers.map(item => {
-    //     item.task.map(el => {
-    //       const startDate = el.startDate;
-    //       const endDate = el.endDate;
-
-    //       const dateOne = startDate.split("-");
-    //       const dateTwo = endDate.split("-");
-
-    //       const OneDate = new Date(dateOne[0], dateOne[1] - 1, dateOne[2]);
-    //       const TwoDate = new Date(dateTwo[0], dateTwo[1] - 1, dateTwo[2]);
-    //       const resultDate = (TwoDate - OneDate) / 1000 / 60 / 60 / 24 + 1;
-
-    //       const W = resultDate * 21;
-    //       const StartDate = new Date(2018, 0, 1);
-
-    //       const dateX = (OneDate - StartDate) / 1000 / 60 / 60 / 24;
-    //       const X = dateX * 21;
-    //       const H = 46;
-
-    //       this.$set(el, "x", X);
-    //       this.$set(el, "w", W);
-    //       this.$set(el, "h", H);
-    //       // console.log("el",el)
-    //     });
-    //   });
-    //   return this.currentProject;
-    // },
   },
   created() {
     this.sendRequestUser();
@@ -255,12 +223,14 @@ export default {
     },
 
     getCurrentItemYCoordinate() {
-      const { top } = event.currentTarget.style;
-      // const le = top.slice(0, -2);
-      // if((+le < 0)||(+le > 92)){
-      //   console.log("Вышел за пределы")
+      let { top } = event.currentTarget.style;
+      // const test = top.slice(0, -2);
+      // if ((+test < 0) || (+test > 92)) {
+      //   //console.log('Вышел за пределы');
+      //   top = 0;
+      //   return top;
       // }
-      // console.log("top" , top)
+      // console.log('top', top);
       return top.slice(0, -2);
     },
 
@@ -296,6 +266,15 @@ export default {
     },
 
     getIdUserField() {
+      // var dragged = event.target;
+      // event.preventDefault();
+      console.log('test', event);
+      // if (event.target.className == 'user-task__item') {
+      //   dragged.parentNode.removeChild(dragged);
+      //   event.target.appendChild(dragged);
+      // }
+
+      // const test = event;
       // const test = event.target.dataset.name;
       // const test2 = event.currentTarget.dataset.id;
       // console.log("test", test);

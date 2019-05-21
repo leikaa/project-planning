@@ -1,7 +1,7 @@
 <template v-slot:activator>
   <div class="button_add_task_in_project">
     <v-btn
-      color="green  accent-4"
+      color="green  accent-3"
       dark
       @click="$emit('addItem')"
     >

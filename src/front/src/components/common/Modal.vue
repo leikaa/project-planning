@@ -55,9 +55,6 @@ export default {
     },
   },
   methods: {
-    toggleModal() {
-      this.$emit('toggleModal');
-    },
     confirmModalAction() {
       this.$emit('modalConfirm');
     },

@@ -22,19 +22,11 @@ export default {
     Day,
   },
   props: {
-    item: {
-      type: Object,
-    },
     days: {
       type: Array,
     },
     monthName: {
       type: String,
-    },
-  },
-  computed: {
-    dayInWeek() {
-      return this.days.num;
     },
   },
   methods: {
