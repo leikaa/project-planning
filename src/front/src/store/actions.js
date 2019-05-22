@@ -147,13 +147,38 @@ const deleteTaskFromUser = ({ dispatch }, data) => {
 };
 
 const saveTaskToProject = ({ dispatch }, data) => {
-  api.request('post', `tasks/${data.id}`, data)
-    .then((res) => {
-      if (res.status === 200) {
-        dispatch('loadTasks');
-        dispatch('loadProjects');
-      }
-    });
+  // console.log('data', data);
+  if (data.userId === data.oldUserId) {
+    api.request('post', `tasks/${data.id}`, data)
+      .then((res) => {
+        if (res.status === 200) {
+          dispatch('loadTasks');
+          dispatch('loadProjects');
+        }
+      });
+  } else {
+    api.request('post', `users/${data.userId}/add_task/${data.id}`)
+      .then((res) => {
+        if (res.status === 200) {
+          dispatch('loadProjects');
+        }
+      });
+
+    api.request('post', `tasks/${data.id}`, data)
+      .then((res) => {
+        if (res.status === 200) {
+          dispatch('loadTasks');
+          dispatch('loadProjects');
+        }
+      });
+
+    api.request('delete', `users/${data.oldUserId}/task/${data.id}`)
+      .then((res) => {
+        if (res.status === 200) {
+          dispatch('loadProjects');
+        }
+      });
+  }
 };
 
 const saveTaskListToUser = ({ dispatch }, data) => {
