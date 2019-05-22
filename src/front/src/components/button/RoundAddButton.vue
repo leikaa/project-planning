@@ -16,8 +16,6 @@
 <script>
 export default {
   name: 'CreateButton',
-  // eslint-disable-next-line vue/require-prop-types
-  props: ['postTitle'],
 };
 </script>
 

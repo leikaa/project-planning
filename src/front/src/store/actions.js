@@ -18,53 +18,48 @@ const loadProjects = ({ commit }) => {
     });
 };
 
-const createProject = ({ dispatch, commit }, data) => {
+const createProject = ({ dispatch }, data) => {
   api.request('post', 'projects/', data)
     .then((res) => {
       if (res.status === 200) {
-        // commit('CREATE_PROJECT', data);
         dispatch('loadProjects');
       }
     });
 };
 
-const deleteProject = ({ dispatch, commit }, id) => {
+const deleteProject = ({ dispatch }, id) => {
   api.request('delete', `projects/${id}`)
     .then((res) => {
       if (res.status === 200) {
-        // commit('DELETED_PROJECT', id);
         dispatch('loadProjects');
       }
     });
 };
 
-const saveProject = ({ dispatch, commit }, data) => {
+const saveProject = ({ dispatch }, data) => {
   // console.log('save', data);
   api.request('post', `projects/${data.id}`, data)
     .then((res) => {
       if (res.status === 200) {
-        // commit('SAVED_PROJECT', data);
         dispatch('loadProjects');
       }
     });
 };
 
-const addUserToProject = ({ dispatch, commit }, data) => {
+const addUserToProject = ({ dispatch }, data) => {
   api.request('post', `projects/${data.id}/add_user/${data.userId}`)
     .then((res) => {
       if (res.status === 200) {
-        // commit('ADD_USER_TO_PROJECT', data);
         dispatch('loadProjects');
       }
     });
 };
 
-const deleteUserFromProject = ({ dispatch, commit }, data) => {
+const deleteUserFromProject = ({ dispatch }, data) => {
   // console.log('delete', data);
   api.request('delete', `projects/${data.id}/users/${data.userId}`)
     .then((res) => {
       if (res.status === 200) {
-        // commit('DELETE_USER_FROM_PROJECT', data);
         dispatch('loadProjects');
       }
     });
@@ -80,31 +75,28 @@ const loadUsers = ({ commit }) => {
     });
 };
 
-const createUser = ({ dispatch, commit }, data) => {
+const createUser = ({ dispatch }, data) => {
   api.request('post', 'users/', data)
     .then((res) => {
       if (res.status === 200) {
-        // commit('CREATE_USER', data);
         dispatch('loadUsers');
       }
     });
 };
 
-const deleteUser = ({ dispatch, commit }, id) => {
+const deleteUser = ({ dispatch }, id) => {
   api.request('delete', `users/${id}`)
     .then((res) => {
       if (res.status === 200) {
-        // commit('DELETED_USER', id);
         dispatch('loadUsers');
       }
     });
 };
 
-const saveUser = ({ dispatch, commit }, data) => {
+const saveUser = ({ dispatch }, data) => {
   api.request('post', `users/${data.id}`, data)
     .then((res) => {
       if (res.status === 200) {
-        // commit('SAVED_USER', data);
         dispatch('loadUsers');
       }
     });
@@ -120,63 +112,55 @@ const loadTasks = ({ commit }) => {
     });
 };
 
-const createTask = ({ dispatch, commit }, data) => {
+const createTask = ({ dispatch }, data) => {
   api.request('post', 'tasks/', data)
     .then((res) => {
       if (res.status === 200) {
-        // console.log(res);
-        // commit('CREATE_TASK', data);
         dispatch('loadTasks');
         dispatch('loadProjects');
       }
     });
 };
 
-const deleteTaskFromUser = ({ dispatch, commit }, data) => {
+const deleteTaskFromUser = ({ dispatch }, data) => {
   if (data.id === '') {
     api.request('delete', `task/${data.taskId}`)
       .then((res) => {
         if (res.status === 200) {
-          // commit('DELETED_TASK', data);
           dispatch('loadTasks');
         }
       });
   } else {
-    // console.log('delete', data);
     api.request('delete', `users/${data.id}/task/${data.taskId}`)
       .then((res) => {
         if (res.status === 200) {
-          // commit('DELETE_TASK_FROM_PROJECT', data);
           dispatch('loadProjects');
         }
       });
     api.request('delete', `task/${data.taskId}`)
       .then((res) => {
         if (res.status === 200) {
-          // commit('DELETED_TASK', data);
           dispatch('loadTasks');
         }
       });
   }
 };
 
-const saveTaskToProject = ({ dispatch, commit }, data) => {
+const saveTaskToProject = ({ dispatch }, data) => {
   api.request('post', `tasks/${data.id}`, data)
     .then((res) => {
       if (res.status === 200) {
-        // commit('SAVED_TASK', data);
         dispatch('loadTasks');
         dispatch('loadProjects');
       }
     });
 };
 
-const saveTaskListToUser = ({ dispatch, commit }, data) => {
+const saveTaskListToUser = ({ dispatch }, data) => {
   if (data.userId === '' || data.userId === data.oldUserId) {
     api.request('post', `tasks/${data.id}`, data)
       .then((res) => {
         if (res.status === 200) {
-          // commit('SAVED_TASK', data);
           dispatch('loadTasks');
           dispatch('loadProjects');
         }
@@ -185,7 +169,6 @@ const saveTaskListToUser = ({ dispatch, commit }, data) => {
     api.request('post', `tasks/${data.id}`, data)
       .then((res) => {
         if (res.status === 200) {
-          // commit('SAVED_TASK', data);
           dispatch('loadTasks');
           dispatch('loadProjects');
         }
@@ -194,7 +177,6 @@ const saveTaskListToUser = ({ dispatch, commit }, data) => {
     api.request('post', `users/${data.userId}/add_task/${data.id}`)
       .then((res) => {
         if (res.status === 200) {
-          // commit('ADD_TASK_TO_USER', data);
           dispatch('loadProjects');
         }
       });
@@ -202,7 +184,6 @@ const saveTaskListToUser = ({ dispatch, commit }, data) => {
     api.request('post', `tasks/${data.id}`, data)
       .then((res) => {
         if (res.status === 200) {
-          // commit('SAVED_TASK', data);
           dispatch('loadTasks');
           dispatch('loadProjects');
         }
@@ -211,7 +192,6 @@ const saveTaskListToUser = ({ dispatch, commit }, data) => {
     api.request('delete', `users/${data.oldUserId}/task/${data.id}`)
       .then((res) => {
         if (res.status === 200) {
-          // commit('DELETE_TASK_FROM_PROJECT', data);
           dispatch('loadProjects');
         }
       });
@@ -219,7 +199,6 @@ const saveTaskListToUser = ({ dispatch, commit }, data) => {
     api.request('post', `users/${data.userId}/add_task/${data.id}`)
       .then((res) => {
         if (res.status === 200) {
-          // commit('ADD_TASK_TO_USER', data);
           dispatch('loadProjects');
         }
       });

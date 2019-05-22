@@ -24,12 +24,15 @@ export default {
   props: {
     days: {
       type: Array,
+      default: null,
     },
     monthName: {
       type: String,
+      required: true,
     },
     number: {
       type: Number,
+      default: null,
     },
   },
   methods: {

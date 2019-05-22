@@ -11,5 +11,9 @@
         "airbnb-base",
         "plugin:vue/recommended"
     ],
-    "rules": {}
+    "rules": {
+        "no-param-reassign": [2, { "props": false }],
+        "no-underscore-dangle": [1, { "allow": ["_id"] }],
+        // "no-restricted-globals": ["error", "event", "fdescribe"]
+    }
 }

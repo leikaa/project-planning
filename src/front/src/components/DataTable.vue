@@ -54,8 +54,42 @@
 <script>
 export default {
   name: 'DataTable',
-  props: ['headers', 'items', 'loading', 'controls', 'pagination', 'transforms',
-    'totalItems', 'disableInitialSort', 'hideActions'],
+  props: {
+    headers: {
+      type: Array,
+      default: null,
+    },
+    items: {
+      type: Array,
+      default: null,
+    },
+    loading: {
+      type: Boolean,
+      default: false,
+    },
+    controls: {
+      type: Array,
+      default: null,
+    },
+    transforms: {
+      type: Object,
+      default() {
+        return { message: 'Ошибка данных' };
+      },
+    },
+    totalItems: {
+      type: String,
+      default: null,
+    },
+    disableInitialSort: {
+      type: String,
+      default: null,
+    },
+    hideActions: {
+      type: Boolean,
+      default: false,
+    },
+  },
   computed: {
     showControls() {
       return this.$props.controls && this.$props.controls.length;
@@ -83,7 +117,7 @@ export default {
     },
 
     emit(emit, item) {
-      console.log('emit', emit, item);
+      // console.log('emit', emit, item);
       this.$emit(emit, item);
     },
 

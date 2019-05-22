@@ -10,9 +10,11 @@ export default {
   props: {
     dayInWeek: {
       type: Number,
+      default: null,
     },
     dayInName: {
       type: String,
+      required: true,
     },
   },
 };

@@ -25,6 +25,9 @@ export default {
   props: {
     item: {
       type: Object,
+      default() {
+        return { message: 'Ошибка данных' };
+      },
     },
   },
   computed: {
@@ -60,7 +63,7 @@ export default {
     width: 100%;
     justify-content:center;
     pointer-events: none;
-    border: 1px solid gray;
+    // border: 1px solid gray;
   }
 }
 </style>

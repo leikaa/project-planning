@@ -35,10 +35,19 @@
 <script>
 export default {
   name: 'BacklogData',
-  props: ['items', 'controls'],
+  props: {
+    items: {
+      type: Array,
+      default: null,
+    },
+    controls: {
+      type: Array,
+      default: null,
+    },
+  },
   methods: {
     emit(emit, item) {
-      console.log('emit', emit, item);
+      // console.log('emit', emit, item);
       this.$emit(emit, item);
     },
   },

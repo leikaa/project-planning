@@ -145,6 +145,7 @@ export default {
     },
 
     saveTaskToProject(item) {
+      // eslint-disable-next-line no-console
       console.log('Проект сохранен', item.taskId, this.currentProjectId);
       this.$store.dispatch('saveTaskToProject', {
         id: item.taskId,
@@ -157,6 +158,7 @@ export default {
     },
 
     deleteTaskFromUser() {
+      // eslint-disable-next-line no-console
       console.log('Задача удалена', this.taskId, this.userId);
       this.$store.dispatch('deleteTaskFromUser', {
         taskId: this.taskId,
@@ -223,7 +225,7 @@ export default {
     },
 
     getCurrentItemYCoordinate() {
-      let { top } = event.currentTarget.style;
+      const { top } = event.currentTarget.style;
       // const test = top.slice(0, -2);
       // if ((+test < 0) || (+test > 92)) {
       //   //console.log('Вышел за пределы');
@@ -268,7 +270,7 @@ export default {
     getIdUserField() {
       // var dragged = event.target;
       // event.preventDefault();
-      console.log('test', event);
+      // console.log('test', event);
       // if (event.target.className == 'user-task__item') {
       //   dragged.parentNode.removeChild(dragged);
       //   event.target.appendChild(dragged);

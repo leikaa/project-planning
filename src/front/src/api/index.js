@@ -19,8 +19,10 @@ const request = (method, uri, data = null, timeout = 5000) => {
     ? uri
     : server.serverURI + uri;
 
-  return axios({ method, url, data, timeout })
-    .catch(error => {
+  return axios({
+    method, url, data, timeout,
+  })
+    .catch((error) => {
       store.commit('SET_ERROR', error);
     });
 };
@@ -29,7 +31,7 @@ const getData = (method, uri) => {
   // console.log('getData', store);
   store.commit('project/LOADING');
   return request(method, uri)
-    .then(response => {
+    .then((response) => {
       // console.log('getData response', response);
       if (response.data.status !== 'ok') {
         store.commit('project/LOADING_ERROR', { message: 'Response status is not ok', code: 406 });
@@ -39,7 +41,7 @@ const getData = (method, uri) => {
       store.commit('project/LOADED');
       return response.data.data;
     })
-    .catch(error => {
+    .catch((error) => {
       store.commit('project/LOADING_ERROR', error);
     });
 };
