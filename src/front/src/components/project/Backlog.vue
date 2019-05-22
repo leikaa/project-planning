@@ -233,7 +233,7 @@ export default {
     },
 
     distributedTasks() {
-      return this.tasks.filter(item => item.projectId === this.currentProjectId && item.userId != '');
+      return this.tasks.filter(item => item.projectId === this.currentProjectId && item.userId !== '');
     },
 
     currentProject() {

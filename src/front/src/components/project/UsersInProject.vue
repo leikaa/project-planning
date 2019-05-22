@@ -36,9 +36,19 @@
 <script>
 export default {
   name: 'User',
-  props: ['items', 'controls'],
+  props: {
+    items: {
+      type: Array,
+      default: null,
+    },
+    controls: {
+      type: Array,
+      default: null,
+    },
+  },
   methods: {
     emit(emit, item) {
+      // eslint-disable-next-line no-console
       console.log('emit', emit, item);
       this.$emit(emit, item);
     },

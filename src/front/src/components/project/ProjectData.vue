@@ -38,7 +38,16 @@
 <script>
 export default {
   name: 'ProjectData',
-  props: ['items', 'controls'],
+  props: {
+    items: {
+      type: Array,
+      default: null,
+    },
+    controls: {
+      type: Array,
+      default: null,
+    },
+  },
   computed: {
     showControls() {
       return this.$props.controls && this.$props.controls.length;

@@ -1,7 +1,7 @@
 <template>
   <div class="week calendar__week">
     <div class="week__month-info">
-      {{ monthName }}
+      {{ number }}
     </div>
     <day
       v-for="(day, index ,) in days"
@@ -24,9 +24,15 @@ export default {
   props: {
     days: {
       type: Array,
+      default: null,
     },
     monthName: {
       type: String,
+      required: true,
+    },
+    number: {
+      type: Number,
+      default: null,
     },
   },
   methods: {

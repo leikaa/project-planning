@@ -46,8 +46,6 @@
 </template>
 
 <script>
-import 'style.sass';
-import { mapGetters } from 'vuex';
 import ChangeUsersInProjects from '../components/project/ChangeUsersInProjects';
 import CalendarHeader from '../components/calendar/CalendarHeader';
 import UserTask from '../components/project/UserTask';
