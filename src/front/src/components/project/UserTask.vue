@@ -3,13 +3,13 @@
     <div class="task-list">
       <div
         v-for="(list, index) in filterTaskListUsers"
+        :ref="list._id"
         :key="index"
-        ref="getCoordsTaskList"
         :data-id="index"
         :data-name="list.name"
-        :data-userId="list.userId"
+        :data-userId="list._id"
+        :style="{ height: `${lineHeigth * list.countLines}px` }"
         class="pole user-task task-list__item"
-        @click="getIdUserField()"
       >
         <vue-draggable-resizable
           v-for="item in list.task"
@@ -21,6 +21,7 @@
           :item="item"
           :handles="['ml', 'mr']"
           :grid="[21, 46]"
+          :data-parentId="list._id"
           maximize
           @mouseup.native="saveTaskToProject(item)"
           @dblclick.native="deleteItem(item)"
@@ -28,6 +29,7 @@
           <div
             class="user-task__item"
             :style="`background: ${item.rgb}`"
+            :draggable="true"
           >
             <div class="task-text">
               {{ item.name }}
@@ -57,7 +59,6 @@ import VueDraggableResizable from '../vue-drag/index.js';
 // eslint-disable-next-line import/no-unresolved
 import OneFieldModal from '../common/OneFieldModal ';
 
-// const step = 21;
 export default {
   name: 'UserTask',
   components: {
@@ -68,6 +69,7 @@ export default {
   data() {
     return {
       showDeleteTask: false,
+      lineHeigth: 46,
     };
   },
 
@@ -95,6 +97,7 @@ export default {
     filterTaskListUsers() {
       return this.currentProjectUsers.map((item) => {
         item.task = item.task.filter(el => el.projectId === this.currentProjectId);
+        item.countLines = 3;
         return item;
       });
     },
@@ -145,10 +148,15 @@ export default {
     },
 
     saveTaskToProject(item) {
+      const newBlock = this.getIdUserField();
+      console.log('newBlock', newBlock);
+      // eslint-disable-next-line no-console
       console.log('Проект сохранен', item.taskId, this.currentProjectId);
       this.$store.dispatch('saveTaskToProject', {
         id: item.taskId,
         projectId: this.currentProjectId,
+        oldUserId: item.userId,
+        userId: this.getIdUserField(),
         startDate: this.getStartDateFromCoords(),
         endDate: this.getEndDateFromCoords(),
         y: this.getCurrentItemYCoordinate(),
@@ -157,6 +165,7 @@ export default {
     },
 
     deleteTaskFromUser() {
+      // eslint-disable-next-line no-console
       console.log('Задача удалена', this.taskId, this.userId);
       this.$store.dispatch('deleteTaskFromUser', {
         taskId: this.taskId,
@@ -224,13 +233,12 @@ export default {
 
     getCurrentItemYCoordinate() {
       let { top } = event.currentTarget.style;
-      // const test = top.slice(0, -2);
-      // if ((+test < 0) || (+test > 92)) {
-      //   //console.log('Вышел за пределы');
-      //   top = 0;
-      //   return top;
-      // }
-      // console.log('top', top);
+      const test = top.slice(0, -2);
+      if ((+test < 0) || (+test > 92)) {
+        console.log('Вышел за пределы', top);
+        return top = 0;
+      }
+      console.log('top', top);
       return top.slice(0, -2);
     },
 
@@ -266,20 +274,51 @@ export default {
     },
 
     getIdUserField() {
-      // var dragged = event.target;
-      // event.preventDefault();
-      console.log('test', event);
-      // if (event.target.className == 'user-task__item') {
-      //   dragged.parentNode.removeChild(dragged);
-      //   event.target.appendChild(dragged);
-      // }
+      const currentY = parseInt(event.currentTarget.style.top, 10);
+      const currentBlockId = event.currentTarget.dataset.parentid;
+      // console.log('currentBlockId', currentBlockId);
+      const blocks = {
+        before: [],
+        after: [],
+        current: {},
+      };
+      let currentName = 'before';
+      this.currentProjectUsers.forEach((item) => {
+        const { _id } = item;
+        if (currentBlockId === _id) {
+          currentName = 'after';
+          blocks.current = this.lineHeigth * item.countLines;
+          return true;
+        }
+        blocks[currentName].push({
+          id: _id,
+          height: this.lineHeigth * item.countLines,
+        });
+        return true;
+      });
+      blocks.before = blocks.before.reverse();
 
-      // const test = event;
-      // const test = event.target.dataset.name;
-      // const test2 = event.currentTarget.dataset.id;
-      // console.log("test", test);
-      // console.log("test2", test2);
-      // return test && test2;
+      if (currentY < 0 && blocks.before.length > 0) {
+        let sum = this.lineHeigth;
+        for (const block of blocks.before) {
+          // console.log('iter 1', block, block.height, sum, Math.abs(currentY));
+          if (block.height + sum >= Math.abs(currentY)) {
+            return block.id;
+          }
+          sum += this.lineHeigth + block.height;
+        }
+      }
+      if (currentY > blocks.current && blocks.after.length > 0) {
+        let sum = this.lineHeigth + blocks.current;
+        for (const block of blocks.after) {
+          // console.log('iter 2', block, block.height, sum, Math.abs(currentY));
+          if (block.height + sum >= Math.abs(currentY)) {
+            return block.id;
+          }
+          sum += this.lineHeigth + block.height;
+        }
+      }
+      return currentBlockId;
     },
   },
 };

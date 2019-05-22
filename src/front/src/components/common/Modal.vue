@@ -43,7 +43,20 @@
 <script>
 export default {
   name: 'Modal',
-  props: ['showDialog', 'modalTitle', 'activatorText', 'modalSubmitButton'],
+  props: {
+    showDialog: {
+      type: Boolean,
+      default: false,
+    },
+    modalTitle: {
+      type: String,
+      required: true,
+    },
+    modalSubmitButton: {
+      type: String,
+      required: true,
+    },
+  },
   data() {
     return {
       formValid: false,
