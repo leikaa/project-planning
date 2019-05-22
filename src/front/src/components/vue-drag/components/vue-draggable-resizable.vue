@@ -315,7 +315,7 @@ export default {
 
       this.resizing = true;
     },
-    fillParent(e) {
+    fillParent() {
       if (!this.parent || !this.resizable || !this.maximize) return;
 
       let done = false;
@@ -344,25 +344,25 @@ export default {
 
         if (this.axis === 'x' || this.axis === 'both') {
           if (this.width < this.parentW) {
-            this.width++;
-            this.elmW++;
+            this.width += 1;
+            this.elmW += 1;
           }
 
           if (this.left > this.parentX) {
-            this.left--;
-            this.elmX--;
+            this.left -= 1;
+            this.elmX -= 1;
           }
         }
 
         if (this.axis === 'y' || this.axis === 'both') {
           if (this.height < this.parentH) {
-            this.height++;
-            this.elmH++;
+            this.height += 1;
+            this.elmH += 1;
           }
 
           if (this.top > this.parentY) {
-            this.top--;
-            this.elmY--;
+            this.top -= 1;
+            this.elmY -= 1;
           }
         }
 

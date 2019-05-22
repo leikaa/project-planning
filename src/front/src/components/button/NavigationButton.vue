@@ -11,7 +11,12 @@
 <script>
 export default {
   name: 'NavigationButton',
-  props: ['postTitle'],
+  props: {
+    postTitle: {
+      type: String,
+      required: true,
+    },
+  },
 };
 </script>
 

@@ -49,8 +49,24 @@
 <script>
 export default {
   name: 'Modal',
-  // eslint-disable-next-line vue/require-prop-types
-  props: ['showDialog', 'modalTitle', 'modalSubmitButton', 'label'],
+  props: {
+    showDialog: {
+      type: Boolean,
+      default: false,
+    },
+    modalTitle: {
+      type: String,
+      required: true,
+    },
+    modalSubmitButton: {
+      type: String,
+      required: true,
+    },
+    label: {
+      type: String,
+      default: '',
+    },
+  },
   data() {
     return {
       formValid: false,

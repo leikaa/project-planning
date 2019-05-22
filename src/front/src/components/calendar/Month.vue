@@ -8,7 +8,8 @@
       :key="index"
       :data-index="index"
       :month-name="getMonthName(item.weeks, index)"
-      :days="days"
+      :days="days.items"
+      :number="days.number"
     />
   </div>
 </template>
@@ -24,6 +25,9 @@ export default {
   props: {
     item: {
       type: Object,
+      default() {
+        return { message: 'Ошибка данных' };
+      },
     },
   },
   computed: {
@@ -37,7 +41,7 @@ export default {
         return this.item.name;
       }
       const lastDaysInMonth = [28, 29, 30, 31];
-      const lastWeek = weeks[weeks.length - 1];
+      const lastWeek = weeks[weeks.length - 1].items;
       const numLastDayInWeek = lastWeek[lastWeek.length - 1].num;
       return lastDaysInMonth.includes(numLastDayInWeek) ? this.item.name : this.item.nextMonthName;
     },
@@ -59,7 +63,7 @@ export default {
     width: 100%;
     justify-content:center;
     pointer-events: none;
-    border: 1px solid gray;
+    // border: 1px solid gray;
   }
 }
 </style>
