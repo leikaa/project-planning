@@ -1,6 +1,5 @@
 <template>
   <div class="calendar__day">
-    <!-- {{ test }} -->
     {{ dayInName }}
     {{ dayInWeek }}
   </div>
@@ -12,9 +11,6 @@ export default {
     dayInWeek: {
       type: Number,
     },
-    // test: {
-    //   type: Number,
-    // },
     dayInName: {
       type: String,
     },

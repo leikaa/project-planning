@@ -8,7 +8,8 @@
       :key="index"
       :data-index="index"
       :month-name="getMonthName(item.weeks, index)"
-      :days="days"
+      :days="days.items"
+      :number="days.number"
     />
   </div>
 </template>
@@ -37,7 +38,7 @@ export default {
         return this.item.name;
       }
       const lastDaysInMonth = [28, 29, 30, 31];
-      const lastWeek = weeks[weeks.length - 1];
+      const lastWeek = weeks[weeks.length - 1].items;
       const numLastDayInWeek = lastWeek[lastWeek.length - 1].num;
       return lastDaysInMonth.includes(numLastDayInWeek) ? this.item.name : this.item.nextMonthName;
     },

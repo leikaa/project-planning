@@ -23,17 +23,12 @@ export default {
   components: {
     Month,
   },
-  data() {
-    return {
-      months: [],
-    };
-  },
+
   methods: {
     getMonthWithDays() {
       const months = [];
       this.setMonths(months);
       this.setWeeks(months);
-      // console.log(months)
       return months;
     },
     setMonths(months) {
@@ -44,39 +39,37 @@ export default {
           nextMonthName: moment([2018]).month(i + 1).format('MMMM - YYYY'),
           index: i,
           weeks: [],
-          numWeek: [],
         });
       }
-      // console.log('months', months.week);
     },
     setWeeks(months) {
       let numAddedDays = 0;
-      months.forEach((el, numMonth) => {
+      months.forEach((el, numMonth, monthArr) => {
         const numWeeksInMonth = Math.ceil(el.numDays / NUM_DAYS_IN_WEEK);
         let isAllDays = false;
-        for (let i = 0; i < numWeeksInMonth; i += 1) {
-          el.weeks[i] = [];
+        for (let i = el.weeks.length; i < numWeeksInMonth; i += 1) {
+          el.weeks[i] = { items: [], number: null };
           for (let j = 0; j < NUM_DAYS_IN_WEEK; j += 1) {
             if (numAddedDays === el.numDays) {
               isAllDays = true;
             }
             numAddedDays = numAddedDays < el.numDays ? ++numAddedDays : 1;
-            // console.log(numAddedDays)
-
             const curDay = new Date(CUR_YEAR, numMonth, numAddedDays);
-            // console.log(numMonth)
-
-            el.weeks[i].push({
+            el.weeks[i].items.push({
               name: moment(curDay).weekday(j + 1).format('dd'),
               num: numAddedDays,
-              weeknumber: moment(curDay).isoWeek(),
             });
-            // console.log("Это j",j)
           }
-          if (isAllDays && el.weeks[i].length === NUM_DAYS_IN_WEEK) {
+          const maxDayNumber = Math.max(...el.weeks[i].items.map(item => item.num));
+          const d = new Date(CUR_YEAR, numMonth, maxDayNumber);
+          el.weeks[i].number = moment(d).isoWeek();
+
+          if (isAllDays && el.weeks[i].items.length === NUM_DAYS_IN_WEEK) {
+            if (numMonth !== 0 && el.weeks[i].number === 1 && monthArr[numMonth + 1]) {
+              monthArr[numMonth + 1].weeks.push(el.weeks.pop());
+            }
             break;
           }
-          // console.log("Это i",i)
         }
       });
     },
