@@ -1,7 +1,7 @@
 <template>
   <div class="week calendar__week">
     <div class="week__month-info">
-      {{ number }}
+       {{ number  }}
     </div>
     <day
       v-for="(day, index ,) in days"

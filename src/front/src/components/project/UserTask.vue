@@ -276,6 +276,7 @@ export default {
     getIdUserField() {
       const currentY = parseInt(event.currentTarget.style.top, 10);
       const currentBlockId = event.currentTarget.dataset.parentid;
+      var count = 0;
       // console.log('currentBlockId', currentBlockId);
       const blocks = {
         before: [],
@@ -301,7 +302,8 @@ export default {
       if (currentY < 0 && blocks.before.length > 0) {
         let sum = this.lineHeigth;
         for (const block of blocks.before) {
-          // console.log('iter 1', block, block.height, sum, Math.abs(currentY));
+          count++;
+          console.log('iter 1', block, block.height, sum, Math.abs(currentY), count);
           if (block.height + sum >= Math.abs(currentY)) {
             return block.id;
           }
@@ -311,8 +313,10 @@ export default {
       if (currentY > blocks.current && blocks.after.length > 0) {
         let sum = this.lineHeigth + blocks.current;
         for (const block of blocks.after) {
-          // console.log('iter 2', block, block.height, sum, Math.abs(currentY));
+          count;
+          console.log('iter 2', block, block.height, sum, Math.abs(currentY), count);
           if (block.height + sum >= Math.abs(currentY)) {
+            // вернуть blocks и в следующей фунции проводить итерацию на предмет колличества итераций. 
             return block.id;
           }
           sum += this.lineHeigth + block.height;
