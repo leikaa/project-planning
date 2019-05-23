@@ -147,7 +147,7 @@ const deleteTaskFromUser = ({ dispatch }, data) => {
 };
 
 const saveTaskToProject = ({ dispatch }, data) => {
-  // console.log('data', data);
+  // console.log("data" , data);
   if (data.userId === data.oldUserId) {
     api.request('post', `tasks/${data.id}`, data)
       .then((res) => {
@@ -156,6 +156,29 @@ const saveTaskToProject = ({ dispatch }, data) => {
           dispatch('loadProjects');
         }
       });
+    if (data.oldY === 138) {
+      api.request('delete', `users/${data.oldUserId}/task/${data.id}`)
+        .then((res) => {
+          if (res.status === 200) {
+            dispatch('loadProjects');
+          }
+        });
+      setTimeout(() => {
+        api.request('post', `users/${data.userId}/add_task/${data.id}`)
+          .then((res) => {
+            if (res.status === 200) {
+              dispatch('loadProjects');
+            }
+          });
+        api.request('post', `tasks/${data.id}`, data)
+          .then((res) => {
+            if (res.status === 200) {
+              dispatch('loadTasks');
+              dispatch('loadProjects');
+            }
+          });
+      }, 100);
+    }
   } else {
     api.request('post', `users/${data.userId}/add_task/${data.id}`)
       .then((res) => {

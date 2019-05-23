@@ -1,5 +1,3 @@
-/* eslint-disable no-underscore-dangle */
-/* eslint-disable no-param-reassign */
 // 'use strict';
 
 class UpdateProject {
@@ -13,10 +11,10 @@ class UpdateProject {
 
   async execute(filter, update) {
     this.logger.debug('UpdateProject', filter, update);
-    const id = update;
-    delete (update.id);
+    const obj = update;
+    delete (obj.id);
     await this.projectModel.findOneAndUpdate(filter, update);
-    update._id = id;
+    obj._id = obj;
     return true;
   }
 }

@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 // 'use strict';
 
 class CreateUser {
@@ -12,7 +11,8 @@ class CreateUser {
 
   async execute(params) {
     this.logger.debug('CreateUser', params);
-    params.task = [];
+    const users = params;
+    users.task = [];
     const result = await this.userModel.insertOne(params);
     this.logger.debug('CreateUser 2', result);
     return true;

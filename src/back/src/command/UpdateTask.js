@@ -1,5 +1,3 @@
-/* eslint-disable no-underscore-dangle */
-/* eslint-disable no-param-reassign */
 // 'use strict';
 
 class UpdateTask {
@@ -15,10 +13,10 @@ class UpdateTask {
 
   async execute(filter, update) {
     this.logger.debug('UpdateTask', filter, update);
-    const id = update;
-    delete (update.id);
+    const obj = update;
+    delete (obj.id);
     await this.taskModel.findOneAndUpdate(filter, update);
-    update._id = id;
+    obj._id = obj;
     return true;
   }
 }

@@ -176,14 +176,10 @@
 
 <script>
 import moment from 'moment';
-// eslint-disable-next-line import/no-unresolved
-import BacklogData from './BacklogData';
-// eslint-disable-next-line import/no-unresolved
-import Modal from '../common/Modal';
-// eslint-disable-next-line import/no-unresolved
-import OneFieldModal from '../common/OneFieldModal ';
-// eslint-disable-next-line import/no-unresolved
-import CreateButton from '../button/CreateButton';
+import BacklogData from './BacklogData.vue';
+import Modal from '../common/Modal.vue';
+import OneFieldModal from '../common/OneFieldModal.vue';
+import CreateButton from '../button/CreateButton.vue';
 
 export default {
   name: 'Backlog',
@@ -316,7 +312,11 @@ export default {
     },
 
     createTask() {
-      console.log('Задача добавлена', this.formFields.name, this.formFields.description, this.formFields.current);
+      // console.log('Задача добавлена',
+      // this.formFields.name,
+      // this.formFields.description,
+      // this.formFields.current
+      // );
       this.$store.dispatch('createTask', {
         userId: this.formFields.selectedElement,
         projectId: this.currentProjectId,
@@ -332,15 +332,15 @@ export default {
     },
 
     saveTaskListToUser() {
-      console.log(
-        'Проект сохранен',
-        this.id,
-        this.formFields.name,
-        this.formFields.description,
-        this.formFields.oldUserId,
-        this.formFields.selectedElement,
-        this.formFields.rgb,
-      );
+      // console.log(
+      //   'Проект сохранен',
+      //   this.id,
+      //   this.formFields.name,
+      //   this.formFields.description,
+      //   this.formFields.oldUserId,
+      //   this.formFields.selectedElement,
+      //   this.formFields.rgb,
+      // );
       this.$store.dispatch('saveTaskListToUser', {
         id: this.id,
         userId: this.formFields.selectedElement,
@@ -353,7 +353,7 @@ export default {
     },
 
     deleteTaskFromUser() {
-      console.log('Задача удалена', this.taskId, this.userId);
+      // console.log('Задача удалена', this.taskId, this.userId);
       this.$store.dispatch('deleteTaskFromUser', {
         taskId: this.taskId,
         id: this.userId,

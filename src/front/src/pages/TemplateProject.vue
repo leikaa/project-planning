@@ -46,10 +46,10 @@
 </template>
 
 <script>
-import ChangeUsersInProjects from '../components/project/ChangeUsersInProjects';
-import CalendarHeader from '../components/calendar/CalendarHeader';
-import UserTask from '../components/project/UserTask';
-import Backlog from '../components/project/Backlog';
+import ChangeUsersInProjects from '../components/project/ChangeUsersInProjects.vue';
+import CalendarHeader from '../components/calendar/CalendarHeader.vue';
+import UserTask from '../components/project/UserTask.vue';
+import Backlog from '../components/project/Backlog.vue';
 
 export default {
   name: 'TemplateProject',
@@ -87,7 +87,7 @@ export default {
       const currentDay = this.getCurrentDate();
       const FirstCalendarDay = new Date(2018, 0, 1);
       const numberDay = (currentDay - FirstCalendarDay) / 1000 / 60 / 60 / 24 + 1;
-      const cordX = numberDay * 21 - 20;
+      const cordX = numberDay * 21 - 19;
       return cordX;
     },
     getMondey() {
@@ -119,10 +119,10 @@ body{
 }
 .currentDate{
   width: 20px;
-  height: 36px;
+  height: 34px;
   position: absolute;
   top: 36px;
-  background: rgba(0, 128, 0, 0.4);
+  background: rgba(21, 230, 0, 0.4);
   border-radius: 3px;
   border: 1px solid rgba(0, 128, 0, 1);
 }
@@ -130,7 +130,7 @@ body{
   width: 147px;
   height: 54px;
   position: absolute;
-  border: 2px solid rgba(30, 144, 255, 1);
+  border: 2px solid rgba(21, 230, 0, 1);
   top: 18px;
   box-shadow: 0 0 2px rgba(0, 0, 0, 1);
 }

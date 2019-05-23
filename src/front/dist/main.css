@@ -1,31 +1,27 @@
+.ButtonNavigation {
+  display: flex;
+  width: 200px;
+  height: 40px;
+  font-weight: 700;
+  font-size: 15px;
+  border-radius: 10px;
+}
+
 html {
   overflow-y: auto;
   overflow-x: auto;
 }
 .menu {
   display: flex;
+  position: fixed;
   height: 50px;
   width: 100%;
   background: #fff;
-  position: fixed;
-  top: 0;
+  justify-content: center;
   z-index: 11;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
 }
-.ButtonNavigation {
-  display: flex;
-  width: 200px;
-  height: 40px;
-  margin: auto;
-  font-weight: 700;
-  font-size: 15px;
-  color: white;
-  border-radius: 3px;
-  background: #40c781;
-  box-shadow: 0 -3px #35a76e inset;
-  align-items: center;
-  justify-content: center;
-  color: white;
+.routerLink {
   text-decoration: none;
 }
 
@@ -60,12 +56,16 @@ html {
   height: 36px;
 }
 
-.button_create {
-  text-decoration: none;
+.button_add_task_in_project {
+  display: flex;
+  height: 50px;
+  background: rgba(255, 255, 255, 0);
+  justify-content: center;
   margin: 5px;
-  box-sizing: border-box;
-  max-width: 150px;
-  height: 150px;
+}
+
+.button_user {
+  left: 5px;
 }
 
 .vdr[data-v-438907bf] {
@@ -166,23 +166,18 @@ html {
 }
 }
 
-.button_add_task_in_project {
-  display: flex;
-  height: 50px;
-  /* width: 100%; */
-  background: rgba(255, 255, 255, 0);
-  /* position: absolute; */
-  /* position: fixed;
-  bottom: 0;
-  z-index: 20; */
-  justify-content: center;
-  margin: 5px;
-}
-
 .table-controls.invisible {
   display: none;
 }
 .v-table td {
   cursor: pointer;
+}
+
+.button_add_task_in_project {
+  display: flex;
+  height: 50px;
+  background: rgba(255, 255, 255, 0);
+  justify-content: center;
+  margin: 5px;
 }
 
