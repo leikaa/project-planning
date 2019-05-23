@@ -56,8 +56,9 @@ class Model {
   }
 
   getFilter(filter) {
-    if (filter && filter['_id']) {
-      filter['_id'] = this.db.objectId(filter['_id']);
+    if (filter && filter._id) {
+      const obj = filter;
+      obj._id = this.db.objectId(filter._id);
     }
     return filter;
   }

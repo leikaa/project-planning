@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 /* eslint-disable no-console */
 /* eslint-disable import/no-cycle */
 import api from '../../api';

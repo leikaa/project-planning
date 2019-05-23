@@ -55,14 +55,10 @@
 </template>
 
 <script>
-// eslint-disable-next-line import/no-unresolved
-import UsersInProject from './UsersInProject';
-// eslint-disable-next-line import/no-unresolved
-import OneFieldModal from '../common/OneFieldModal ';
-// eslint-disable-next-line import/no-unresolved
-import RoundAddButton from '../button/RoundAddButton';
-// eslint-disable-next-line import/no-unresolved
-import Modal from '../common/Modal';
+import UsersInProject from './UsersInProject.vue';
+import OneFieldModal from '../common/OneFieldModal.vue';
+import RoundAddButton from '../button/RoundAddButton.vue';
+import Modal from '../common/Modal.vue';
 
 
 export default {
@@ -160,7 +156,7 @@ export default {
     },
 
     saveProject() {
-      console.log('Участник добавлен в проект', this.formFields.selectedElement, this.id);
+      // console.log('Участник добавлен в проект', this.formFields.selectedElement, this.id);
       this.$store.dispatch('addUserToProject', {
         userId: this.formFields.selectedElement,
         id: this.currentProjectId,
@@ -169,7 +165,7 @@ export default {
     },
 
     deleteUserFromProject() {
-      console.log('Участник удалён из проекта', this.userId, this.id);
+      // console.log('Участник удалён из проекта', this.userId, this.id);
       this.$store.dispatch('deleteUserFromProject', {
         id: this.id,
         userId: this.userId,

@@ -22,6 +22,7 @@
           :handles="['ml', 'mr']"
           :grid="[21, 46]"
           :data-parentId="list._id"
+          :data-id="index"
           maximize
           @mouseup.native="saveTaskToProject(item)"
           @dblclick.native="deleteItem(item)"
@@ -54,10 +55,8 @@
 
 <script>
 import moment from 'moment';
-// eslint-disable-next-line import/extensions
-import VueDraggableResizable from '../vue-drag/index.js';
-// eslint-disable-next-line import/no-unresolved
-import OneFieldModal from '../common/OneFieldModal ';
+import VueDraggableResizable from '../vue-drag/index';
+import OneFieldModal from '../common/OneFieldModal.vue';
 
 export default {
   name: 'UserTask',
@@ -70,6 +69,7 @@ export default {
     return {
       showDeleteTask: false,
       lineHeigth: 46,
+      h: 138,
     };
   },
 
@@ -149,24 +149,26 @@ export default {
 
     saveTaskToProject(item) {
       const newBlock = this.getIdUserField();
-      console.log('newBlock', newBlock);
-      // eslint-disable-next-line no-console
-      console.log('Проект сохранен', item.taskId, this.currentProjectId);
+      let test = newBlock.id;
+      if (test === undefined) {
+        test = item.userId;
+      }
       this.$store.dispatch('saveTaskToProject', {
         id: item.taskId,
         projectId: this.currentProjectId,
         oldUserId: item.userId,
-        userId: this.getIdUserField(),
+        userId: test,
+        // userId: this.getIdUserField(),
         startDate: this.getStartDateFromCoords(),
         endDate: this.getEndDateFromCoords(),
-        y: this.getCurrentItemYCoordinate(),
+        y: this.newEndDateFromCoords(),
+        oldY: this.getCurrentItemYCoordinate(),
         dateUpdate: moment().format('MMMM Do YYYY, HH:mm:ss '),
       });
     },
 
     deleteTaskFromUser() {
-      // eslint-disable-next-line no-console
-      console.log('Задача удалена', this.taskId, this.userId);
+      // console.log('Задача удалена', this.taskId, this.userId);
       this.$store.dispatch('deleteTaskFromUser', {
         taskId: this.taskId,
         id: this.userId,
@@ -232,14 +234,8 @@ export default {
     },
 
     getCurrentItemYCoordinate() {
-      let { top } = event.currentTarget.style;
-      const test = top.slice(0, -2);
-      if ((+test < 0) || (+test > 92)) {
-        console.log('Вышел за пределы', top);
-        return top = 0;
-      }
-      console.log('top', top);
-      return top.slice(0, -2);
+      const currentY = parseInt(event.currentTarget.style.top, 10);
+      return currentY;
     },
 
     getCurrentDate() {
@@ -300,25 +296,68 @@ export default {
 
       if (currentY < 0 && blocks.before.length > 0) {
         let sum = this.lineHeigth;
+        let count = 0;
+        const result = {};
         for (const block of blocks.before) {
+          count += 1;
           // console.log('iter 1', block, block.height, sum, Math.abs(currentY));
           if (block.height + sum >= Math.abs(currentY)) {
-            return block.id;
+            result.num = count;
+            result.id = block.id;
+            return result;
           }
           sum += this.lineHeigth + block.height;
         }
       }
       if (currentY > blocks.current && blocks.after.length > 0) {
         let sum = this.lineHeigth + blocks.current;
+        let count = 0;
+        const result = {};
         for (const block of blocks.after) {
+          count += 1;
           // console.log('iter 2', block, block.height, sum, Math.abs(currentY));
           if (block.height + sum >= Math.abs(currentY)) {
-            return block.id;
+            result.num = count;
+            result.id = block.id;
+            return result;
           }
           sum += this.lineHeigth + block.height;
         }
       }
       return currentBlockId;
+    },
+    newEndDateFromCoords() {
+      const sdf = this.getIdUserField();
+      const iter = sdf.num;
+      const endY = this.getCurrentItemYCoordinate();
+      let result = 0;
+      if (endY > 92 && endY <= 138) {
+        result = 92;
+        return result;
+      }
+      if (endY >= 0 && endY <= 92) {
+        return endY;
+      }
+      if (endY < 0) {
+        const perenos = iter * this.h;
+        const promejutcki = iter * this.lineHeigth;
+        result = endY + perenos + promejutcki;
+        if (result === 138) {
+          result = 92;
+          return result;
+        }
+        return result;
+      } if (endY > this.h) {
+        const perenos = iter * this.h;
+        const promejutcki = iter * this.lineHeigth;
+        result = endY - perenos - promejutcki;
+        if (result === 138) {
+          result = 92;
+          return result;
+        }
+        return result;
+      }
+      return result;
     },
   },
 };
