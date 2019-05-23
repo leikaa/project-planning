@@ -53,7 +53,7 @@ export default {
             if (numAddedDays === el.numDays) {
               isAllDays = true;
             }
-            numAddedDays = numAddedDays < el.numDays ? 1 + numAddedDays /* ++numAddedDays */ : 1;
+            numAddedDays = numAddedDays < el.numDays ? 1 + numAddedDays : 1;
             const curDay = new Date(CUR_YEAR, numMonth, numAddedDays);
             el.weeks[i].items.push({
               name: moment(curDay).weekday(j + 1).format('dd'),

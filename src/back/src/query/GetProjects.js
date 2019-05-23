@@ -39,7 +39,8 @@ class GetProjects {
 
     const taskMapY = {};
     taskList.forEach((item) => {
-      item.y = Number.parseInt(item.y);
+      const el = item;
+      el.y = Number.parseInt(el.y, 10);
       taskMapY[item._id] = item.y;
     });
 
@@ -62,13 +63,14 @@ class GetProjects {
         if (elem.task) {
           elem.task.map((el) => {
             if (taskMapRgb[el.taskId]) {
-              el.name = taskMapName[el.taskId];
-              el.userId = taskUserId[el.taskId];
-              el.projectId = taskProjectId[el.taskId];
-              el.rgb = taskMapRgb[el.taskId];
-              el.startDate = taskMapStartDate[el.taskId];
-              el.endDate = taskMapEndDate[el.taskId];
-              el.y = taskMapY[el.taskId];
+              const element = el;
+              element.name = taskMapName[el.taskId];
+              element.userId = taskUserId[el.taskId];
+              element.projectId = taskProjectId[el.taskId];
+              element.rgb = taskMapRgb[el.taskId];
+              element.startDate = taskMapStartDate[el.taskId];
+              element.endDate = taskMapEndDate[el.taskId];
+              element.y = taskMapY[el.taskId];
             }
             // console.log("ELEM",elem)
             return el;

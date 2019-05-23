@@ -48,7 +48,7 @@
 
 <script>
 export default {
-  name: 'Modal',
+  name: 'OneFieldModal',
   props: {
     showDialog: {
       type: Boolean,

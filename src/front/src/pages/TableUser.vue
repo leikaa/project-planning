@@ -43,10 +43,10 @@
 
 <script>
 import moment from 'moment';
-import DataTable from '../components/DataTable';
-import OneFieldModal from '../components/common/OneFieldModal ';
-import CreateButton from '../components/button/CreateButton';
-import UpdateStatusButton from '../components/button/UpdateStatusButton';
+import DataTable from '../components/DataTable.vue';
+import OneFieldModal from '../components/common/OneFieldModal.vue';
+import CreateButton from '../components/button/CreateButton.vue';
+import UpdateStatusButton from '../components/button/UpdateStatusButton.vue';
 
 export default {
   name: 'TableUser',
@@ -154,19 +154,19 @@ export default {
     },
 
     addUser() {
-      console.log('Участник добавлен', this.formFields.name);
+      // console.log('Участник добавлен', this.formFields.name);
       this.$store.dispatch('createUser', { name: this.formFields.name });
       this.showDialogUsers = false;
     },
 
     deleteUser() {
-      console.log('Участник удалён', this.formFields.name, this.id);
+      // console.log('Участник удалён', this.formFields.name, this.id);
       this.$store.dispatch('deleteUser', this.id);
       this.showDialogUsers = false;
     },
 
     saveUser() {
-      console.log('Участник сохранен', this.id, this.formFields.name, this.UpdateDate);
+      // console.log('Участник сохранен', this.id, this.formFields.name, this.UpdateDate);
       this.$store.dispatch('saveUser', {
         name: this.formFields.name,
         id: this.id,

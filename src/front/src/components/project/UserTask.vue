@@ -55,10 +55,8 @@
 
 <script>
 import moment from 'moment';
-// eslint-disable-next-line import/extensions
-import VueDraggableResizable from '../vue-drag/index.js';
-// eslint-disable-next-line import/no-unresolved
-import OneFieldModal from '../common/OneFieldModal ';
+import VueDraggableResizable from '../vue-drag/index';
+import OneFieldModal from '../common/OneFieldModal.vue';
 
 export default {
   name: 'UserTask',
@@ -300,16 +298,13 @@ export default {
         let sum = this.lineHeigth;
         let count = 0;
         const result = {};
-        // console.log('ID', result);
         for (const block of blocks.before) {
-          count++;
+          count += 1;
           // console.log('iter 1', block, block.height, sum, Math.abs(currentY));
           if (block.height + sum >= Math.abs(currentY)) {
             result.num = count;
             result.id = block.id;
-            // console.log('result', result);
             return result;
-            // return block.id;
           }
           sum += this.lineHeigth + block.height;
         }
@@ -319,72 +314,18 @@ export default {
         let count = 0;
         const result = {};
         for (const block of blocks.after) {
-          count++;
+          count += 1;
           // console.log('iter 2', block, block.height, sum, Math.abs(currentY));
           if (block.height + sum >= Math.abs(currentY)) {
             result.num = count;
             result.id = block.id;
-            // console.log('result', result);
             return result;
-            // console.log("dfsdf",block.id);
-            // return block.id;
           }
           sum += this.lineHeigth + block.height;
         }
       }
       return currentBlockId;
     },
-
-    // countIteration() {
-    //   const currentY = parseInt(event.currentTarget.style.top, 10);
-    //   const currentBlockId = event.currentTarget.dataset.parentid;
-    //   const blocks = {
-    //     before: [],
-    //     after: [],
-    //     current: {},
-    //   };
-    //   let currentName = 'before';
-    //   this.currentProjectUsers.forEach((item) => {
-    //     const { _id } = item;
-    //     if (currentBlockId === _id) {
-    //       currentName = 'after';
-    //       blocks.current = this.lineHeigth * item.countLines;
-    //       return true;
-    //     }
-    //     blocks[currentName].push({
-    //       id: _id,
-    //       height: this.lineHeigth * item.countLines,
-    //     });
-    //     return true;
-    //   });
-    //   blocks.before = blocks.before.reverse();
-
-    //   if (currentY < 0 && blocks.before.length > 0) {
-    //     let sum = this.lineHeigth;
-    //     let count = 0;
-    //     // const result = {};
-    //     for (const block of blocks.before) {
-    //       count++;
-    //       // console.log('iter 1', block, block.height, sum, Math.abs(currentY));
-    //       if (block.height + sum >= Math.abs(currentY)) {
-    //         return count;
-    //       }
-    //       sum += this.lineHeigth + block.height;
-    //     }
-    //   }
-    //   if (currentY > blocks.current && blocks.after.length > 0) {
-    //     let sum = this.lineHeigth + blocks.current;
-    //     let count = 0;
-    //     for (const block of blocks.after) {
-    //       count++;
-    //       // console.log('iter 2', block, block.height, sum, Math.abs(currentY));
-    //       if (block.height + sum >= Math.abs(currentY)) {
-    //         return count;
-    //       }
-    //       sum += this.lineHeigth + block.height;
-    //     }
-    //   }
-    // },
     newEndDateFromCoords() {
       const sdf = this.getIdUserField();
       const iter = sdf.num;

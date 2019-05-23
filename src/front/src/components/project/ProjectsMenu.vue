@@ -30,12 +30,9 @@
 
 <script>
 import moment from 'moment';
-// eslint-disable-next-line import/no-unresolved
-import OneFieldModal from '../common/OneFieldModal ';
-// eslint-disable-next-line import/no-unresolved
-import ProjectData from './ProjectData';
-// eslint-disable-next-line import/no-unresolved
-import CreateButton from '../button/CreateButton';
+import OneFieldModal from '../common/OneFieldModal.vue';
+import ProjectData from './ProjectData.vue';
+import CreateButton from '../button/CreateButton.vue';
 
 export default {
   name: 'Project',
@@ -123,7 +120,7 @@ export default {
     },
 
     addProject() {
-      console.log('Проект добавлен', this.formFields.name, this.CreationDate);
+      // console.log('Проект добавлен', this.formFields.name, this.CreationDate);
       this.$store.dispatch('createProject', {
         name: this.formFields.name,
         CreationDate: this.CreationDate,
@@ -132,13 +129,13 @@ export default {
     },
 
     deleteProject() {
-      console.log('Проект удалён', this.formFields.name, this.id);
+      // console.log('Проект удалён', this.formFields.name, this.id);
       this.$store.dispatch('deleteProject', this.id);
       this.showDialogProject = false;
     },
 
     saveProject() {
-      console.log('Проект сохранен', this.id, this.formFields.name, this.Date);
+      // console.log('Проект сохранен', this.id, this.formFields.name, this.Date);
       this.$store.dispatch('saveProject', {
         name: this.formFields.name,
         id: this.id,

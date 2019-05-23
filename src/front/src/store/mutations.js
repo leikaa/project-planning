@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-/* eslint-disable no-param-reassign */
 export default {
   STATUS_LOADED(state, payload) {
     state.appStatus = payload;

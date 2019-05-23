@@ -1,4 +1,3 @@
-/* eslint-disable consistent-return, no-console */
 
 import axios from 'axios';
 import store from '../store';

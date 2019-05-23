@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import Vue from 'vue';
 import Vuex from 'vuex';
 import Vuetify from 'vuetify';
