@@ -18,7 +18,7 @@
             <template v-slot:body />
           </one-field-modal>
           <create-button
-            post-title="Добавить проект"
+            post-title="Добавить участника"
             @addItem="addItem"
           />
           <update-status-button

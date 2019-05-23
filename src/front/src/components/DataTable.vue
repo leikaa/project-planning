@@ -28,7 +28,12 @@
           :class="getClassName(field)"
           @click="click(props)"
         >
-          {{ getTransformedValue(field.value, props.item[field.value]) }}
+          <router-link
+            :to="{name :'Project', params: {id: props.item._id}}"
+            class="project_name"
+          >
+            {{ getTransformedValue(field.value, props.item[field.value]) }}
+          </router-link>
         </td>
         <td
           class="justify-center layout px-0s table-controls"
@@ -116,6 +121,10 @@ export default {
       return `text-xs-${header.align}`;
     },
 
+    click(props) {
+      this.$emit('click', props.item, props.index);
+    },
+
     emit(emit, item) {
       // console.log('emit', emit, item);
       this.$emit(emit, item);
@@ -126,10 +135,6 @@ export default {
         return this.transforms[filter](value);
       }
       return value;
-    },
-
-    click(props) {
-      this.$emit('click', props.item, props.index);
     },
   },
 };

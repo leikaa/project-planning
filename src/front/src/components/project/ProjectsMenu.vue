@@ -1,5 +1,46 @@
 <template>
   <div>
+    <v-app class="content">
+      <v-container>
+        <h2>Список участников системы</h2>
+        <v-layout
+          row
+          align-end
+        >
+          <one-field-modal
+            :show-dialog="showDialogProject"
+            :modal-title="formFields.modalTitle"
+            :label="formFields.label"
+            :modal-submit-button="formFields.modalSubmitButton"
+            @modalConfirm="confirmModalAction"
+            @falseDialog="showDialogProject=false"
+          >
+            <template v-slot:body />
+          </one-field-modal>
+          <create-button
+            post-title="Добавить проект"
+            @addItem="addItem"
+          />
+          <update-status-button
+            @sendRequest="sendRequest"
+          />
+        </v-layout>
+        <data-table
+          v-if="isShow"
+          :headers="headers"
+          :items="projects"
+          :loading="false"
+          :transforms="transforms"
+          :hide-actions="false"
+          :controls="controls"
+          @click="clickItem"
+          @editItem="editItem"
+          @deleteItem="deleteItem"
+        />
+      </v-container>
+    </v-app>
+  </div>
+  <!-- <div>
     <v-app id="inspire">
       <project-data
         :items="projects"
@@ -24,22 +65,26 @@
         </one-field-modal>
       </v-card>
     </v-app>
-  </div>
+  </div> -->
 </template>
 
 
 <script>
 import moment from 'moment';
 import OneFieldModal from '../common/OneFieldModal.vue';
-import ProjectData from './ProjectData.vue';
+import DataTable from '../DataTable.vue';
+// import ProjectData from './ProjectData.vue';
 import CreateButton from '../button/CreateButton.vue';
+import UpdateStatusButton from '../button/UpdateStatusButton.vue';
 
 export default {
   name: 'Project',
   components: {
     OneFieldModal,
-    ProjectData,
+    DataTable,
+    // ProjectData,
     CreateButton,
+    UpdateStatusButton,
   },
   data() {
     return {
@@ -59,6 +104,22 @@ export default {
     formFields() {
       return this.$store.state.formFields;
     },
+
+    isShow() {
+      return true;
+    },
+
+    headers() {
+      return [{ text: 'Участники', value: 'name' }];
+    },
+
+    transforms() {
+      return {
+        updateAt(value) {
+          return value.toString();
+        },
+      };
+    },
   },
   created() {
     this.sendRequest();
@@ -66,6 +127,12 @@ export default {
   methods: {
     sendRequest() {
       this.$store.dispatch('loadProjects');
+    },
+
+    clickItem(item) {
+      this.id = item._id;
+      // document.location.href = `/projects/${item._id}`;
+      // this.router.push({ name: 'Project', params: { projects: item._id } });
     },
 
     addItem() {
@@ -148,5 +215,18 @@ export default {
 </script>
 
 <style>
-
+.project_name {
+  display: flex;
+  flex-wrap: wrap;
+  text-decoration: none;
+  margin: 5px;
+  box-sizing: border-box;
+  max-width: auto;
+  min-width: 150px;
+  height: 50px;
+  font-size: 100%;
+  color: black;
+  text-decoration: none;
+  /* background: rgb(64, 199, 129); */
+}
 </style>

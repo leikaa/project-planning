@@ -20,6 +20,7 @@
             :disabled="formFields.disableInput"
             :label="formFields.label"
             required
+            @keypress.13.prevent="confirmModalAction"
           />
         </v-form>
       </v-card-text>
