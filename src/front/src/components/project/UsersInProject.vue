@@ -67,6 +67,7 @@ export default {
   top: 0;
   padding-top: 52px;
   &__item {
+    position: relative;
     min-height: 92px;
     margin-bottom: 46px;
   }

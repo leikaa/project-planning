@@ -3,7 +3,7 @@
     <v-data-table
       :headers="headers"
       :items="items"
-      :loading="true"
+      :loading="false"
       :rows-per-page-items="defaultPagination"
       class="elevation-1"
       :total-items="totalItems"
@@ -11,6 +11,7 @@
       :hide-actions="hideActions"
       no-data-text="Нет данных"
       @update:pagination="$emit('update:pagination', $event)"
+      :headers-length="2"
     >
       >
       <template v-slot:progress>
@@ -31,7 +32,7 @@
           {{ getTransformedValue(field.value, props.item[field.value]) }}
         </td>
         <td
-          class="justify-center layout px-0s table-controls"
+          class="right layout px-0s table-controls"
           :class="{invisible: !showControls}"
         >
           <v-btn

@@ -74,24 +74,29 @@
             />
           </div>
         </div>
-        <select
-          v-model="formFields.selectedElement"
-          class="select-element"
-        >
-          <option
-            disabled
-            value
+        <div class="reset">
+          <select
+            v-model="formFields.selectedElement"
+            class="select-element"
           >
-            Список участников проекта
-          </option>
-          <option
-            v-for="item in currentProjectUsers"
-            :key="item._id"
-            :value="item._id"
-          >
-            {{ item.name }}
-          </option>
-        </select>
+            <option
+              disabled
+              value
+            >
+              Список участников проекта
+            </option>
+            <option
+              v-for="item in currentProjectUsers"
+              :key="item._id"
+              :value="item._id"
+            >
+              {{ item.name }}
+            </option>
+          </select>
+          <reset-button
+            @reset="reset"
+          />
+        </div>
         <div class="DataPicker">
           <v-date-picker
             v-model="startDate"
@@ -158,25 +163,30 @@
             />
           </div>
         </div>
-        <select
-          v-model="formFields.selectedElement"
-          class="select-element"
-          @keypress.13.prevent="confirmModalAction"
-        >
-          <option
-            disabled
-            value
+        <div class="reset">
+          <select
+            v-model="formFields.selectedElement"
+            class="select-element"
+            @keypress.13.prevent="confirmModalAction"
           >
-            Выберите владельца задачи
-          </option>
-          <option
-            v-for="item in currentProjectUsers"
-            :key="item._id"
-            :value="item._id"
-          >
-            {{ item.name }}
-          </option>
-        </select>
+            <option
+              disabled
+              value
+            >
+              Выберите владельца задачи
+            </option>
+            <option
+              v-for="item in currentProjectUsers"
+              :key="item._id"
+              :value="item._id"
+            >
+              {{ item.name }}
+            </option>
+          </select>
+          <reset-button
+            @reset="reset"
+          />
+        </div>
       </template>
     </modal>
   </div>
@@ -188,6 +198,7 @@ import BacklogData from './BacklogData.vue';
 import Modal from '../common/Modal.vue';
 import OneFieldModal from '../common/OneFieldModal.vue';
 import CreateButton from '../button/CreateButton.vue';
+import ResetButton from '../button/ResetButton.vue';
 
 export default {
   name: 'Backlog',
@@ -196,6 +207,7 @@ export default {
     Modal,
     OneFieldModal,
     CreateButton,
+    ResetButton,
   },
 
   data() {
@@ -260,10 +272,6 @@ export default {
       if (!val) return;
       requestAnimationFrame(() => this.$refs.focus.focus());
     },
-    // ShowDeleteTask(val) {
-    //   if (!val) return;
-    //   requestAnimationFrame(() => this.$refs.focus.focus());
-    // },
   },
 
   created() {
@@ -273,6 +281,10 @@ export default {
   methods: {
     sendRequest() {
       this.$store.dispatch('loadTasks');
+    },
+
+    reset() {
+      this.formFields.selectedElement = '';
     },
 
     addItem() {
@@ -416,5 +428,6 @@ export default {
   justify-content: center;
   margin: 50px 0 0 0;
   color:rgba(142, 141, 138, 1);
+  // background: rgba(232, 90, 78, 1);
 }
 </style>

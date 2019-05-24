@@ -464,9 +464,9 @@ export default {
 }
 
 .unallocatedTasks{
-  height: 420px;
+  height: 300px;
   display: flex;
-  position: relative;
+  // position: sticky;
   background: rgba(234, 231, 220, 0.4);
   border: 1px solid rgba(255, 0, 0, 0.2);
 }
@@ -488,7 +488,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 460px;
+  width: 430px;
   height: 50px;
   box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14),
     0 1px 5px 0 rgba(0, 0, 0, 0.12);

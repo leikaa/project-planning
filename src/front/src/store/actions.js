@@ -240,7 +240,25 @@ const saveTaskToProject = ({ dispatch }, data) => {
 };
 
 const saveTaskListToUser = ({ dispatch }, data) => {
+  console.log('data', data);
+  // if (data.userId === '') {
+  //   console.log("Сработал")
+  //   api.request('delete', `users/${data.oldUserId}/task/${data.id}`)
+  //     .then((res) => {
+  //       if (res.status === 200) {
+  //         dispatch('loadProjects');
+  //       }
+  //     });
+  //   // api.request('post', `tasks/${data.id}`, data)
+  //   //   .then((res) => {
+  //   //     if (res.status === 200) {
+  //   //       dispatch('loadTasks');
+  //   //       dispatch('loadProjects');
+  //   //     }
+  //   //   });
+  // } else
   if (data.userId === '' || data.userId === data.oldUserId) {
+    console.log('НЕ ТО');
     api.request('post', `tasks/${data.id}`, data)
       .then((res) => {
         if (res.status === 200) {
@@ -249,6 +267,7 @@ const saveTaskListToUser = ({ dispatch }, data) => {
         }
       });
   } else if (data.oldUserId === '') {
+    console.log('НЕ ТО');
     api.request('post', `tasks/${data.id}`, data)
       .then((res) => {
         if (res.status === 200) {
@@ -264,6 +283,7 @@ const saveTaskListToUser = ({ dispatch }, data) => {
         }
       });
   } else {
+    console.log('НЕ ТО');
     api.request('post', `tasks/${data.id}`, data)
       .then((res) => {
         if (res.status === 200) {

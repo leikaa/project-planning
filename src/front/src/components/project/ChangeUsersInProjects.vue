@@ -10,25 +10,30 @@
       @falseDialog="showDialogSave=false"
     >
       <template v-slot:body>
-        <select
-          v-model="formFields.selectedElement"
-          class="select-element"
-          @keypress.13.prevent="confirmModalAction"
-        >
-          <option
-            disabled
-            value
+        <div class="reset">
+          <select
+            v-model="formFields.selectedElement"
+            class="select-element"
+            @keypress.13.prevent="confirmModalAction"
           >
-            Выберите участника
-          </option>
-          <option
-            v-for="item in users"
-            :key="item.name"
-            :value="item._id"
-          >
-            {{ item.name }}
-          </option>
-        </select>
+            <option
+              disabled
+              value
+            >
+              Выберите участника
+            </option>
+            <option
+              v-for="item in users"
+              :key="item.name"
+              :value="item._id"
+            >
+              {{ item.name }}
+            </option>
+          </select>
+          <reset-button
+            @reset="reset"
+          />
+        </div>
       </template>
     </modal>
     <!--Удаление пользователя-->
@@ -57,15 +62,17 @@
 import UsersInProject from './UsersInProject.vue';
 import OneFieldModal from '../common/OneFieldModal.vue';
 import RoundAddButton from '../button/RoundAddButton.vue';
+import ResetButton from '../button/ResetButton.vue';
 import Modal from '../common/Modal.vue';
 
 
 export default {
-  name: 'ChangeProjects',
+  name: 'ChangeUsers',
   components: {
     UsersInProject,
     OneFieldModal,
     RoundAddButton,
+    ResetButton,
     Modal,
   },
   data() {
@@ -115,6 +122,10 @@ export default {
   methods: {
     sendRequest() {
       this.$store.dispatch('loadProjects');
+    },
+
+    reset() {
+      this.formFields.selectedElement = '';
     },
 
     editItem() {
@@ -181,5 +192,9 @@ export default {
 
 .theme--light.application{
 background: rgba(234, 231, 220, 1) !important;
+}
+
+.reset{
+  display: flex;
 }
 </style>
