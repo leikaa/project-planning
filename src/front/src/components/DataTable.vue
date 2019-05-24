@@ -28,12 +28,7 @@
           :class="getClassName(field)"
           @click="click(props)"
         >
-          <router-link
-            :to="{name :'Project', params: {id: props.item._id}}"
-            class="project_name"
-          >
-            {{ getTransformedValue(field.value, props.item[field.value]) }}
-          </router-link>
+          {{ getTransformedValue(field.value, props.item[field.value]) }}
         </td>
         <td
           class="justify-center layout px-0s table-controls"

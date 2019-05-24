@@ -42,11 +42,14 @@
     >
       <template v-slot:body>
         <v-text-field
+          ref="focus"
           v-model="formFields.name"
           label="Название новой задачи"
           :disabled="disableInput"
           :rules="formFields.nameRules"
+          autofocus
           required
+          @keypress.13.prevent="confirmModalAction"
         />
         <v-text-field
           v-model="formFields.description"
@@ -123,16 +126,20 @@
     >
       <template v-slot:body>
         <v-text-field
+          ref="focus"
           v-model="formFields.name"
           :disabled="disableInput"
           label="Название задачи"
           required
+          autofocus
+          @keypress.13.prevent="confirmModalAction"
         />
         <v-text-field
           v-model="formFields.description"
           label="Описание задачи"
           :disabled="disableInput"
           required
+          @keypress.13.prevent="confirmModalAction"
         />
         <div class="CheckColor">
           <div
@@ -154,6 +161,7 @@
         <select
           v-model="formFields.selectedElement"
           class="select-element"
+          @keypress.13.prevent="confirmModalAction"
         >
           <option
             disabled
@@ -203,7 +211,6 @@ export default {
       endDate: new Date().toISOString().substr(0, 10),
     };
   },
-
   computed: {
     formFields() {
       return this.$store.state.formFields;
@@ -242,6 +249,20 @@ export default {
 
     controls() {
       return this.$store.state.ui.taskListControls;
+    },
+  },
+  watch: {
+    showCreateTask(val) {
+      if (!val) return;
+      requestAnimationFrame(() => this.$refs.focus.focus());
+    },
+    ShowEditTask(val) {
+      if (!val) return;
+      requestAnimationFrame(() => this.$refs.focus.focus());
+    },
+    ShowDeleteTask(val) {
+      if (!val) return;
+      requestAnimationFrame(() => this.$refs.focus.focus());
     },
   },
 

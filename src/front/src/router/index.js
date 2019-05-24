@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
-import Home from '../components/project/ProjectsMenu.vue';
+import Home from '../pages/TableProject.vue';
 import Project from '../pages/TemplateProject.vue';
 import TableUser from '../pages/TableUser.vue';
 

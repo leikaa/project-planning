@@ -2,7 +2,7 @@
   <div>
     <v-app class="content">
       <v-container>
-        <h2>Список участников системы</h2>
+        <h2>Список проектов системы</h2>
         <v-layout
           row
           align-end
@@ -40,49 +40,21 @@
       </v-container>
     </v-app>
   </div>
-  <!-- <div>
-    <v-app id="inspire">
-      <project-data
-        :items="projects"
-        :controls="controls"
-        @editItem="editItem"
-        @deleteItem="deleteItem"
-      />
-      <create-button
-        post-title="Добавить проект"
-        @addItem="addItem"
-      />
-      <v-card class="projects">
-        <one-field-modal
-          :show-dialog="showDialogProject"
-          :modal-title="formFields.modalTitle"
-          :label="formFields.label"
-          :modal-submit-button="formFields.modalSubmitButton"
-          @modalConfirm="confirmModalAction"
-          @falseDialog="showDialogProject=false"
-        >
-          <template v-slot:body />
-        </one-field-modal>
-      </v-card>
-    </v-app>
-  </div> -->
 </template>
 
 
 <script>
 import moment from 'moment';
-import OneFieldModal from '../common/OneFieldModal.vue';
-import DataTable from '../DataTable.vue';
-// import ProjectData from './ProjectData.vue';
-import CreateButton from '../button/CreateButton.vue';
-import UpdateStatusButton from '../button/UpdateStatusButton.vue';
+import OneFieldModal from '../components/common/OneFieldModal.vue';
+import DataTable from '../components/DataTable.vue';
+import CreateButton from '../components/button/CreateButton.vue';
+import UpdateStatusButton from '../components/button/UpdateStatusButton.vue';
 
 export default {
   name: 'Project',
   components: {
     OneFieldModal,
     DataTable,
-    // ProjectData,
     CreateButton,
     UpdateStatusButton,
   },
@@ -110,7 +82,7 @@ export default {
     },
 
     headers() {
-      return [{ text: 'Участники', value: 'name' }];
+      return [{ text: 'Проекты', value: 'name' }];
     },
 
     transforms() {
@@ -131,8 +103,7 @@ export default {
 
     clickItem(item) {
       this.id = item._id;
-      // document.location.href = `/projects/${item._id}`;
-      // this.router.push({ name: 'Project', params: { projects: item._id } });
+      this.$router.push({ name: 'Project', params: { id: item._id } });
     },
 
     addItem() {
@@ -215,18 +186,4 @@ export default {
 </script>
 
 <style>
-.project_name {
-  display: flex;
-  flex-wrap: wrap;
-  text-decoration: none;
-  margin: 5px;
-  box-sizing: border-box;
-  max-width: auto;
-  min-width: 150px;
-  height: 50px;
-  font-size: 100%;
-  color: black;
-  text-decoration: none;
-  /* background: rgb(64, 199, 129); */
-}
 </style>

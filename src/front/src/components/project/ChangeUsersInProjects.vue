@@ -15,6 +15,7 @@
         <select
           v-model="formFields.selectedElement"
           class="select-element"
+          @keypress.13.prevent="confirmModalAction"
         >
           <option
             disabled
@@ -140,7 +141,6 @@ export default {
       this.formFields.disableInput = true;
       this.showDialog = true;
     },
-
     confirmModalAction() {
       const action = this.modalAction;
       switch (action) {

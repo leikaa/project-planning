@@ -16,8 +16,10 @@
         <v-form v-model="formValid">
           <slot name="body" />
           <v-text-field
+            ref="focus"
             v-model="formFields.name"
-            :disabled="formFields.disableInput"
+            :readonly="formFields.disableInput"
+            autofocus
             :label="formFields.label"
             required
             @keypress.13.prevent="confirmModalAction"
@@ -79,12 +81,21 @@ export default {
       return this.$store.state.formFields;
     },
   },
+  watch: {
+    showDialog(val) {
+      if (!val) return;
+      requestAnimationFrame(() => this.$refs.focus.focus());
+    },
+  },
   methods: {
     toggleModal() {
       this.$emit('toggleModal');
     },
     confirmModalAction() {
       this.$emit('modalConfirm');
+    },
+    test() {
+      this.$emit('tests');
     },
     falseDialog() {
       this.$emit('falseDialog');
