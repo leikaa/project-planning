@@ -260,10 +260,10 @@ export default {
       if (!val) return;
       requestAnimationFrame(() => this.$refs.focus.focus());
     },
-    ShowDeleteTask(val) {
-      if (!val) return;
-      requestAnimationFrame(() => this.$refs.focus.focus());
-    },
+    // ShowDeleteTask(val) {
+    //   if (!val) return;
+    //   requestAnimationFrame(() => this.$refs.focus.focus());
+    // },
   },
 
   created() {

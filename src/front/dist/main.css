@@ -25,35 +25,19 @@ html {
   text-decoration: none;
 }
 
-.projects {
-  display: flex;
-  max-width: 960px;
-  margin: 70px auto;
-  justify-content: center;
-  flex-flow: row wrap;
+.table-controls.invisible {
+  display: none;
 }
-.project_name {
+.v-table td {
+  cursor: pointer;
+}
+
+.button_add_task_in_project {
   display: flex;
-  flex-wrap: wrap;
+  height: 50px;
+  background: rgba(255, 255, 255, 0);
   justify-content: center;
-  text-decoration: none;
   margin: 5px;
-  box-sizing: border-box;
-  max-width: 150px;
-  min-width: 150px;
-  height: 150px;
-  font-size: 100%;
-  text-align: center;
-  align-items: center;
-  color: white;
-  border-radius: 3px;
-  background: #40c781;
-  box-shadow: 0 -3px #35a76e inset;
-}
-.elem {
-  display: flex;
-  justify-content: center;
-  height: 36px;
 }
 
 .button_add_task_in_project {
@@ -164,20 +148,5 @@ html {
     top: -10px;
     position: absolute;
 }
-}
-
-.table-controls.invisible {
-  display: none;
-}
-.v-table td {
-  cursor: pointer;
-}
-
-.button_add_task_in_project {
-  display: flex;
-  height: 50px;
-  background: rgba(255, 255, 255, 0);
-  justify-content: center;
-  margin: 5px;
 }
 
