@@ -23,7 +23,7 @@
           small
           fab
           dark
-          color="green accent-3"
+          color="rgba(255, 0, 0, 0.5)"
           class="buttonBacklog"
           @click.stop="drawer = !drawer"
         >
@@ -122,15 +122,15 @@ body{
   height: 34px;
   position: absolute;
   top: 36px;
-  background: rgba(21, 230, 0, 0.4);
+  background: rgba(255, 0, 0, 0.4);
   border-radius: 3px;
-  border: 1px solid rgba(0, 128, 0, 1);
+  border: 1px solid rgba(255, 0, 0, 1);
 }
 .currentWeek{
   width: 147px;
   height: 54px;
   position: absolute;
-  border: 2px solid rgba(21, 230, 0, 1);
+  border: 2px solid rgba(255, 0, 0, 0.6);
   top: 18px;
   box-shadow: 0 0 2px rgba(0, 0, 0, 1);
 }

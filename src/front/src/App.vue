@@ -43,7 +43,7 @@ html {
   position: fixed;
   height: 50px;
   width: 100%;
-  background:#fff;
+  background:rgba(234, 231, 220, 1);
   justify-content: center;
   z-index: 11;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);

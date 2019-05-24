@@ -39,6 +39,36 @@
         </vue-draggable-resizable>
       </div>
     </div>
+    <div
+      class="unallocatedTasks "
+    >
+      <vue-draggable-resizable
+        v-for="(item, index) in unallocatedTasks"
+        :key="item._id"
+        :w="item.w"
+        :h="item.h"
+        :x="item.x"
+        :y="item.y"
+        :item="item"
+        :handles="['ml', 'mr']"
+        :grid="[21, 46]"
+        :data-parentId="0"
+        :data-id="index"
+        maximize
+        @mouseup.native="saveTaskToNoNameUser(item)"
+        @dblclick.native="deleteItem(item)"
+      >
+        <div
+          class="user-task__item"
+          :style="`background: ${item.rgb}`"
+          :draggable="true"
+        >
+          <div class="task-text">
+            {{ item.name }}
+          </div>
+        </div>
+      </vue-draggable-resizable>
+    </div>
     <one-field-modal
       :show-dialog="showDeleteTask"
       :modal-title="formFields.modalTitle"
@@ -78,6 +108,10 @@ export default {
       return this.$store.state.projects;
     },
 
+    tasks() {
+      return this.$store.state.tasks;
+    },
+
     formFields() {
       return this.$store.state.formFields;
     },
@@ -88,6 +122,10 @@ export default {
 
     currentProject() {
       return this.projects.find(item => item._id === this.currentProjectId);
+    },
+
+    unallocatedTasks() {
+      return this.tasks.filter(item => item.projectId === this.currentProjectId && item.userId === '');
     },
 
     currentProjectUsers() {
@@ -149,7 +187,9 @@ export default {
 
     saveTaskToProject(item) {
       const newBlock = this.getIdUserField();
+      // console.log("newBlock", newBlock);
       let test = newBlock.id;
+      // console.log('test', test);
       if (test === undefined) {
         test = item.userId;
       }
@@ -159,6 +199,27 @@ export default {
         oldUserId: item.userId,
         userId: test,
         // userId: this.getIdUserField(),
+        startDate: this.getStartDateFromCoords(),
+        endDate: this.getEndDateFromCoords(),
+        y: this.newEndDateFromCoords(),
+        oldY: this.getCurrentItemYCoordinate(),
+        dateUpdate: moment().format('MMMM Do YYYY, HH:mm:ss '),
+      });
+    },
+
+    saveTaskToNoNameUser(item) {
+      const newBlock = this.getIdUserField();
+      // console.log(item);
+      let test = newBlock.id;
+      // console.log('test', test);
+      if (test === undefined) {
+        test = item.userId;
+      }
+      this.$store.dispatch('saveTaskToUser', {
+        id: item._id,
+        projectId: this.currentProjectId,
+        oldUserId: item.userId,
+        userId: test,
         startDate: this.getStartDateFromCoords(),
         endDate: this.getEndDateFromCoords(),
         y: this.newEndDateFromCoords(),
@@ -331,6 +392,8 @@ export default {
       const iter = sdf.num;
       const endY = this.getCurrentItemYCoordinate();
       let result = 0;
+      // console.log('iter',iter)
+      // console.log('endY',endY)
       if (endY > 92 && endY <= 138) {
         result = 92;
         return result;
@@ -398,6 +461,14 @@ export default {
     z-index: 1;
     cursor: pointer;
   }
+}
+
+.unallocatedTasks{
+  height: 420px;
+  display: flex;
+  position: relative;
+  background: rgba(234, 231, 220, 0.4);
+  border: 1px solid rgba(255, 0, 0, 0.2);
 }
 
 .task-text {

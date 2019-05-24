@@ -1,13 +1,11 @@
 <template>
   <v-app
-    id="inspire"
     class="users"
   >
     <modal
       :show-dialog="showDialogSave"
       :modal-title="formFields.modalTitle"
       :modal-submit-button="formFields.modalSubmitButton"
-
       @modalConfirm="confirmModalAction"
       @falseDialog="showDialogSave=false"
     >
@@ -179,5 +177,9 @@ export default {
 <style lang="scss">
 .button_user {
   left: 5px;
+}
+
+.theme--light.application{
+background: rgba(234, 231, 220, 1) !important;
 }
 </style>

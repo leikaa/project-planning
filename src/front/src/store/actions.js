@@ -146,9 +146,44 @@ const deleteTaskFromUser = ({ dispatch }, data) => {
   }
 };
 
+const saveTaskToUser = ({ dispatch }, data) => {
+  // console.log('data', data);
+  if (data.oldUserId !== data.userId) {
+    api.request('post', `tasks/${data.id}`, data)
+      .then((res) => {
+        if (res.status === 200) {
+          dispatch('loadTasks');
+          dispatch('loadProjects');
+        }
+      });
+    api.request('post', `users/${data.userId}/add_task/${data.id}`)
+      .then((res) => {
+        if (res.status === 200) {
+          dispatch('loadProjects');
+        }
+      });
+  }
+};
+
 const saveTaskToProject = ({ dispatch }, data) => {
-  // console.log("data" , data);
-  if (data.userId === data.oldUserId) {
+  // console.log('data', data);
+  if (data.userId === data.oldUserId && isNaN(data.y)) {
+    data.y = 0;
+    data.userId = '';
+    api.request('post', `tasks/${data.id}`, data)
+      .then((res) => {
+        if (res.status === 200) {
+          dispatch('loadTasks');
+          dispatch('loadProjects');
+        }
+      });
+    api.request('delete', `users/${data.oldUserId}/task/${data.id}`)
+      .then((res) => {
+        if (res.status === 200) {
+          dispatch('loadProjects');
+        }
+      });
+  } else if (data.userId === data.oldUserId) {
     api.request('post', `tasks/${data.id}`, data)
       .then((res) => {
         if (res.status === 200) {
@@ -271,6 +306,7 @@ export default {
   loadTasks,
   createTask,
   deleteTaskFromUser,
+  saveTaskToUser,
   saveTaskToProject,
   saveTaskListToUser,
 };

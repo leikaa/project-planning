@@ -42,18 +42,18 @@
     >
       <template v-slot:body>
         <v-text-field
-          ref="focus"
           v-model="formFields.name"
           label="Название новой задачи"
           :disabled="disableInput"
           :rules="formFields.nameRules"
-          autofocus
           required
           @keypress.13.prevent="confirmModalAction"
         />
         <v-text-field
+          ref="focus"
           v-model="formFields.description"
           label="Описание задачи"
+          autofocus
           :disabled="disableInput"
           required
         />
@@ -391,7 +391,7 @@ export default {
   top: 0;
   width: 300px;
   height: 100%;
-  background: #ffffff;
+  background: rgba(234, 231, 220, 1);
   z-index: 11;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
   padding: 10px;
@@ -415,5 +415,6 @@ export default {
   display: flex;
   justify-content: center;
   margin: 50px 0 0 0;
+  color:rgba(142, 141, 138, 1);
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <v-btn
     dark
-    color="green accent-3"
+    color="rgba(255, 0, 0, 0.5)"
     class="ButtonNavigation"
   >
     <h4>{{ postTitle }}</h4>

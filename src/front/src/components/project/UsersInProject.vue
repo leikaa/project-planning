@@ -60,7 +60,7 @@ export default {
 .users {
   width: 65px;
   z-index: 10;
-  background: #fafafa;
+  background: rgba(234, 231, 220, 1);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   position: sticky;
   left: 0;
