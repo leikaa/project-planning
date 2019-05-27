@@ -360,8 +360,14 @@ export default {
         description: this.formFields.description,
         name: this.formFields.name,
         dateCreate: moment().format('MMMM Do YYYY, HH:mm:ss '),
-      });
-      this.showCreateTask = false;
+      })
+        .then(() => {
+          this.showCreateTask = false;
+        })
+        .catch((err) => {
+          // eslint-disable-next-line no-console
+          console.error({ err });
+        });
     },
 
     saveTaskListToUser() {
@@ -381,8 +387,14 @@ export default {
         name: this.formFields.name,
         description: this.formFields.description,
         rgb: this.formFields.rgb,
-      });
-      this.ShowEditTask = false;
+      })
+        .then(() => {
+          this.ShowEditTask = false;
+        })
+        .catch((err) => {
+          // eslint-disable-next-line no-console
+          console.error({ err });
+        });
     },
 
     deleteTaskFromUser() {
@@ -390,8 +402,14 @@ export default {
       this.$store.dispatch('deleteTaskFromUser', {
         taskId: this.taskId,
         id: this.userId,
-      });
-      this.showDeleteTask = false;
+      })
+        .then(() => {
+          this.showDeleteTask = false;
+        })
+        .catch((err) => {
+          // eslint-disable-next-line no-console
+          console.error({ err });
+        });
     },
   },
 };

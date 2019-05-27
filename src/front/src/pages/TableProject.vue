@@ -162,14 +162,26 @@ export default {
       this.$store.dispatch('createProject', {
         name: this.formFields.name,
         CreationDate: this.CreationDate,
-      });
-      this.showDialogProject = false;
+      })
+        .then(() => {
+          this.showDialogProject = false;
+        })
+        .catch((err) => {
+          // eslint-disable-next-line no-console
+          console.error({ err });
+        });
     },
 
     deleteProject() {
       // console.log('Проект удалён', this.formFields.name, this.id);
-      this.$store.dispatch('deleteProject', this.id);
-      this.showDialogProject = false;
+      this.$store.dispatch('deleteProject', this.id)
+        .then(() => {
+          this.showDialogProject = false;
+        })
+        .catch((err) => {
+          // eslint-disable-next-line no-console
+          console.error({ err });
+        });
     },
 
     saveProject() {
@@ -178,8 +190,14 @@ export default {
         name: this.formFields.name,
         id: this.id,
         Date: this.Date,
-      });
-      this.showDialogProject = false;
+      })
+        .then(() => {
+          this.showDialogProject = false;
+        })
+        .catch((err) => {
+          // eslint-disable-next-line no-console
+          console.error({ err });
+        });
     },
   },
 };

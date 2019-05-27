@@ -48,8 +48,7 @@ export default {
   },
   methods: {
     emit(emit, item) {
-      // eslint-disable-next-line no-console
-      console.log('emit', emit, item);
+      // console.log('emit', emit, item);
       this.$emit(emit, item);
     },
   },

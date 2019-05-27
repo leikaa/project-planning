@@ -11,7 +11,7 @@ Vue.use(Vuetify);
 Vue.use(Vuex);
 
 
-const vue = new Vue({
+window.$vue = new Vue({
   el: '#app',
   render: h => h(App),
   router,

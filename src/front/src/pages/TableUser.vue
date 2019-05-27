@@ -155,14 +155,26 @@ export default {
 
     addUser() {
       // console.log('Участник добавлен', this.formFields.name);
-      this.$store.dispatch('createUser', { name: this.formFields.name });
-      this.showDialogUsers = false;
+      this.$store.dispatch('createUser', { name: this.formFields.name })
+        .then(() => {
+          this.showDialogUsers = false;
+        })
+        .catch((err) => {
+          // eslint-disable-next-line no-console
+          console.error({ err });
+        });
     },
 
     deleteUser() {
       // console.log('Участник удалён', this.formFields.name, this.id);
-      this.$store.dispatch('deleteUser', this.id);
-      this.showDialogUsers = false;
+      this.$store.dispatch('deleteUser', this.id)
+        .then(() => {
+          this.showDialogUsers = false;
+        })
+        .catch((err) => {
+          // eslint-disable-next-line no-console
+          console.error({ err });
+        });
     },
 
     saveUser() {
@@ -171,8 +183,14 @@ export default {
         name: this.formFields.name,
         id: this.id,
         UpdateDate: this.UpdateDate,
-      });
-      this.showDialogUsers = false;
+      })
+        .then(() => {
+          this.showDialogUsers = false;
+        })
+        .catch((err) => {
+          // eslint-disable-next-line no-console
+          console.error({ err });
+        });
     },
   },
 };

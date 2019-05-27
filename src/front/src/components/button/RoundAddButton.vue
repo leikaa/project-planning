@@ -22,5 +22,6 @@ export default {
 <style>
 .button_user {
   left: 5px;
+  box-shadow: none !important;
 }
 </style>

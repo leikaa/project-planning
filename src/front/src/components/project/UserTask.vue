@@ -204,7 +204,11 @@ export default {
         y: this.newEndDateFromCoords(),
         oldY: this.getCurrentItemYCoordinate(),
         dateUpdate: moment().format('MMMM Do YYYY, HH:mm:ss '),
-      });
+      })
+        .catch((err) => {
+          // eslint-disable-next-line no-console
+          console.error({ err });
+        });
     },
 
     saveTaskToNoNameUser(item) {
@@ -225,7 +229,11 @@ export default {
         y: this.newEndDateFromCoords(),
         oldY: this.getCurrentItemYCoordinate(),
         dateUpdate: moment().format('MMMM Do YYYY, HH:mm:ss '),
-      });
+      })
+        .catch((err) => {
+          // eslint-disable-next-line no-console
+          console.error({ err });
+        });
     },
 
     deleteTaskFromUser() {
@@ -233,8 +241,14 @@ export default {
       this.$store.dispatch('deleteTaskFromUser', {
         taskId: this.taskId,
         id: this.userId,
-      });
-      this.showDeleteTask = false;
+      })
+        .then(() => {
+          this.showDeleteTask = false;
+        })
+        .catch((err) => {
+          // eslint-disable-next-line no-console
+          console.error({ err });
+        });
     },
 
     getFirstDay() {

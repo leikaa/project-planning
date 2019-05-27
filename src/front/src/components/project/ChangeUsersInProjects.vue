@@ -169,8 +169,14 @@ export default {
       this.$store.dispatch('addUserToProject', {
         userId: this.formFields.selectedElement,
         id: this.currentProjectId,
-      });
-      this.showDialogSave = false;
+      })
+        .then(() => {
+          this.showDialogSave = false;
+        })
+        .catch((err) => {
+          // eslint-disable-next-line no-console
+          console.error({ err });
+        });
     },
 
     deleteUserFromProject() {
@@ -178,8 +184,14 @@ export default {
       this.$store.dispatch('deleteUserFromProject', {
         id: this.id,
         userId: this.userId,
-      });
-      this.showDialog = false;
+      })
+        .then(() => {
+          this.showDialog = false;
+        })
+        .catch((err) => {
+          // eslint-disable-next-line no-console
+          console.error({ err });
+        });
     },
   },
 };
