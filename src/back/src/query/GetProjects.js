@@ -15,42 +15,23 @@ class GetProjects {
     const taskList = await this.taskModel.getList();
     const joinProjectAndUser = await this.projectModel.JoinProjectAndUser();
 
-    // const joinUserAndTaskList = await this.userModel.JoinUserAndTaskList();
-
     const taskMapName = {};
+    const taskMapRgb = {};
+    const taskMapStartDate = {};
+    const taskMapEndDate = {};
+    const taskMapY = {};
+    const taskUserId = {};
+    const taskProjectId = {};
+
     taskList.forEach((item) => {
       taskMapName[item._id] = item.name;
-    });
-
-    const taskMapRgb = {};
-    taskList.forEach((item) => {
       taskMapRgb[item._id] = item.rgb;
-    });
-
-    const taskMapStartDate = {};
-    taskList.forEach((item) => {
       taskMapStartDate[item._id] = item.startDate;
-    });
-
-    const taskMapEndDate = {};
-    taskList.forEach((item) => {
       taskMapEndDate[item._id] = item.endDate;
-    });
-
-    const taskMapY = {};
-    taskList.forEach((item) => {
       const el = item;
       el.y = Number.parseInt(el.y, 10);
       taskMapY[item._id] = item.y;
-    });
-
-    const taskUserId = {};
-    taskList.forEach((item) => {
       taskUserId[item._id] = item.userId;
-    });
-
-    const taskProjectId = {};
-    taskList.forEach((item) => {
       taskProjectId[item._id] = item.projectId;
     });
 

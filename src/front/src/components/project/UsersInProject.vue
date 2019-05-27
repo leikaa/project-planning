@@ -61,14 +61,14 @@ export default {
   width: 65px;
   z-index: 10;
   background: rgba(234, 231, 220, 1);
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  // box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   position: sticky;
   left: 0;
-  top: 0;
+  // top: 0;
   padding-top: 52px;
   &__item {
     position: relative;
-    min-height: 92px;
+    // min-height: 92px;
     margin-bottom: 46px;
   }
 }

@@ -7,13 +7,14 @@ class IoC {
   }
 
   loadModules(glob, opts) {
-    opts = Object.assign({
+    let options = opts;
+    options = Object.assign({
       formatName: 'camelCase',
       injectionMode: awilix.InjectionMode.PROXY,
       cwd: path.resolve(__dirname, ''),
-    }, opts);
+    }, options);
 
-    this.container.loadModules(glob, opts);
+    this.container.loadModules(glob, options);
     return this.container;
   }
 

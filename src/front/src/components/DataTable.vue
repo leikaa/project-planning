@@ -10,16 +10,16 @@
       :disable-initial-sort="disableInitialSort"
       :hide-actions="hideActions"
       no-data-text="Нет данных"
-      @update:pagination="$emit('update:pagination', $event)"
       :headers-length="2"
+      @update:pagination="$emit('update:pagination', $event)"
     >
       >
       <template v-slot:progress>
-        <v-progress-linear
+        <!-- <v-progress-linear
           color="blue"
           indeterminate
           :active="loading"
-        />
+        /> -->
       </template>
       <template v-slot:items="props">
         <td
